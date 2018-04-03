@@ -5,6 +5,13 @@
  */
 package com.vmware.preverificationsuite;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author mrizwan
@@ -28,32 +35,372 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private void initComponents() {
 
         preVerificationLabel = new javax.swing.JLabel();
+        connectButton = new javax.swing.JButton();
+        Manufacturer = new javax.swing.JLabel();
+        manufacturerName = new javax.swing.JTextField();
+        Model = new javax.swing.JLabel();
+        SerialNumber = new javax.swing.JLabel();
+        Agent = new javax.swing.JLabel();
+        serialNumber = new javax.swing.JTextField();
+        agentVersion = new javax.swing.JTextField();
+        modelName = new javax.swing.JTextField();
+        buildDisplay = new javax.swing.JTextField();
+        BuildNumber = new javax.swing.JLabel();
+        androidVersionDisplay = new javax.swing.JTextField();
+        Brand = new javax.swing.JLabel();
+        brandName = new javax.swing.JTextField();
+        AndroidVersion = new javax.swing.JLabel();
+        enrollResult = new javax.swing.JTextField();
+        Enroll = new javax.swing.JLabel();
+        cameraResult = new javax.swing.JTextField();
+        cameraRestriction = new javax.swing.JLabel();
+        startTest = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         preVerificationLabel.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
+        preVerificationLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         preVerificationLabel.setText("Pre Verification Suite");
+
+        connectButton.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+        connectButton.setText("Connect Device");
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connectButtonActionPerformed(evt);
+            }
+        });
+
+        Manufacturer.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        Manufacturer.setText("Manufacturer");
+
+        manufacturerName.setEditable(false);
+        manufacturerName.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        manufacturerName.setEnabled(false);
+
+        Model.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        Model.setText("Model");
+
+        SerialNumber.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        SerialNumber.setText("Serial Number");
+
+        Agent.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        Agent.setText("Agent");
+
+        serialNumber.setEditable(false);
+        serialNumber.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        serialNumber.setEnabled(false);
+
+        agentVersion.setEditable(false);
+        agentVersion.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        agentVersion.setEnabled(false);
+
+        modelName.setEditable(false);
+        modelName.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        modelName.setEnabled(false);
+
+        buildDisplay.setEditable(false);
+        buildDisplay.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        buildDisplay.setEnabled(false);
+
+        BuildNumber.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        BuildNumber.setText("Build Number");
+
+        androidVersionDisplay.setEditable(false);
+        androidVersionDisplay.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        androidVersionDisplay.setEnabled(false);
+
+        Brand.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        Brand.setText("Brand");
+
+        brandName.setEditable(false);
+        brandName.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        brandName.setEnabled(false);
+
+        AndroidVersion.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        AndroidVersion.setText("Android Version");
+
+        enrollResult.setEditable(false);
+        enrollResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        enrollResult.setEnabled(false);
+
+        Enroll.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        Enroll.setText("Enrollment");
+
+        cameraResult.setEditable(false);
+        cameraResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        cameraResult.setEnabled(false);
+
+        cameraRestriction.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        cameraRestriction.setText("Restrict Camera");
+
+        startTest.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+        startTest.setText("Start Test");
+        startTest.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(182, 182, 182)
-                .addComponent(preVerificationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(243, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(295, 295, 295)
+                        .addComponent(preVerificationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(414, 414, 414)
+                        .addComponent(connectButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(64, 64, 64)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(SerialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(serialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(Manufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(Model, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(15, 15, 15)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(manufacturerName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(modelName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(BuildNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(buildDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(Brand, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(AndroidVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(15, 15, 15)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(brandName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(androidVersionDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(Enroll, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(enrollResult, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(Agent, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(cameraRestriction, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(28, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(startTest, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(383, 383, 383))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(32, 32, 32)
                 .addComponent(preVerificationLabel)
-                .addContainerGap(369, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(connectButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Manufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(manufacturerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Model, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(modelName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(SerialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(serialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Brand, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(brandName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(AndroidVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(androidVersionDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(BuildNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buildDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Agent, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addComponent(startTest)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Enroll, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(enrollResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cameraRestriction, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(426, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
+        boolean agent =false,device = false,server=false;
+        
+        setresult(manufacturerName,details("ro.product.manufacturer"));
+        setresult(brandName,details("ro.product.brand"));
+        setresult(modelName,details("ro.product.model"));
+        setresult(androidVersionDisplay,details("ro.build.version.release"));
+        setresult(serialNumber,details("ro.serialno"));
+        setresult(buildDisplay,details("ro.build.display.id"));       
+        if (details("ro.product.manufacturer")!= "No device"){         
+           if(checkPackage("com.airwatch.androidagent")){
+               agent = true;
+               setresult(agentVersion,checkVersion("com.airwatch.androidagent"));
+           }           
+           else agentVersion.setText("Agent Not installed");
+           if(true){
+               device = true;
+           }
+           if(true){
+               server = true;
+           }
+           if(agent && device && server){
+            startTest.setEnabled(true);
+            }
+        }
+        else agentVersion.setText("No device");
+    }//GEN-LAST:event_connectButtonActionPerformed
+
+    /* This Method is used for checking device details */
+    private String details(String command){
+        try {
+            ProcessBuilder pb0 = new ProcessBuilder("adb", "shell", "getprop", command);
+            Process pc0;
+        
+            pc0 = pb0.start();
+//            pc0.waitFor();
+            BufferedReader reader = new BufferedReader(
+            new InputStreamReader(pc0.getInputStream()));
+
+            BufferedReader error = new BufferedReader(
+            new InputStreamReader(pc0.getErrorStream()));
+
+            int read;
+            char[] buffer = new char[4096];
+            StringBuilder output = new StringBuilder();
+            while ((read = reader.read(buffer)) > 0) {
+            output.append(buffer, 0, read);
+            }reader.close();
+
+            StringBuilder err = new StringBuilder();
+            while ((read = error.read(buffer)) > 0) {
+                err.append(buffer, 0, read);
+            }error.close();
+
+// Waits for the command to finish.
+            pc0.waitFor();
+
+            if((err.toString()).contains("error")){
+                return "No device";
+            } else{
+                return output.toString().replaceAll("\\s+","");
+            }
+
+        
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    /* This Method is used for checking existing App */
+    private boolean checkPackage(String packageName){
+        try {
+            ProcessBuilder pb0 = new ProcessBuilder("adb", "shell", "pm","list", "packages",packageName);
+            Process pc0;
+        
+            pc0 = pb0.start();
+//            pc0.waitFor();
+            BufferedReader reader = new BufferedReader(
+            new InputStreamReader(pc0.getInputStream()));
+
+            BufferedReader error = new BufferedReader(
+            new InputStreamReader(pc0.getErrorStream()));
+
+            int read;
+            char[] buffer = new char[4096];
+            StringBuilder output = new StringBuilder();
+            while ((read = reader.read(buffer)) > 0) {
+            output.append(buffer, 0, read);
+            }reader.close();
+
+            StringBuilder err = new StringBuilder();
+            while ((read = error.read(buffer)) > 0) {
+                err.append(buffer, 0, read);
+            }error.close();
+
+// Waits for the command to finish.
+            pc0.waitFor();
+
+            return ((output.toString()).contains(packageName))? true: false;
+       
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    private void setresult(javax.swing.JTextField textfield, String text){
+        textfield.setEnabled(true);
+        textfield.setText(text);
+    }
+    
+    private String checkVersion(String packageName){
+        try {
+            ProcessBuilder pb0 = new ProcessBuilder("adb", "shell", "dumpsys","package",packageName ,"|","grep","-m1","versionName");
+            Process pc0;
+        
+            pc0 = pb0.start();
+//            pc0.waitFor();
+            BufferedReader reader = new BufferedReader(
+            new InputStreamReader(pc0.getInputStream()));
+
+            BufferedReader error = new BufferedReader(
+            new InputStreamReader(pc0.getErrorStream()));
+
+            int read;
+            char[] buffer = new char[4096];
+            StringBuilder output = new StringBuilder();
+            while ((read = reader.read(buffer)) > 0) {
+            output.append(buffer, 0, read);
+            }reader.close();
+
+            StringBuilder err = new StringBuilder();
+            while ((read = error.read(buffer)) > 0) {
+                err.append(buffer, 0, read);
+            }error.close();
+
+// Waits for the command to finish.
+            pc0.waitFor();
+
+            return output.toString().replaceAll("\\s+","").replaceAll("versionName=","");
+       
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -90,6 +437,26 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Agent;
+    private javax.swing.JLabel AndroidVersion;
+    private javax.swing.JLabel Brand;
+    private javax.swing.JLabel BuildNumber;
+    private javax.swing.JLabel Enroll;
+    private javax.swing.JLabel Manufacturer;
+    private javax.swing.JLabel Model;
+    private javax.swing.JLabel SerialNumber;
+    private javax.swing.JTextField agentVersion;
+    private javax.swing.JTextField androidVersionDisplay;
+    private javax.swing.JTextField brandName;
+    private javax.swing.JTextField buildDisplay;
+    private javax.swing.JLabel cameraRestriction;
+    private javax.swing.JTextField cameraResult;
+    private javax.swing.JButton connectButton;
+    private javax.swing.JTextField enrollResult;
+    private javax.swing.JTextField manufacturerName;
+    private javax.swing.JTextField modelName;
     private javax.swing.JLabel preVerificationLabel;
+    private javax.swing.JTextField serialNumber;
+    private javax.swing.JButton startTest;
     // End of variables declaration//GEN-END:variables
 }
