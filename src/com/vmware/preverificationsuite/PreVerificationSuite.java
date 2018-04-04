@@ -55,6 +55,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         cameraResult = new javax.swing.JTextField();
         cameraRestriction = new javax.swing.JLabel();
         startTest = new javax.swing.JButton();
+        ServerConnection = new javax.swing.JLabel();
+        DeviceConnection = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -138,6 +140,12 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startTest.setText("Start Test");
         startTest.setEnabled(false);
 
+        ServerConnection.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        ServerConnection.setText("Server Connection");
+
+        DeviceConnection.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        DeviceConnection.setText("Device Connection");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -152,7 +160,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                         .addComponent(connectButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -187,13 +195,18 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(enrollResult, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(Agent, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
                                     .addComponent(cameraRestriction, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(Agent, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(DeviceConnection)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ServerConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(106, 106, 106)))))
                 .addContainerGap(28, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -236,7 +249,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Agent, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ServerConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DeviceConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16)
                 .addComponent(startTest)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -267,9 +282,10 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                agent = true;
                setresult(agentVersion,checkVersion("com.airwatch.androidagent"));
            }           
-           else agentVersion.setText("Agent Not installed");
-           if(true){
+           else agentVersion.setText("Not Installed");
+           if(pingConnectivity("www.google.com")){
                device = true;
+               
            }
            if(true){
                server = true;
@@ -283,81 +299,20 @@ public class PreVerificationSuite extends javax.swing.JFrame {
 
     /* This Method is used for checking device details */
     private String details(String command){
-        try {
-            ProcessBuilder pb0 = new ProcessBuilder("adb", "shell", "getprop", command);
-            Process pc0;
-        
-            pc0 = pb0.start();
-//            pc0.waitFor();
-            BufferedReader reader = new BufferedReader(
-            new InputStreamReader(pc0.getInputStream()));
-
-            BufferedReader error = new BufferedReader(
-            new InputStreamReader(pc0.getErrorStream()));
-
-            int read;
-            char[] buffer = new char[4096];
-            StringBuilder output = new StringBuilder();
-            while ((read = reader.read(buffer)) > 0) {
-            output.append(buffer, 0, read);
-            }reader.close();
-
-            StringBuilder err = new StringBuilder();
-            while ((read = error.read(buffer)) > 0) {
-                err.append(buffer, 0, read);
-            }error.close();
-
-// Waits for the command to finish.
-            pc0.waitFor();
-
-            if((err.toString()).contains("error")){
+            ProcessBuilder pb = new ProcessBuilder("adb", "shell", "getprop", command);
+            result = result.runcommand(pb);
+            if((result.error.toString()).contains("error")){
                 return "No device";
             } else{
-                return output.toString().replaceAll("\\s+","");
+                return result.output.toString().replaceAll("\\s+","");
             }
-
-        
-        } catch (IOException | InterruptedException ex) {
-            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
     }
     
     /* This Method is used for checking existing App */
     private boolean checkPackage(String packageName){
-        try {
-            ProcessBuilder pb0 = new ProcessBuilder("adb", "shell", "pm","list", "packages",packageName);
-            Process pc0;
-        
-            pc0 = pb0.start();
-//            pc0.waitFor();
-            BufferedReader reader = new BufferedReader(
-            new InputStreamReader(pc0.getInputStream()));
-
-            BufferedReader error = new BufferedReader(
-            new InputStreamReader(pc0.getErrorStream()));
-
-            int read;
-            char[] buffer = new char[4096];
-            StringBuilder output = new StringBuilder();
-            while ((read = reader.read(buffer)) > 0) {
-            output.append(buffer, 0, read);
-            }reader.close();
-
-            StringBuilder err = new StringBuilder();
-            while ((read = error.read(buffer)) > 0) {
-                err.append(buffer, 0, read);
-            }error.close();
-
-// Waits for the command to finish.
-            pc0.waitFor();
-
-            return ((output.toString()).contains(packageName))? true: false;
-       
-        } catch (IOException | InterruptedException ex) {
-            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
+            ProcessBuilder pb = new ProcessBuilder("adb", "shell", "pm","list", "packages",packageName);
+            result = result.runcommand(pb);
+            return ((result.output.toString()).contains(packageName))? true: false;
     }
     
     private void setresult(javax.swing.JTextField textfield, String text){
@@ -366,41 +321,17 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     private String checkVersion(String packageName){
-        try {
-            ProcessBuilder pb0 = new ProcessBuilder("adb", "shell", "dumpsys","package",packageName ,"|","grep","-m1","versionName");
-            Process pc0;
-        
-            pc0 = pb0.start();
-//            pc0.waitFor();
-            BufferedReader reader = new BufferedReader(
-            new InputStreamReader(pc0.getInputStream()));
-
-            BufferedReader error = new BufferedReader(
-            new InputStreamReader(pc0.getErrorStream()));
-
-            int read;
-            char[] buffer = new char[4096];
-            StringBuilder output = new StringBuilder();
-            while ((read = reader.read(buffer)) > 0) {
-            output.append(buffer, 0, read);
-            }reader.close();
-
-            StringBuilder err = new StringBuilder();
-            while ((read = error.read(buffer)) > 0) {
-                err.append(buffer, 0, read);
-            }error.close();
-
-// Waits for the command to finish.
-            pc0.waitFor();
-
-            return output.toString().replaceAll("\\s+","").replaceAll("versionName=","");
-       
-        } catch (IOException | InterruptedException ex) {
-            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+            ProcessBuilder pb = new ProcessBuilder("adb", "shell", "dumpsys","package",packageName ,"|","grep","-m1","versionName");
+            result = result.runcommand(pb);
+            return result.output.toString().replaceAll("\\s+","").replaceAll("versionName=","");
         
     }
+    private boolean pingConnectivity(String url){
+            ProcessBuilder pb= new ProcessBuilder("adb", "shell","ping", "-c2",url);
+            result = result.runcommand(pb);
+            return ((result.error.toString()).contains("unknown host"))? false: true;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -435,16 +366,20 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             }
         });
     }
+    
+    adbCommand result= new adbCommand();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Agent;
     private javax.swing.JLabel AndroidVersion;
     private javax.swing.JLabel Brand;
     private javax.swing.JLabel BuildNumber;
+    private javax.swing.JLabel DeviceConnection;
     private javax.swing.JLabel Enroll;
     private javax.swing.JLabel Manufacturer;
     private javax.swing.JLabel Model;
     private javax.swing.JLabel SerialNumber;
+    private javax.swing.JLabel ServerConnection;
     private javax.swing.JTextField agentVersion;
     private javax.swing.JTextField androidVersionDisplay;
     private javax.swing.JTextField brandName;
