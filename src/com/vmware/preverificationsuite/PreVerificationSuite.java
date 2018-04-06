@@ -5,6 +5,7 @@
  */
 package com.vmware.preverificationsuite;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -57,6 +58,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startTest = new javax.swing.JButton();
         ServerConnection = new javax.swing.JLabel();
         DeviceConnection = new javax.swing.JLabel();
+        connectProgressBar = new javax.swing.JProgressBar();
+        serverCheck = new javax.swing.JTextField();
+        deviceCheck = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -146,6 +150,12 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         DeviceConnection.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         DeviceConnection.setText("Device Connection");
 
+        serverCheck.setEditable(false);
+        serverCheck.setEnabled(false);
+
+        deviceCheck.setEditable(false);
+        deviceCheck.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,9 +165,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(295, 295, 295)
                         .addComponent(preVerificationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(414, 414, 414)
-                        .addComponent(connectButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -203,24 +210,34 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(29, 29, 29)
-                                .addComponent(DeviceConnection)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ServerConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(106, 106, 106)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(startTest, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(DeviceConnection)
+                                        .addGap(40, 40, 40)
+                                        .addComponent(deviceCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(ServerConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(serverCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(27, 27, 27))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(342, 342, 342)
+                        .addComponent(connectButton)
+                        .addGap(85, 85, 85)
+                        .addComponent(connectProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(28, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(startTest, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(383, 383, 383))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addComponent(preVerificationLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(connectButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(connectProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -251,10 +268,12 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                     .addComponent(Agent, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ServerConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DeviceConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
+                    .addComponent(DeviceConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(serverCheck, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deviceCheck, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
                 .addComponent(startTest)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Enroll, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(enrollResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -262,7 +281,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cameraRestriction, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(426, Short.MAX_VALUE))
+                .addContainerGap(427, Short.MAX_VALUE))
         );
 
         pack();
@@ -271,21 +290,26 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         boolean agent =false,device = false,server=false;
         
-        setresult(manufacturerName,details("ro.product.manufacturer"));
-        setresult(brandName,details("ro.product.brand"));
-        setresult(modelName,details("ro.product.model"));
-        setresult(androidVersionDisplay,details("ro.build.version.release"));
-        setresult(serialNumber,details("ro.serialno"));
-        setresult(buildDisplay,details("ro.build.display.id"));       
+        setresult(manufacturerName,details("ro.product.manufacturer"),true);
+        setresult(brandName,details("ro.product.brand"),true);
+        setresult(modelName,details("ro.product.model"),true);
+        setresult(androidVersionDisplay,details("ro.build.version.release"),true);
+        setresult(serialNumber,details("ro.serialno"),true);
+        setresult(buildDisplay,details("ro.build.display.id"),true);
+        setresult(agentVersion,true);
+        setresult(deviceCheck,true);
+        setresult(serverCheck,true);
         if (details("ro.product.manufacturer")!= "No device"){         
            if(checkPackage("com.airwatch.androidagent")){
                agent = true;
-               setresult(agentVersion,checkVersion("com.airwatch.androidagent"));
+               setresult(agentVersion,checkVersion("com.airwatch.androidagent"),true);
            }           
            else agentVersion.setText("Not Installed");
            if(pingConnectivity("www.google.com")){
-               device = true;
-               
+               deviceCheck.setBackground(Color.green);
+               device = true;    
+           }else{
+               deviceCheck.setBackground(Color.red);
            }
            if(true){
                server = true;
@@ -294,7 +318,11 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             startTest.setEnabled(true);
             }
         }
-        else agentVersion.setText("No device");
+        else {agentVersion.setText("No device");
+        deviceCheck.setBackground(Color.red);
+        serverCheck.setBackground(Color.green);
+        }
+            
     }//GEN-LAST:event_connectButtonActionPerformed
 
     /* This Method is used for checking device details */
@@ -315,9 +343,13 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             return ((result.output.toString()).contains(packageName))? true: false;
     }
     
-    private void setresult(javax.swing.JTextField textfield, String text){
-        textfield.setEnabled(true);
+    private void setresult(javax.swing.JTextField textfield, String text, boolean status){
+        textfield.setEnabled(status);
         textfield.setText(text);
+    }
+    
+    private void setresult(javax.swing.JTextField textfield,boolean status){
+        textfield.setEnabled(status);
     }
     
     private String checkVersion(String packageName){
@@ -387,11 +419,14 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private javax.swing.JLabel cameraRestriction;
     private javax.swing.JTextField cameraResult;
     private javax.swing.JButton connectButton;
+    private javax.swing.JProgressBar connectProgressBar;
+    private javax.swing.JTextField deviceCheck;
     private javax.swing.JTextField enrollResult;
     private javax.swing.JTextField manufacturerName;
     private javax.swing.JTextField modelName;
     private javax.swing.JLabel preVerificationLabel;
     private javax.swing.JTextField serialNumber;
+    private javax.swing.JTextField serverCheck;
     private javax.swing.JButton startTest;
     // End of variables declaration//GEN-END:variables
 }
