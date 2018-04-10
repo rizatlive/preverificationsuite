@@ -70,6 +70,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         connectProgressBar = new javax.swing.JProgressBar();
         serverCheck = new javax.swing.JTextField();
         deviceCheck = new javax.swing.JTextField();
+        startProgressBar = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -152,6 +153,11 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startTest.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         startTest.setText("Start Test");
         startTest.setEnabled(false);
+        startTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startTestActionPerformed(evt);
+            }
+        });
 
         ServerConnection.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         ServerConnection.setText("Server Connection");
@@ -159,11 +165,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         DeviceConnection.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         DeviceConnection.setText("Device Connection");
 
+        connectProgressBar.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+
         serverCheck.setEditable(false);
         serverCheck.setEnabled(false);
 
         deviceCheck.setEditable(false);
         deviceCheck.setEnabled(false);
+
+        startProgressBar.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -220,7 +230,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                 .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(29, 29, 29)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(startTest, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(DeviceConnection)
                                         .addGap(40, 40, 40)
@@ -229,11 +238,16 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                         .addComponent(ServerConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(serverCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(27, 27, 27))))))
+                                        .addGap(27, 27, 27))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(startTest, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(73, 73, 73)
+                                        .addComponent(startProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(342, 342, 342)
                         .addComponent(connectButton)
-                        .addGap(85, 85, 85)
+                        .addGap(83, 83, 83)
                         .addComponent(connectProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
@@ -243,9 +257,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addComponent(preVerificationLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(connectProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(connectButton)
+                    .addComponent(connectProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -281,16 +295,18 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                     .addComponent(serverCheck, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deviceCheck, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13)
-                .addComponent(startTest)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(startProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(startTest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Enroll, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(enrollResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cameraRestriction, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(427, Short.MAX_VALUE))
+                .addContainerGap(432, Short.MAX_VALUE))
         );
 
         pack();
@@ -302,6 +318,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         @Override
         public void run(){
         connectProgressBar.setIndeterminate(true);
+        connectProgressBar.setStringPainted(true);
+        connectProgressBar.setString("In Progress"); 
         boolean agent =false,device = false,server=false;
         setresult(manufacturerName,details("ro.product.manufacturer"),true);
         setresult(brandName,details("ro.product.brand"),true);
@@ -329,24 +347,39 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         }
              
         try {
-             serverCheck.setBackground(Color.red);
+             
              if(URLConnection("https://rugg06.ssdevrd.com/","","")){
              server = true;
              serverCheck.setBackground(Color.green);
             }
           } catch (IOException ex) {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+            serverCheck.setBackground(Color.red);
            }
                
            if(agent && device && server){
             startTest.setEnabled(true);
             }
-        connectProgressBar.setIndeterminate(false);  
-        connectProgressBar.setValue(100);
-         }
- });
+            connectProgressBar.setValue(100);
+            connectProgressBar.setString("Completed");
+            connectProgressBar.setIndeterminate(false);  
+       }
+ }); 
     
     }//GEN-LAST:event_connectButtonActionPerformed
+
+    private void startTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startTestActionPerformed
+        Executor executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable(){
+        @Override
+        public void run(){
+        startProgressBar.setIndeterminate(true);
+        startProgressBar.setStringPainted(true);
+        startProgressBar.setString("In Progress"); 
+        
+        }
+    });  
+    }//GEN-LAST:event_startTestActionPerformed
 
     /* This Method is used for checking device details */
     private String details(String command){
@@ -384,7 +417,16 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private boolean pingConnectivity(String url){
             ProcessBuilder pb= new ProcessBuilder("adb", "shell","ping", "-c2",url);
             result = result.runcommand(pb);
-            return ((result.output.toString()).contains("unknown host"))? false: true;
+            return ((result.output.toString()).contains("unknown host")||(result.error.toString()).contains("unknown host"))? false: true;
+    }
+    
+    private String enroll(){
+            String enrollmentapk =Path+"\\ApkFiles\\enrollment.apk";
+            String enrollmentTest =Path+"\\ApkFiles\\enrollmentTest.apk";
+            ProcessBuilder pb = new ProcessBuilder("adb", "shell", "dumpsys","package",packageName ,"|","grep","-m1","versionName");
+            result = result.runcommand(pb);
+            return result.output.toString().replaceAll("\\s+","").replaceAll("versionName=","");
+        
     }
     
     private boolean URLConnection(String URL, String API, String status) throws IOException{
@@ -454,7 +496,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     adbCommand result= new adbCommand();
-
+    String Path = System.getProperty("user.dir");
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Agent;
     private javax.swing.JLabel AndroidVersion;
@@ -481,6 +523,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private javax.swing.JLabel preVerificationLabel;
     private javax.swing.JTextField serialNumber;
     private javax.swing.JTextField serverCheck;
+    private javax.swing.JProgressBar startProgressBar;
     private javax.swing.JButton startTest;
     // End of variables declaration//GEN-END:variables
 }
