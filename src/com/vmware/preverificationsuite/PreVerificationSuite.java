@@ -6,6 +6,7 @@
 package com.vmware.preverificationsuite;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -15,9 +16,11 @@ import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Base64;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -294,8 +297,12 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
+        Executor executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable(){
+        @Override
+        public void run(){
+        connectProgressBar.setIndeterminate(true);
         boolean agent =false,device = false,server=false;
-        
         setresult(manufacturerName,details("ro.product.manufacturer"),true);
         setresult(brandName,details("ro.product.brand"),true);
         setresult(modelName,details("ro.product.model"),true);
@@ -317,27 +324,28 @@ public class PreVerificationSuite extends javax.swing.JFrame {
            }else{
                deviceCheck.setBackground(Color.red);
            }
+        }else {agentVersion.setText("No device");
+        deviceCheck.setBackground(Color.red);
         }
-           
+             
         try {
-             if(URLConnection("https://rugg06.ssdevrd.com/","",""));{
+             serverCheck.setBackground(Color.red);
+             if(URLConnection("https://rugg06.ssdevrd.com/","","")){
              server = true;
              serverCheck.setBackground(Color.green);
-        }
+            }
           } catch (IOException ex) {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
            }
                
-           
            if(agent && device && server){
             startTest.setEnabled(true);
             }
-        
-        else {agentVersion.setText("No device");
-        deviceCheck.setBackground(Color.red);
-        }
-        
-            
+        connectProgressBar.setIndeterminate(false);  
+        connectProgressBar.setValue(100);
+         }
+ });
+    
     }//GEN-LAST:event_connectButtonActionPerformed
 
     /* This Method is used for checking device details */
@@ -376,7 +384,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private boolean pingConnectivity(String url){
             ProcessBuilder pb= new ProcessBuilder("adb", "shell","ping", "-c2",url);
             result = result.runcommand(pb);
-            return ((result.error.toString()).contains("unknown host"))? false: true;
+            return ((result.output.toString()).contains("unknown host"))? false: true;
     }
     
     private boolean URLConnection(String URL, String API, String status) throws IOException{
@@ -407,12 +415,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
               } catch (IOException ex) {
                 Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
             }
-            int responseCode = connection.getResponseCode();
-            
+            int responseCode = connection.getResponseCode();            
             return (responseCode == 200)? true :false;
 }
-    
-    
     /**
      * @param args the command line arguments
      */
