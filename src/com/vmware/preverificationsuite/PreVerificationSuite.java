@@ -7,8 +7,14 @@ package com.vmware.preverificationsuite;
 
 import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -311,17 +317,26 @@ public class PreVerificationSuite extends javax.swing.JFrame {
            }else{
                deviceCheck.setBackground(Color.red);
            }
-           if(true){
-               server = true;
+        }
+           
+        try {
+             if(URLConnection("https://rugg06.ssdevrd.com/","",""));{
+             server = true;
+             serverCheck.setBackground(Color.green);
+        }
+          } catch (IOException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
            }
+               
+           
            if(agent && device && server){
             startTest.setEnabled(true);
             }
-        }
+        
         else {agentVersion.setText("No device");
         deviceCheck.setBackground(Color.red);
-        serverCheck.setBackground(Color.green);
         }
+        
             
     }//GEN-LAST:event_connectButtonActionPerformed
 
@@ -363,6 +378,40 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             result = result.runcommand(pb);
             return ((result.error.toString()).contains("unknown host"))? false: true;
     }
+    
+    private boolean URLConnection(String URL, String API, String status) throws IOException{
+        String authString = "adminfolder:adminfolder";       
+        byte[] authEncBytes = Base64.getEncoder().encode(authString.getBytes());
+	String authStringEnc = new String(authEncBytes);
+		      
+        URL requestURL = new URL(URL+API+status);
+        StringBuilder requestBodyBuilder = new StringBuilder();
+        String requestBody = requestBodyBuilder.toString();
+        HttpURLConnection connection = (HttpURLConnection) requestURL.openConnection();
+
+            try {
+                connection.setRequestMethod("POST");
+            } catch (ProtocolException ex) {
+                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            connection.setRequestProperty("Content-Length", "" + Integer.toString(requestBody.getBytes().length));
+            connection.setRequestProperty("Authorization", "Basic " +authStringEnc);
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("aw-tenant-code", "Mdn3XFFG7+5SpgomE22r0sO0RjfbN4HZsQn1T3M6R6Q=");
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+
+            try (DataOutputStream sendData = new DataOutputStream(connection.getOutputStream())) {
+               sendData.writeBytes(requestBody);
+                sendData.flush();
+              } catch (IOException ex) {
+                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            int responseCode = connection.getResponseCode();
+            
+            return (responseCode == 200)? true :false;
+}
+    
     
     /**
      * @param args the command line arguments
