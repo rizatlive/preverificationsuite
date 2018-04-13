@@ -6,21 +6,17 @@
 package com.vmware.preverificationsuite;
 
 import java.awt.Color;
-import java.awt.EventQueue;
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Base64;
 import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.SwingUtilities;
+
 
 /**
  *
@@ -470,7 +466,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         setresult(brandName,details("ro.product.brand"),true);
         setresult(modelName,details("ro.product.model"),true);
         setresult(androidVersionDisplay,details("ro.build.version.release"),true);
-        setresult(serialNumber,details("ro.serialno"),true);
+        serialno = details("ro.serialno");
+        setresult(serialNumber,serialno,true);
         setresult(buildDisplay,details("ro.build.display.id"),true);
         setresult(agentVersion,true);
         setresult(deviceCheck,true);
@@ -493,7 +490,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
              
         try {
              
-             if(URLConnection("https://rugg06.ssdevrd.com/","","")){
+             if(URLConnection(URL,"","","")){
              server = true;
              serverCheck.setBackground(Color.green);
             }
@@ -522,17 +519,21 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startProgressBar.setStringPainted(true);
         startProgressBar.setString("In Progress");
         String enrollmentStatus = enroll();        
-        setresult(enrollResult,cameraRestriction(),true);
+        setresult(enrollResult,enrollmentStatus,true);
         if(enrollmentStatus.equalsIgnoreCase("Pass")){
-            setresult(awcmResult,awcmStatus(),true);
-            setresult(pushResult,pushNotification(),true);
-            setresult(cameraResult,cameraRestriction(),true);
-            setresult(compromisedResult,deviceCompromised(),true);
-            setresult(folderResult,createFolder(),true);
-            setresult(passcodeResult,passcode(),true);
-            setresult(vpnResult,vpnProfile(),true);
-            setresult(wifiResult,wifiProfile(),true);
-            setresult(wipeResult,enterpriseWipe(),true);   
+            try {
+                setresult(awcmResult,awcmStatus(),true);
+                setresult(pushResult,pushNotification(),true);
+                setresult(cameraResult,cameraRestriction(),true);
+                setresult(compromisedResult,deviceCompromised(),true);
+                setresult(folderResult,createFolder(),true);
+                setresult(passcodeResult,passcode(),true);
+                setresult(vpnResult,vpnProfile(),true);
+                setresult(wifiResult,wifiProfile(),true);   
+                setresult(wipeResult,enterpriseWipe(),true);
+            } catch (IOException ex) {
+                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         startProgressBar.setValue(100);
         startProgressBar.setString("Completed");
@@ -556,7 +557,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private boolean checkPackage(String packageName){
             ProcessBuilder pb = new ProcessBuilder("adb", "shell", "pm","list", "packages",packageName);
             result = result.runcommand(pb);
-            return ((result.output.toString()).contains(packageName))? true: false;
+            return ((result.output.toString()).contains(packageName)? true:  false);
     }
     
     private void setresult(javax.swing.JTextField textfield, String text, boolean status){
@@ -581,56 +582,104 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     private String enroll(){
-            installApp(Path+"\\ApkFiles\\enrollment.apk");
-            installApp(Path+"\\ApkFiles\\enrollmentTest.apk");
+            installApp(Path+"\\ApkFiles\\01enrollment.apk");
+            installApp(Path+"\\ApkFiles\\01enrollmentTest.apk");
             status = result.runCommand("com.vmware.uiauto.ExampleInstrumentedTest", "com.vmware.uiauto.test/android.support.test.runner.AndroidJUnitRunner");      
             uninstallApp("com.vmware.uiauto");
             return status;
     }
     
+    private String awcmStatus(){
+         installApp(Path+"\\ApkFiles\\02awcm.apk");
+         installApp(Path+"\\ApkFiles\\02awcmTest.apk");
+         status = result.runCommand("com.vmware.awcm.ExampleInstrumentedTest", "com.vmware.awcm.test/android.support.test.runner.AndroidJUnitRunner");
+         uninstallApp("com.vmware.awcm");
+         return status;
+    }
+    
+    private String pushNotification() throws IOException{
+         String input = "{\"MessageBody\": \"GoodDay\",\"Application\": \"AirWatch\" ,\"MessageType\": \"Apns\"}";
+         URLConnection(URL,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
+         installApp(Path+"\\ApkFiles\\03pushNotification.apk");
+         installApp(Path+"\\ApkFiles\\03pushNotificationTest.apk");
+         status = result.runCommand("com.vmware.push_notification.ExampleInstrumentedTest", "com.vmware.push_notification.test/android.support.test.runner.AndroidJUnitRunner");
+         installApp(Path+"\\ApkFiles\\05superuser.apk");
+         uninstallApp("com.vmware.push_notification");
+         return status;
+    }
+    
     private String cameraRestriction(){
-            installApp(Path+"\\ApkFiles\\camera.apk");
-            installApp(Path+"\\ApkFiles\\cameraTest.apk");
-            installApp(Path+"\\ApkFiles\\cameraapp.apk");
+            installApp(Path+"\\ApkFiles\\04camera.apk");
+            installApp(Path+"\\ApkFiles\\04cameraTest.apk");
+            installApp(Path+"\\ApkFiles\\04cameraapp.apk");
             status=  result.runCommand("com.vmware.cameraautomation.ExampleInstrumentedTest", "com.vmware.cameraautomation.test/android.support.test.runner.AndroidJUnitRunner");      
             uninstallApp("com.flavionet.android.camera.lite");
             uninstallApp("com.vmware.cameraautomation");
             return status;           
     }
-    
-    private String awcmStatus(){
-            return status;
-    }
-    
-    private String pushNotification(){
-            return status;
-    }
-    
     private String deviceCompromised(){
-            return status;
+        installApp(Path+"\\ApkFiles\\05deviceCompromised.apk");
+        installApp(Path+"\\ApkFiles\\05deviceCompromisedTest.apk");
+        status = result.runCommand("com.vmware.devicecompromised.ExampleInstrumentedTest", "com.vmware.devicecompromised.test/android.support.test.runner.AndroidJUnitRunner");
+        uninstallApp("com.vmware.devicecompromised");
+        uninstallApp("eu.chainfire.supersu");
+        return status;
     }
     
     private String createFolder(){
-            return status;
+        installApp(Path+"\\ApkFiles\\06createFolder.apk");
+        installApp(Path+"\\ApkFiles\\06createFolderTest.apk");
+        installApp(Path+"\\ApkFiles\\06filemanager.apk");
+        status = result.runCommand("com.vmware.createfolder.ExampleInstrumentedTest", "com.vmware.createfolder.test/android.support.test.runner.AndroidJUnitRunner");
+        uninstallApp("com.vmware.createfolder");
+        uninstallApp("com.asus.filemanager");
+        return status;
     }
     
-    private String passcode(){
-            return status;
+    private String passcode() throws IOException{
+        URLConnection(URL,"api/mdm/profiles/1869/","activate","");
+        installApp(Path+"\\ApkFiles\\07passcode1.apk");
+        installApp(Path+"\\ApkFiles\\07passcode1Test.apk");
+        installApp(Path+"\\ApkFiles\\07passcode2.apk");
+        installApp(Path+"\\ApkFiles\\07passcode2Test.apk");
+        result.runCommand("com.vmware.passcode.ExampleInstrumentedTest", "com.vmware.passcode.test/android.support.test.runner.AndroidJUnitRunner");
+        status = result.runCommand("com.vmware.passcode_verification.ExampleInstrumentedTest", "com.vmware.passcode_verification.test/android.support.test.runner.AndroidJUnitRunner");
+        uninstallApp("com.vmware.passcode");
+        uninstallApp("com.vmware.passcode_verification");
+        URLConnection(URL,"api/mdm/profiles/1869/","deactivate","");
+        return status;
     }
     
-    private String vpnProfile(){
-            return status;
+    private String vpnProfile() throws IOException{
+        URLConnection(URL,"api/mdm/profiles/1868/","activate","");
+        installApp(Path+"\\ApkFiles\\08vpn.apk");
+        installApp(Path+"\\ApkFiles\\08vpnTest.apk");
+        installApp(Path+"\\ApkFiles\\08CiscoVPN.apk");
+        status = result.runCommand("com.vmware..ExampleInstrumentedTest", "com.vmware.passcode_verification.test/android.support.test.runner.AndroidJUnitRunner");
+        uninstallApp("com.vmware.passcode");
+        uninstallApp("com.vmware.passcode_verification");
+        URLConnection(URL,"api/mdm/profiles/1868/","deactivate","");
+        return status;
     }
     
     private String wifiProfile(){
-            return status;
+        installApp(Path+"\\ApkFiles\\09wifi.apk");
+        installApp(Path+"\\ApkFiles\\09wifiTest.apk");
+        status = result.runCommand("com.vmware.wifi.ExampleInstrumentedTest", "com.vmware.wifi.test/android.support.test.runner.AndroidJUnitRunner");
+        uninstallApp("com.vmware.wifi");
+        return status;
     }
     
-    private String enterpriseWipe(){
-            return status;
+    private String enterpriseWipe() throws IOException{
+        URLConnection(URL,"api/mdm/devices/commands?command=EnterpriseWipe&searchby=Serialnumber&id=",serialno,"");
+        installApp(Path+"\\ApkFiles\\10wipe.apk");
+        installApp(Path+"\\ApkFiles\\10wipeTest.apk");
+        status = result.runCommand("com.vmware.enterprise_wifi.ExampleInstrumentedTest", "com.vmware.enterprise_wifi.test/android.support.test.runner.AndroidJUnitRunner");
+        uninstallApp("com.vmware.enterprise_wifi");
+        return status;
     }
     
-    private boolean URLConnection(String URL, String API, String status) throws IOException{
+    private boolean URLConnection(String URL, String API, String status, String body) throws IOException{
         String authString = "adminfolder:adminfolder";       
         byte[] authEncBytes = Base64.getEncoder().encode(authString.getBytes());
 	String authStringEnc = new String(authEncBytes);
@@ -651,6 +700,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             connection.setRequestProperty("aw-tenant-code", "Mdn3XFFG7+5SpgomE22r0sO0RjfbN4HZsQn1T3M6R6Q=");
             connection.setDoOutput(true);
             connection.setDoInput(true);
+            OutputStream os = connection.getOutputStream();
+            os.write(body.getBytes());
+            os.flush();
 
             try (DataOutputStream sendData = new DataOutputStream(connection.getOutputStream())) {
                sendData.writeBytes(requestBody);
@@ -659,7 +711,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                 Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
             }
             int responseCode = connection.getResponseCode();            
-            return (responseCode == 200)? true :false;
+            return ((responseCode == 200)? true :false);
         }
     
     private void installApp(String appName){
@@ -718,7 +770,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         });
     }
     
-    String status;
+    String URL ="https://auto06.airwatchqa.com/";
+    String status, serialno;
     adbCommand result= new adbCommand();
     String Path = System.getProperty("user.dir");
     // Variables declaration - do not modify//GEN-BEGIN:variables
