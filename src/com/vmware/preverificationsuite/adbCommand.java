@@ -31,7 +31,6 @@ public adbCommand runcommand(ProcessBuilder pb){
     try {
             Process pc;
             pc = pb.start();
-//            pc0.waitFor();
             BufferedReader reader = new BufferedReader(
             new InputStreamReader(pc.getInputStream()));
 
@@ -45,7 +44,6 @@ public adbCommand runcommand(ProcessBuilder pb){
             result.output.append(buffer, 0, read);
             }reader.close();
 
-            
             while ((read = error.read(buffer)) > 0) {
                 result.error.append(buffer, 0, read);
             }error.close();
@@ -59,6 +57,42 @@ public adbCommand runcommand(ProcessBuilder pb){
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-
 }
+
+public String runCommand(String classname, String apkname){
+        try {
+            //adb shell am instrument -w -r   -e debug false -e class
+            ProcessBuilder pb0 = new ProcessBuilder("adb", "shell", "am", "instrument", "-w", "-r" , "-e" ,"debug", "false", "-e", "class", classname,apkname);
+            Process pc0;
+        
+            pc0 = pb0.start();
+//            pc0.waitFor();
+            BufferedReader reader = new BufferedReader(
+            new InputStreamReader(pc0.getInputStream()));
+
+            BufferedReader error = new BufferedReader(
+            new InputStreamReader(pc0.getErrorStream()));
+
+            int read;
+            char[] buffer = new char[4096];
+            StringBuilder output = new StringBuilder();
+            while ((read = reader.read(buffer)) > 0) {
+            output.append(buffer, 0, read);
+            }reader.close();
+
+            StringBuilder err = new StringBuilder();
+            while ((read = error.read(buffer)) > 0) {
+                err.append(buffer, 0, read);
+            }error.close();
+
+// Waits for the command to finish.
+            pc0.waitFor();
+
+            return ((output.toString()).contains("FAILURES")||(output.toString()).contains("INSTRUMENTATION_FAILED")?"Fail":"Pass");
+  
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "Error";
+    }
 }
