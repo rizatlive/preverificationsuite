@@ -14,6 +14,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Base64;
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -84,7 +85,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         compromisedResult = new javax.swing.JTextField();
         deviceCompromisedLabel = new javax.swing.JLabel();
         reset = new javax.swing.JButton();
-        retestFailed = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -256,15 +256,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             }
         });
 
-        retestFailed.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
-        retestFailed.setText("Retest Failed Cases");
-        retestFailed.setEnabled(false);
-        retestFailed.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                retestFailedActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -367,15 +358,10 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                             .addComponent(wifiResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                                 .addGroup(layout.createSequentialGroup()
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                            .addComponent(deviceCompromisedLabel)
-                                                            .addGap(21, 21, 21)
-                                                            .addComponent(compromisedResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addGap(34, 34, 34))
-                                                        .addGroup(layout.createSequentialGroup()
-                                                            .addComponent(retestFailed, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addGap(112, 112, 112)))
+                                                    .addComponent(deviceCompromisedLabel)
+                                                    .addGap(21, 21, 21)
+                                                    .addComponent(compromisedResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGap(34, 34, 34)
                                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(layout.createSequentialGroup()
@@ -478,9 +464,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                     .addComponent(wipeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(wipeResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(58, 58, 58)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(reset)
-                    .addComponent(retestFailed))
+                .addComponent(reset)
                 .addGap(67, 67, 67))
         );
 
@@ -553,36 +537,33 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         public void run(){
         startTest.setEnabled(false);
         reset.setEnabled(false);
-        retestFailed.setEnabled(false);
         startProgressBar.setEnabled(true);
         startProgressBar.setIndeterminate(true);
         startProgressBar.setStringPainted(true);
-        startProgressBar.setString("In Progress");
-        String enrollmentStatus = enroll();        
-        setresult(enrollResult,enrollmentStatus,true);
-        if(enrollmentStatus.equalsIgnoreCase("Pass")){
-            try {
-                setresult(awcmResult,awcmStatus(),true);
-                setresult(pushResult,pushNotification(),true);
-                setresult(cameraResult,cameraRestriction(),true);
-                setresult(compromisedResult,deviceCompromised(),true);
-                setresult(folderResult,createFolder(),true);
-                setresult(passcodeResult,passcode(),true);
-                setresult(vpnResult,vpnProfile(),true);
-                setresult(wifiResult,wifiProfile(),true);   
-                setresult(wipeResult,enterpriseWipe(),true);
-            } catch (IOException ex) {
-                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        startProgressBar.setString("In Progress"); 
+        setresult(folderResult,createFolder(),true);
+//        String enrollmentStatus = enroll();        
+//        setresult(enrollResult,enrollmentStatus,true);
+//        if(enrollmentStatus.equalsIgnoreCase("Pass")){
+//            try {
+//                setresult(awcmResult,awcmStatus(),true);
+//                setresult(pushResult,pushNotification(),true);
+//                setresult(cameraResult,cameraRestriction(),true);
+//                setresult(compromisedResult,deviceCompromised(),true);
+//                setresult(folderResult,createFolder(),true);
+//                setresult(passcodeResult,passcode(),true);
+//                setresult(vpnResult,vpnProfile(),true);
+//                setresult(wifiResult,wifiProfile(),true);   
+//                setresult(wipeResult,enterpriseWipe(),true);
+//            } catch (IOException ex) {
+//                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
         reset.setEnabled(true);
         startProgressBar.setValue(100);
         startProgressBar.setString("Completed");
         startProgressBar.setIndeterminate(false);
         startTest.setEnabled(false);
-        if(!checkFailed()){
-            retestFailed.setEnabled(true);
-        }
         }
     });  
     }//GEN-LAST:event_startTestActionPerformed
@@ -615,13 +596,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startProgressBar.setValue(0);
         startProgressBar.setString("");
         startProgressBar.setEnabled(false);
-        startTest.setEnabled(false);
-        retestFailed.setEnabled(false);        
+        startTest.setEnabled(false);       
     }//GEN-LAST:event_resetActionPerformed
-
-    private void retestFailedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retestFailedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_retestFailedActionPerformed
 
     /* This Method is used for checking device details */
     private String details(String command){
@@ -644,6 +620,13 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private void setresult(javax.swing.JTextField textfield, String text, boolean status){
         textfield.setEnabled(status);
         textfield.setText(text);
+        if(text.equalsIgnoreCase("Pass")){
+            textfield.setBackground(Color.green);
+        }else if(text.equalsIgnoreCase("Fail")){
+            textfield.setBackground(Color.red);
+        }else{
+            textfield.setBackground(Color.white);
+        }
     }
     
     private void setresult(javax.swing.JTextField textfield,boolean status){
@@ -662,130 +645,151 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         return !((result.output.toString()).contains("unknown host")||(result.error.toString()).contains("unknown host"));
     }
     
-    private boolean checkFailed(){
-        for(boolean i:resultList){
-            if (!i) return false;          
-        }
-        return true;
-    }
-    
     private String enroll(){
         installApp(Path+"\\ApkFiles\\01enrollment.apk");
         installApp(Path+"\\ApkFiles\\01enrollmentTest.apk");
         status = result.runCommand("com.vmware.uiauto.ExampleInstrumentedTest", "com.vmware.uiauto.test/android.support.test.runner.AndroidJUnitRunner");      
         uninstallApp("com.vmware.uiauto");
         uninstallApp("com.vmware.uiauto.test");
-        resultList[0] = status.equals("Pass");
         return status;
     }
     
     private String awcmStatus(){
+        int count =0;
          installApp(Path+"\\ApkFiles\\02awcm.apk");
          installApp(Path+"\\ApkFiles\\02awcmTest.apk");
+         do{
          status = result.runCommand("com.vmware.awcm.ExampleInstrumentedTest", "com.vmware.awcm.test/android.support.test.runner.AndroidJUnitRunner");
+          }while(status.equals("Fail")&& count++<5);
          uninstallApp("com.vmware.awcm");
          uninstallApp("com.vmware.awcm.test");
-         resultList[1] = status.equals("Pass");
          return status;
     }
     
     private String pushNotification() throws IOException{
+        int count =0;
          String input = "{\"MessageBody\": \"GoodDay\",\"Application\": \"AirWatch\" ,\"MessageType\": \"Apns\"}";
          URLConnection(URL,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
          installApp(Path+"\\ApkFiles\\03pushNotification.apk");
          installApp(Path+"\\ApkFiles\\03pushNotificationTest.apk");
+         do{
          status = result.runCommand("com.vmware.push_notification.ExampleInstrumentedTest", "com.vmware.push_notification.test/android.support.test.runner.AndroidJUnitRunner");
+          }while(status.equals("Fail")&& count++<5);
          installApp(Path+"\\ApkFiles\\05superuser.apk");
          uninstallApp("com.vmware.push_notification");
          uninstallApp("com.vmware.push_notification.test");
-         resultList[2] = status.equals("Pass");
          return status;
     }
     
     private String cameraRestriction(){
+        int count =0;
         installApp(Path+"\\ApkFiles\\04camera.apk");
         installApp(Path+"\\ApkFiles\\04cameraTest.apk");
         installApp(Path+"\\ApkFiles\\04cameraapp.apk");
+        do{
         status=  result.runCommand("com.vmware.cameraautomation.ExampleInstrumentedTest", "com.vmware.cameraautomation.test/android.support.test.runner.AndroidJUnitRunner");      
+         }while(status.equals("Fail")&& count++<5);
         uninstallApp("com.flavionet.android.camera.lite");
         uninstallApp("com.vmware.cameraautomation");
         uninstallApp("com.vmware.cameraautomation.test");
-        resultList[3] = status.equals("Pass");
         return status;           
     }
     private String deviceCompromised(){
+        int count =0;
         installApp(Path+"\\ApkFiles\\05deviceCompromised.apk");
         installApp(Path+"\\ApkFiles\\05deviceCompromisedTest.apk");
+        do{
         status = result.runCommand("com.vmware.devicecompromised.ExampleInstrumentedTest", "com.vmware.devicecompromised.test/android.support.test.runner.AndroidJUnitRunner");
+         }while(status.equals("Fail")&& count++<5);
         uninstallApp("com.vmware.devicecompromised");
         uninstallApp("com.vmware.devicecompromised.test");
         uninstallApp("eu.chainfire.supersu");
-        resultList[4] = status.equals("Pass");
         return status;
     }
     
     private String createFolder(){
-        installApp(Path+"\\ApkFiles\\06createFolder.apk");
-        installApp(Path+"\\ApkFiles\\06createFolderTest.apk");
-        installApp(Path+"\\ApkFiles\\06filemanager.apk");
-        status = result.runCommand("com.vmware.createfolder.ExampleInstrumentedTest", "com.vmware.createfolder.test/android.support.test.runner.AndroidJUnitRunner");
-        uninstallApp("com.vmware.createfolder");
-        uninstallApp("com.vmware.createfolder.test");
-        uninstallApp("com.asus.filemanager");
-        resultList[5] = status.equals("Pass");
+        int count =0;
+        boolean folderResult =true;
+        do{
+            try {
+                folderResult = checkFolder("//sdcard//folder1");
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+            }
+         }while(folderResult && count++<5);
+        status = folderResult ?"Fail":"Pass";
         return status;
     }
     
     private String passcode() throws IOException{
+        int count =0;
         URLConnection(URL,"api/mdm/profiles/1869/","activate","");
-        installApp(Path+"\\ApkFiles\\07passcode1.apk");
-        installApp(Path+"\\ApkFiles\\07passcodeTest1.apk");
-        installApp(Path+"\\ApkFiles\\07passcode2.apk");
-        installApp(Path+"\\ApkFiles\\07passcodeTest2.apk");
-        result.runCommand("com.vmware.passcode.ExampleInstrumentedTest", "com.vmware.passcode.test/android.support.test.runner.AndroidJUnitRunner");
-        status = result.runCommand("com.vmware.passcode_verification.ExampleInstrumentedTest", "com.vmware.passcode_verification.test/android.support.test.runner.AndroidJUnitRunner");
+        installApp(Path+"\\ApkFiles\\07passcode.apk");
+        installApp(Path+"\\ApkFiles\\07passcodeTest.apk");
+//        installApp(Path+"\\ApkFiles\\07passcode2.apk");
+//        installApp(Path+"\\ApkFiles\\07passcodeTest2.apk");
+        do{
+        status =result.runCommand("com.vmware.passcode.ExampleInstrumentedTest", "com.vmware.passcode.test/android.support.test.runner.AndroidJUnitRunner");
+//        status = result.runCommand("com.vmware.passcode_verification.ExampleInstrumentedTest", "com.vmware.passcode_verification.test/android.support.test.runner.AndroidJUnitRunner");
+        }while(status.equals("Fail")&& count++<1);
         uninstallApp("com.vmware.passcode");
-        uninstallApp("com.vmware.passcode_verification");
+//        uninstallApp("com.vmware.passcode_verification");
         uninstallApp("com.vmware.passcode.test");
-        uninstallApp("com.vmware.passcode_verification.test");
+//        uninstallApp("com.vmware.passcode_verification.test");
         URLConnection(URL,"api/mdm/profiles/1869/","deactivate","");
-        resultList[6] = status.equals("Pass");
         return status;
     }
     
     private String vpnProfile() throws IOException{
+        int count =0;
         URLConnection(URL,"api/mdm/profiles/1868/","activate","");
         installApp(Path+"\\ApkFiles\\08vpn.apk");
         installApp(Path+"\\ApkFiles\\08vpnTest.apk");
         installApp(Path+"\\ApkFiles\\08CiscoVPN.apk");
+        do{
         status = result.runCommand("com.vmware.vpn.ExampleInstrumentedTest", "com.vmware.vpn.test/android.support.test.runner.AndroidJUnitRunner");
+        }while(status.equals("Fail")&& count++<5);
         uninstallApp("com.vmware.vpn");
         uninstallApp("com.vmware.vpn.test");
         uninstallApp("com.cisco.anyconnect.vpn.android.avf");
         URLConnection(URL,"api/mdm/profiles/1868/","deactivate","");
-        resultList[7] = status.equals("Pass");
         return status;
     }
     
     private String wifiProfile(){
-        installApp(Path+"\\ApkFiles\\09wifi.apk");
-        installApp(Path+"\\ApkFiles\\09wifiTest.apk");
-        status = result.runCommand("com.vmware.wifi.ExampleInstrumentedTest", "com.vmware.wifi.test/android.support.test.runner.AndroidJUnitRunner");
-        uninstallApp("com.vmware.wifi");
-        uninstallApp("com.vmware.wifi.test");
-        resultList[8] = status.equals("Pass");
+        int count =0;
+        boolean wifiresult;
+        do{
+            wifiresult = checkWiFi("DVTWiFi");
+        }while(!wifiresult && count++<5);
+        status = wifiresult ?"Pass":"Fail";
         return status;
     }
     
     private String enterpriseWipe() throws IOException{
+        int count =0;
         URLConnection(URL,"api/mdm/devices/commands?command=EnterpriseWipe&searchby=Serialnumber&id=",serialno,"");
         installApp(Path+"\\ApkFiles\\10wipe.apk");
         installApp(Path+"\\ApkFiles\\10wipeTest.apk");
+        do{
         status = result.runCommand("com.vmware.enterprise_wipe.ExampleInstrumentedTest", "com.vmware.enterprise_wipe.test/android.support.test.runner.AndroidJUnitRunner");
+        }while(status.equals("Fail")&& count++<5);
         uninstallApp("com.vmware.enterprise_wipe");
         uninstallApp("com.vmware.enterprise_wipe.test");
-        resultList[9] = status.equals("Pass");
         return status;
+    }
+    
+    private boolean checkWiFi(String SSID){
+        ProcessBuilder pb = new ProcessBuilder("adb", "shell", "dumpsys","wifi","|","grep","-m1",SSID);
+        result = result.runcommand(pb);
+        return ((result.output.toString()).contains(SSID));
+    }
+    
+    private boolean checkFolder(String path){
+        ProcessBuilder pb = new ProcessBuilder("adb", "shell", "ls",path);
+        result = result.runcommand(pb);
+        return ((result.error.toString()).contains("No such file or directory"));
     }
     
     private boolean URLConnection(String URL, String API, String status, String body) throws IOException{
@@ -880,7 +884,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     String URL ="https://auto06.airwatchqa.com/";
-    boolean resultList[] = new boolean[10];
     String status, serialno;
     adbCommand result= new adbCommand();
     String Path = System.getProperty("user.dir");
@@ -919,7 +922,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private javax.swing.JTextField pushResult;
     private javax.swing.JButton reset;
     private javax.swing.JLabel restrictCameraLabel;
-    private javax.swing.JButton retestFailed;
     private javax.swing.JTextField serialNumber;
     private javax.swing.JTextField serverCheck;
     private javax.swing.JProgressBar startProgressBar;
