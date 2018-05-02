@@ -152,6 +152,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
 
         enrollResult.setEditable(false);
         enrollResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        enrollResult.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        enrollResult.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         enrollResult.setEnabled(false);
 
         EnrollmentLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -186,6 +188,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
 
         awcmResult.setEditable(false);
         awcmResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        awcmResult.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         awcmResult.setEnabled(false);
 
         AWCMLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -193,6 +196,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
 
         pushResult.setEditable(false);
         pushResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        pushResult.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pushResult.setEnabled(false);
 
         pushLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -200,6 +204,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
 
         passcodeResult.setEditable(false);
         passcodeResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        passcodeResult.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         passcodeResult.setEnabled(false);
 
         passcodeLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -207,6 +212,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
 
         vpnResult.setEditable(false);
         vpnResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        vpnResult.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         vpnResult.setEnabled(false);
 
         vpnLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -214,6 +220,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
 
         folderResult.setEditable(false);
         folderResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        folderResult.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         folderResult.setEnabled(false);
 
         createFolderLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -221,6 +228,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
 
         wifiResult.setEditable(false);
         wifiResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        wifiResult.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         wifiResult.setEnabled(false);
 
         wifiLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -228,6 +236,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
 
         cameraResult.setEditable(false);
         cameraResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        cameraResult.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         cameraResult.setEnabled(false);
 
         restrictCameraLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -235,6 +244,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
 
         wipeResult.setEditable(false);
         wipeResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        wipeResult.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         wipeResult.setEnabled(false);
 
         wipeLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -242,6 +252,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
 
         compromisedResult.setEditable(false);
         compromisedResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        compromisedResult.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         compromisedResult.setEnabled(false);
 
         deviceCompromisedLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -269,11 +280,85 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                         .addGap(342, 342, 342)
                         .addComponent(connectButton)
                         .addGap(83, 83, 83)
-                        .addComponent(connectProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(connectProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(Agent, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(restrictCameraLabel)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                        .addComponent(EnrollmentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(enrollResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                            .addComponent(AWCMLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                            .addComponent(awcmResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                            .addComponent(pushLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                            .addComponent(pushResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addGap(34, 34, 34)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                            .addComponent(createFolderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                            .addComponent(folderResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                            .addComponent(passcodeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                            .addComponent(passcodeResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                            .addComponent(vpnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                            .addComponent(vpnResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(wifiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addComponent(wifiResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(deviceCompromisedLabel)
+                                                .addGap(21, 21, 21)
+                                                .addComponent(compromisedResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(34, 34, 34)
+                                                .addComponent(wipeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(wipeResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(29, 29, 29)
+                                                .addComponent(DeviceConnection)
+                                                .addGap(40, 40, 40)
+                                                .addComponent(deviceCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                                                .addComponent(ServerConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(serverCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(27, 27, 27))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addGap(285, 285, 285)
+                                    .addComponent(startTest, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(73, 73, 73)
+                                    .addComponent(startProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
@@ -301,81 +386,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                             .addGap(15, 15, 15)
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(brandName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(androidVersionDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(Agent, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                            .addComponent(restrictCameraLabel)
-                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                            .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                            .addComponent(EnrollmentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                            .addComponent(enrollResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                            .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(AWCMLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(awcmResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                                .addComponent(pushLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(pushResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                                    .addGap(34, 34, 34)
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                            .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(createFolderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(folderResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                                .addComponent(passcodeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(passcodeResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                                .addComponent(vpnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(vpnResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                        .addGroup(layout.createSequentialGroup()
-                                                            .addComponent(wifiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                            .addComponent(wifiResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(deviceCompromisedLabel)
-                                                    .addGap(21, 21, 21)
-                                                    .addComponent(compromisedResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(34, 34, 34)
-                                                    .addComponent(wipeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(wipeResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addGap(0, 0, Short.MAX_VALUE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addGap(0, 0, Short.MAX_VALUE)
-                                                    .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(29, 29, 29)
-                                                    .addComponent(DeviceConnection)
-                                                    .addGap(40, 40, 40)
-                                                    .addComponent(deviceCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                                                    .addComponent(ServerConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(serverCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(27, 27, 27)))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(285, 285, 285)
-                                .addComponent(startTest, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(73, 73, 73)
-                                .addComponent(startProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                .addComponent(androidVersionDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))))))))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -524,10 +535,14 @@ public class PreVerificationSuite extends javax.swing.JFrame {
            if(agent && device && server){
             startTest.setEnabled(true);
             connectProgressBar.setValue(100);
-            connectProgressBar.setString("Device Ready");
+            connectProgressBar.setString("Device is Ready For Verification");
+            connectProgressBar.setForeground(DARK_GREEN);
+            connectProgressBar.setValue(0);
             }else{
                connectProgressBar.setValue(100);
-               connectProgressBar.setString("Device Not Ready");  
+               connectProgressBar.setString("Device Not Ready");
+               connectProgressBar.setForeground(Color.red);
+               connectProgressBar.setValue(0);
            }
             
             connectProgressBar.setIndeterminate(false);
@@ -548,27 +563,33 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startProgressBar.setIndeterminate(true);
         startProgressBar.setStringPainted(true);
         startProgressBar.setString("In Progress"); 
-        setresult(folderResult,createFolder(),true);
-//        String enrollmentStatus = enroll();        
-//        setresult(enrollResult,enrollmentStatus,true);
-//        if(enrollmentStatus.equalsIgnoreCase("Pass")){
-//            try {
-//                setresult(awcmResult,awcmStatus(),true);
-//                setresult(pushResult,pushNotification(),true);
-//                setresult(cameraResult,cameraRestriction(),true);
-//                setresult(compromisedResult,deviceCompromised(),true);
-//                setresult(folderResult,createFolder(),true);
-//                setresult(passcodeResult,passcode(),true);
-//                setresult(vpnResult,vpnProfile(),true);
-//                setresult(wifiResult,wifiProfile(),true);   
-//                setresult(wipeResult,enterpriseWipe(),true);
-//            } catch (IOException ex) {
-//                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
+        String enrollmentStatus = enroll();        
+        setresult(enrollResult,enrollmentStatus,true);
+        if(enrollmentStatus.equalsIgnoreCase("Pass")){
+            try {
+                setresult(awcmResult,awcmStatus(),true);
+                setresult(pushResult,pushNotification(),true);
+                setresult(cameraResult,cameraRestriction(),true);
+                setresult(compromisedResult,deviceCompromised(),true);
+                setresult(folderResult,createFolder(),true);
+                setresult(passcodeResult,passcode(),true);
+                setresult(vpnResult,vpnProfile(),true);
+                setresult(wifiResult,wifiProfile(),true);   
+                setresult(wipeResult,enterpriseWipe(),true);
+            } catch (IOException ex) {
+                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         reset.setEnabled(true);
         startProgressBar.setValue(100);
-        startProgressBar.setString("Completed");
+        if(areAllTrue(results)){
+            startProgressBar.setString("Verification Completed");
+            startProgressBar.setForeground(DARK_GREEN);
+        }else{
+            startProgressBar.setString("Verification Completed with Issues");
+            startProgressBar.setForeground(Color.red);
+        }
+        startProgressBar.setValue(0);
         startProgressBar.setIndeterminate(false);
         startTest.setEnabled(false);
         }
@@ -658,6 +679,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         status = result.runCommand("com.vmware.uiauto.ExampleInstrumentedTest", "com.vmware.uiauto.test/android.support.test.runner.AndroidJUnitRunner");      
         uninstallApp("com.vmware.uiauto");
         uninstallApp("com.vmware.uiauto.test");
+        results[0] = (status.equals("Pass"));
         return status;
     }
     
@@ -670,6 +692,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
           }while(status.equals("Fail")&& count++<5);
          uninstallApp("com.vmware.awcm");
          uninstallApp("com.vmware.awcm.test");
+         results[1] = (status.equals("Pass"));
          return status;
     }
     
@@ -685,6 +708,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
          installApp(Path+"\\ApkFiles\\05superuser.apk");
          uninstallApp("com.vmware.push_notification");
          uninstallApp("com.vmware.push_notification.test");
+         results[2] = (status.equals("Pass"));
          return status;
     }
     
@@ -699,6 +723,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.flavionet.android.camera.lite");
         uninstallApp("com.vmware.cameraautomation");
         uninstallApp("com.vmware.cameraautomation.test");
+        results[3] = (status.equals("Pass"));
         return status;           
     }
     private String deviceCompromised(){
@@ -711,6 +736,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.vmware.devicecompromised");
         uninstallApp("com.vmware.devicecompromised.test");
         uninstallApp("eu.chainfire.supersu");
+        results[4] = (status.equals("Pass"));
         return status;
     }
     
@@ -726,6 +752,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             }
          }while(folderResult && count++<5);
         status = folderResult ?"Fail":"Pass";
+        results[5] = (status.equals("Pass"));
         return status;
     }
     
@@ -745,6 +772,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.vmware.passcode.test");
 //        uninstallApp("com.vmware.passcode_verification.test");
         URLConnection(URL,"api/mdm/profiles/1869/","deactivate","");
+        results[6] = (status.equals("Pass"));
         return status;
     }
     
@@ -761,6 +789,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.vmware.vpn.test");
         uninstallApp("com.cisco.anyconnect.vpn.android.avf");
         URLConnection(URL,"api/mdm/profiles/1868/","deactivate","");
+        results[7] = (status.equals("Pass"));
         return status;
     }
     
@@ -771,6 +800,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             wifiresult = checkWiFi("DVTWiFi");
         }while(!wifiresult && count++<5);
         status = wifiresult ?"Pass":"Fail";
+        results[8] = (status.equals("Pass"));
         return status;
     }
     
@@ -784,6 +814,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         }while(status.equals("Fail")&& count++<5);
         uninstallApp("com.vmware.enterprise_wipe");
         uninstallApp("com.vmware.enterprise_wipe.test");
+        results[9] = (status.equals("Pass"));
         return status;
     }
     
@@ -797,6 +828,11 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         ProcessBuilder pb = new ProcessBuilder("adb", "shell", "ls",path);
         result = result.runcommand(pb);
         return ((result.error.toString()).contains("No such file or directory"));
+    }
+    
+    public static boolean areAllTrue(boolean[] array){
+        for(boolean b : array) if(!b) return false;
+        return true;
     }
     
     private boolean URLConnection(String URL, String API, String status, String body) throws IOException{
@@ -892,6 +928,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     String URL ="https://auto06.airwatchqa.com/";
     String status, serialno;
+    boolean results[] = new boolean[10];
+    public static final Color DARK_GREEN= new Color(0,102,0);
+    
     adbCommand result= new adbCommand();
     String Path = System.getProperty("user.dir");
     // Variables declaration - do not modify//GEN-BEGIN:variables
