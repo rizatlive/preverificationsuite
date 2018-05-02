@@ -70,8 +70,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         AWCMLabel = new javax.swing.JLabel();
         pushResult = new javax.swing.JTextField();
         pushLabel = new javax.swing.JLabel();
-        passcodeResult = new javax.swing.JTextField();
-        passcodeLabel = new javax.swing.JLabel();
+        complianceResult = new javax.swing.JTextField();
+        complianceLabel = new javax.swing.JLabel();
         vpnResult = new javax.swing.JTextField();
         vpnLabel = new javax.swing.JLabel();
         folderResult = new javax.swing.JTextField();
@@ -202,13 +202,13 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         pushLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         pushLabel.setText("Push Notification");
 
-        passcodeResult.setEditable(false);
-        passcodeResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        passcodeResult.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        passcodeResult.setEnabled(false);
+        complianceResult.setEditable(false);
+        complianceResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        complianceResult.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        complianceResult.setEnabled(false);
 
-        passcodeLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        passcodeLabel.setText("Passcode");
+        complianceLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        complianceLabel.setText("Compliance");
 
         vpnResult.setEditable(false);
         vpnResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -280,7 +280,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                         .addGap(342, 342, 342)
                         .addComponent(connectButton)
                         .addGap(83, 83, 83)
-                        .addComponent(connectProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(connectProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -317,9 +317,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                             .addComponent(folderResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                            .addComponent(passcodeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(complianceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                            .addComponent(passcodeResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                            .addComponent(complianceResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                                             .addComponent(vpnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -395,9 +395,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addComponent(preVerificationLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(connectButton)
-                    .addComponent(connectProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(connectProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -444,8 +444,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                             .addComponent(folderResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(passcodeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(passcodeResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(complianceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(complianceResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(vpnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -572,7 +572,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                 setresult(cameraResult,cameraRestriction(),true);
                 setresult(compromisedResult,deviceCompromised(),true);
                 setresult(folderResult,createFolder(),true);
-                setresult(passcodeResult,passcode(),true);
+                setresult(complianceResult,compliance(),true);
                 setresult(vpnResult,vpnProfile(),true);
                 setresult(wifiResult,wifiProfile(),true);   
                 setresult(wipeResult,enterpriseWipe(),true);
@@ -614,7 +614,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         setresult(cameraResult,"",false);
         setresult(compromisedResult,"",false);
         setresult(folderResult,"",false);
-        setresult(passcodeResult,"",false);
+        setresult(complianceResult,"",false);
         setresult(vpnResult,"",false);
         setresult(wifiResult,"",false);   
         setresult(wipeResult,"",false);
@@ -705,7 +705,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
          do{
          status = result.runCommand("com.vmware.push_notification.ExampleInstrumentedTest", "com.vmware.push_notification.test/android.support.test.runner.AndroidJUnitRunner");
           }while(status.equals("Fail")&& count++<5);
-         installApp(Path+"\\ApkFiles\\05superuser.apk");
          uninstallApp("com.vmware.push_notification");
          uninstallApp("com.vmware.push_notification.test");
          results[2] = (status.equals("Pass"));
@@ -735,7 +734,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
          }while(status.equals("Fail")&& count++<5);
         uninstallApp("com.vmware.devicecompromised");
         uninstallApp("com.vmware.devicecompromised.test");
-        uninstallApp("eu.chainfire.supersu");
         results[4] = (status.equals("Pass"));
         return status;
     }
@@ -756,22 +754,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         return status;
     }
     
-    private String passcode() throws IOException{
+    private String compliance(){
         int count =0;
-        URLConnection(URL,"api/mdm/profiles/1869/","activate","");
-        installApp(Path+"\\ApkFiles\\07passcode.apk");
-        installApp(Path+"\\ApkFiles\\07passcodeTest.apk");
-//        installApp(Path+"\\ApkFiles\\07passcode2.apk");
-//        installApp(Path+"\\ApkFiles\\07passcodeTest2.apk");
+        installApp(Path+"\\ApkFiles\\07compliance.apk");
+        installApp(Path+"\\ApkFiles\\07complianceTest.apk");
         do{
-        status =result.runCommand("com.vmware.passcode.ExampleInstrumentedTest", "com.vmware.passcode.test/android.support.test.runner.AndroidJUnitRunner");
-//        status = result.runCommand("com.vmware.passcode_verification.ExampleInstrumentedTest", "com.vmware.passcode_verification.test/android.support.test.runner.AndroidJUnitRunner");
-        }while(status.equals("Fail")&& count++<1);
-        uninstallApp("com.vmware.passcode");
-//        uninstallApp("com.vmware.passcode_verification");
-        uninstallApp("com.vmware.passcode.test");
-//        uninstallApp("com.vmware.passcode_verification.test");
-        URLConnection(URL,"api/mdm/profiles/1869/","deactivate","");
+        status =result.runCommand("com.vmware.comp.ExampleInstrumentedTest", "com.vmware.comp.test/android.support.test.runner.AndroidJUnitRunner");
+        }while(status.equals("Fail")&& count++<5);
+        uninstallApp("com.vmware.comp");
+        uninstallApp("com.vmware.comp.test");
         results[6] = (status.equals("Pass"));
         return status;
     }
@@ -951,6 +942,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private javax.swing.JTextField brandName;
     private javax.swing.JTextField buildDisplay;
     private javax.swing.JTextField cameraResult;
+    private javax.swing.JLabel complianceLabel;
+    private javax.swing.JTextField complianceResult;
     private javax.swing.JTextField compromisedResult;
     private javax.swing.JButton connectButton;
     private javax.swing.JProgressBar connectProgressBar;
@@ -961,8 +954,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private javax.swing.JTextField folderResult;
     private javax.swing.JTextField manufacturerName;
     private javax.swing.JTextField modelName;
-    private javax.swing.JLabel passcodeLabel;
-    private javax.swing.JTextField passcodeResult;
     private javax.swing.JLabel preVerificationLabel;
     private javax.swing.JLabel pushLabel;
     private javax.swing.JTextField pushResult;
