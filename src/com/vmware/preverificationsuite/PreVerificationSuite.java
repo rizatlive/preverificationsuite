@@ -529,22 +529,21 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             }
           } catch (IOException ex) {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-            serverCheck.setBackground(Color.red);
+            serverCheck.setBackground(Color.green);
            }
                
            if(agent && device && server){
-            startTest.setEnabled(true);
-            connectProgressBar.setValue(100);
-            connectProgressBar.setString("Device is Ready For Verification");
-            connectProgressBar.setForeground(DARK_GREEN);
-            connectProgressBar.setValue(0);
+               startTest.setEnabled(true);
+               connectProgressBar.setValue(100);
+               connectProgressBar.setString("Device is Ready For Verification");
+               connectProgressBar.setForeground(DARK_GREEN);
+               connectProgressBar.setValue(0);
             }else{
                connectProgressBar.setValue(100);
                connectProgressBar.setString("Device Not Ready");
                connectProgressBar.setForeground(Color.red);
                connectProgressBar.setValue(0);
-           }
-            
+           }            
             connectProgressBar.setIndeterminate(false);
             reset.setEnabled(true);
        }
@@ -727,8 +726,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     private String deviceCompromised(){
         int count =0;
-        installApp(Path+"\\ApkFiles\\05deviceCompromised.apk");
-        installApp(Path+"\\ApkFiles\\05deviceCompromisedTest.apk");
+        installApp(Path+"\\ApkFiles\\05devicecompromised.apk");
+        installApp(Path+"\\ApkFiles\\05devicecompromisedTest.apk");
         do{
         status = result.runCommand("com.vmware.devicecompromised.ExampleInstrumentedTest", "com.vmware.devicecompromised.test/android.support.test.runner.AndroidJUnitRunner");
          }while(status.equals("Fail")&& count++<5);
