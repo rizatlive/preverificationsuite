@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.UIManager;
 
 
 /**
@@ -180,6 +181,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         DeviceConnection.setText("Device Connection");
 
         connectProgressBar.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+        connectProgressBar.setForeground(new java.awt.Color(0, 204, 0));
         connectProgressBar.setEnabled(false);
 
         serverCheck.setEditable(false);
@@ -189,6 +191,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         deviceCheck.setEnabled(false);
 
         startProgressBar.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+        startProgressBar.setForeground(new java.awt.Color(0, 204, 0));
         startProgressBar.setEnabled(false);
 
         awcmResult.setEditable(false);
@@ -274,6 +277,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
 
         sendReport.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         sendReport.setText("Report");
+        sendReport.setEnabled(false);
         sendReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sendReportActionPerformed(evt);
@@ -505,8 +509,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         executor.execute(new Runnable(){
         @Override
         public void run(){
+            
         connectProgressBar.setEnabled(true);
-        connectProgressBar.setBackground(Color.green);
         connectProgressBar.setIndeterminate(true);
         connectProgressBar.setStringPainted(true);
         connectProgressBar.setString("In Progress"); 
@@ -545,20 +549,19 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             }
           } catch (IOException ex) {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-            serverCheck.setBackground(Color.green);
+            serverCheck.setBackground(Color.red);
            }
                
            if(agent && device && server){
                startTest.setEnabled(true);
-               connectProgressBar.setValue(100);
                connectProgressBar.setString("Device is Ready For Verification");
-               connectProgressBar.setForeground(DARK_GREEN);
-               connectProgressBar.setValue(0);
-            }else{
                connectProgressBar.setValue(100);
+               
+            }else{
+//               connectProgressBar.setValue(100);
                connectProgressBar.setString("Device Not Ready");
-               connectProgressBar.setForeground(Color.red);
-               connectProgressBar.setValue(0);
+               connectProgressBar.setForeground(LIGHT_RED);
+               connectProgressBar.setValue(100);
            }            
             connectProgressBar.setIndeterminate(false);
             reset.setEnabled(true);
@@ -577,7 +580,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startProgressBar.setEnabled(true);
         startProgressBar.setIndeterminate(true);
         startProgressBar.setStringPainted(true);
-        startProgressBar.setString("In Progress"); 
+        startProgressBar.setString("Verification In Progress"); 
         String enrollmentStatus = enroll();        
         setresult(enrollResult,enrollmentStatus,true);
         if(enrollmentStatus.equalsIgnoreCase("Pass")){
@@ -596,16 +599,14 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             }
         }
         reset.setEnabled(true);
-        sendReport.setEnabled(false);
+        sendReport.setEnabled(true);
         startProgressBar.setValue(100);
         if(areAllTrue(results)){
             startProgressBar.setString("Verification Completed");
-            startProgressBar.setForeground(DARK_GREEN);
         }else{
             startProgressBar.setString("Verification Completed with Issues");
-            startProgressBar.setForeground(Color.red);
+            startProgressBar.setForeground(LIGHT_RED);
         }
-        startProgressBar.setValue(0);
         startProgressBar.setIndeterminate(false);
         startTest.setEnabled(false);
         }
@@ -637,6 +638,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         connectProgressBar.setValue(0);
         connectProgressBar.setString("");
         connectProgressBar.setEnabled(false);
+        connectProgressBar.setForeground(LIGHT_GREEN);
+        startProgressBar.setForeground(LIGHT_GREEN);
         startProgressBar.setValue(0);
         startProgressBar.setString("");
         startProgressBar.setEnabled(false);
@@ -660,7 +663,11 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_sendReportActionPerformed
-
+    
+    private void logcat(){
+        ProcessBuilder pb = new ProcessBuilder("adb", "logcat",">","C:\\Air\\DVTAutomation\\PreVerificationSuiteApp\\PreVerificationSuite\\logs\\logs.txt");
+        result.runcommand(pb);
+    }
     /* This Method is used for checking device details */
     private String details(String command){
         ProcessBuilder pb = new ProcessBuilder("adb", "shell", "getprop", command);
@@ -927,7 +934,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Metal".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -955,6 +962,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     String status, serialno;
     boolean results[] = new boolean[10];
     public static final Color DARK_GREEN= new Color(0,102,0);
+    public static final Color LIGHT_GREEN= new Color(0,204,0);
+    public static final Color LIGHT_RED= new Color(255,102,102);
     
     adbCommand result= new adbCommand();
     String Path = System.getProperty("user.dir");
