@@ -554,13 +554,11 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             serverCheck.setBackground(Color.red);
            }
                
-           if(agent && device /*&& server*/){
+           if(agent && device && server){
                startTest.setEnabled(true);
                connectProgressBar.setString("Device is Ready For Verification");
-               connectProgressBar.setValue(100);
-               
+               connectProgressBar.setValue(100);              
             }else{
-//               connectProgressBar.setValue(100);
                connectProgressBar.setString("Device Not Ready");
                connectProgressBar.setForeground(LIGHT_RED);
                connectProgressBar.setValue(100);
