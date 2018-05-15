@@ -10,8 +10,10 @@ import java.awt.Desktop;
 import java.awt.image.BufferedImage;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -552,7 +554,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             serverCheck.setBackground(Color.red);
            }
                
-           if(agent && device && server){
+           if(agent && device /*&& server*/){
                startTest.setEnabled(true);
                connectProgressBar.setString("Device is Ready For Verification");
                connectProgressBar.setValue(100);
@@ -604,7 +606,11 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         if(areAllTrue(results)){
             startProgressBar.setString("Verification Completed");
         }else{
-            startProgressBar.setString("Verification Completed with Issues");
+            if(!results[0]){
+                startProgressBar.setString("Enrollment Failed");
+            }else{
+                startProgressBar.setString("Verification Completed with Issues");
+            }
             startProgressBar.setForeground(LIGHT_RED);
         }
         startProgressBar.setIndeterminate(false);
@@ -664,9 +670,25 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_sendReportActionPerformed
     
-    private void logcat(){
-        ProcessBuilder pb = new ProcessBuilder("adb", "logcat",">","C:\\Air\\DVTAutomation\\PreVerificationSuiteApp\\PreVerificationSuite\\logs\\logs.txt");
+    private void clearlog(){
+        ProcessBuilder pb = new ProcessBuilder("adb","shell", "logcat","-c");
         result.runcommand(pb);
+    }
+    
+    private void getlog(String logName){
+        PrintWriter logs = null;
+        try {
+            String logFileName = Path+"\\Logs\\"+logName+".txt";           
+            ProcessBuilder pb = new ProcessBuilder("adb","shell", "logcat","-d");
+            result = result.runcommand(pb);
+            logs = new PrintWriter(logFileName);
+            logs.println(result.output.toString());            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            logs.close();
+        }
+        
     }
     /* This Method is used for checking device details */
     private String details(String command){
@@ -715,29 +737,38 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     private String enroll(){
+        clearlog();
         installApp(Path+"\\ApkFiles\\01enrollment.apk");
         installApp(Path+"\\ApkFiles\\01enrollmentTest.apk");
         status = result.runCommand("com.vmware.uiauto.ExampleInstrumentedTest", "com.vmware.uiauto.test/android.support.test.runner.AndroidJUnitRunner");      
         uninstallApp("com.vmware.uiauto");
         uninstallApp("com.vmware.uiauto.test");
         results[0] = (status.equals("Pass"));
+        if (!results[0]){
+            getlog("enrollmentLog");
+        }
         return status;
     }
     
     private String awcmStatus(){
+        clearlog();
         int count =0;
          installApp(Path+"\\ApkFiles\\02awcm.apk");
          installApp(Path+"\\ApkFiles\\02awcmTest.apk");
          do{
          status = result.runCommand("com.vmware.awcm.ExampleInstrumentedTest", "com.vmware.awcm.test/android.support.test.runner.AndroidJUnitRunner");
-          }while(status.equals("Fail")&& count++<5);
+          }while(status.equals("Fail")&& count++<1);
          uninstallApp("com.vmware.awcm");
          uninstallApp("com.vmware.awcm.test");
          results[1] = (status.equals("Pass"));
+         if (!results[1]){
+            getlog("awcmLog");
+        }
          return status;
     }
     
     private String pushNotification() throws IOException{
+        clearlog();
         int count =0;
          String input = "{\"MessageBody\": \"GoodDay\",\"Application\": \"AirWatch\" ,\"MessageType\": \"Apns\"}";
          URLConnection(URL,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
@@ -749,11 +780,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
          uninstallApp("com.vmware.push_notification");
          uninstallApp("com.vmware.push_notification.test");
          results[2] = (status.equals("Pass"));
+         if (!results[2]){
+            getlog("pushNotificationLog");
+        }
          return status;
     }
     
     private String cameraRestriction(){
         int count =0;
+        clearlog();
         installApp(Path+"\\ApkFiles\\04camera.apk");
         installApp(Path+"\\ApkFiles\\04cameraTest.apk");
         installApp(Path+"\\ApkFiles\\04cameraapp.apk");
@@ -764,10 +799,14 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.vmware.cameraautomation");
         uninstallApp("com.vmware.cameraautomation.test");
         results[3] = (status.equals("Pass"));
+        if (!results[3]){
+            getlog("cameraRestrictionLog");
+        }
         return status;           
     }
     private String deviceCompromised(){
         int count =0;
+        clearlog();
         installApp(Path+"\\ApkFiles\\05devicecompromised.apk");
         installApp(Path+"\\ApkFiles\\05devicecompromisedTest.apk");
         do{
@@ -776,11 +815,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.vmware.devicecompromised");
         uninstallApp("com.vmware.devicecompromised.test");
         results[4] = (status.equals("Pass"));
+        if (!results[4]){
+            getlog("deviceCompromisedLog");
+        }
         return status;
     }
     
     private String createFolder(){
         int count =0;
+        clearlog();
         boolean folderResult =true;
         do{
             try {
@@ -792,11 +835,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
          }while(folderResult && count++<5);
         status = folderResult ?"Fail":"Pass";
         results[5] = (status.equals("Pass"));
+        if (!results[5]){
+            getlog("createFolderLog");
+        }
         return status;
     }
     
     private String compliance(){
         int count =0;
+        clearlog();
         installApp(Path+"\\ApkFiles\\07compliance.apk");
         installApp(Path+"\\ApkFiles\\07complianceTest.apk");
         do{
@@ -805,11 +852,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.vmware.comp");
         uninstallApp("com.vmware.comp.test");
         results[6] = (status.equals("Pass"));
+        if (!results[6]){
+            getlog("complianceLog");
+        }
         return status;
     }
     
     private String vpnProfile() throws IOException{
         int count =0;
+        clearlog();
         URLConnection(URL,"api/mdm/profiles/1868/","activate","");
         installApp(Path+"\\ApkFiles\\08vpn.apk");
         installApp(Path+"\\ApkFiles\\08vpnTest.apk");
@@ -822,22 +873,30 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.cisco.anyconnect.vpn.android.avf");
         URLConnection(URL,"api/mdm/profiles/1868/","deactivate","");
         results[7] = (status.equals("Pass"));
+        if (!results[7]){
+            getlog("vpnLog");
+        }
         return status;
     }
     
     private String wifiProfile(){
         int count =0;
+        clearlog();
         boolean wifiresult;
         do{
             wifiresult = checkWiFi("DVTWiFi");
         }while(!wifiresult && count++<5);
         status = wifiresult ?"Pass":"Fail";
         results[8] = (status.equals("Pass"));
+        if (!results[8]){
+            getlog("wifiLog");
+        }
         return status;
     }
     
     private String enterpriseWipe() throws IOException{
         int count =0;
+        clearlog();
         URLConnection(URL,"api/mdm/devices/commands?command=EnterpriseWipe&searchby=Serialnumber&id=",serialno,"");
         installApp(Path+"\\ApkFiles\\10wipe.apk");
         installApp(Path+"\\ApkFiles\\10wipeTest.apk");
@@ -847,6 +906,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.vmware.enterprise_wipe");
         uninstallApp("com.vmware.enterprise_wipe.test");
         results[9] = (status.equals("Pass"));
+        if (!results[9]){
+            getlog("enterpriseWipeLog");
+        }
         return status;
     }
     
