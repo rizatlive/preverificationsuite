@@ -93,8 +93,10 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         deviceCompromisedLabel = new javax.swing.JLabel();
         reset = new javax.swing.JButton();
         sendReport = new javax.swing.JButton();
+        failedLogs = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Pre Verification Suite");
         setResizable(false);
 
         preVerificationLabel.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
@@ -269,7 +271,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         deviceCompromisedLabel.setText("Device Compromised");
 
         reset.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
-        reset.setText("Clear");
+        reset.setText("Clear Text");
         reset.setEnabled(false);
         reset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -283,6 +285,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         sendReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sendReportActionPerformed(evt);
+            }
+        });
+
+        failedLogs.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+        failedLogs.setText("Failed Logs");
+        failedLogs.setEnabled(false);
+        failedLogs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                failedLogsActionPerformed(evt);
             }
         });
 
@@ -307,6 +318,25 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                 .addComponent(Agent, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(29, 29, 29)
+                                                .addComponent(DeviceConnection)
+                                                .addGap(40, 40, 40)
+                                                .addComponent(deviceCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(ServerConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(sendReport, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(51, 51, 51)
+                                                .addComponent(failedLogs)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(serverCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(27, 27, 27))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(layout.createSequentialGroup()
@@ -355,25 +385,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                                 .addComponent(wipeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(wipeResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(0, 0, Short.MAX_VALUE)
-                                                .addComponent(sendReport, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(103, 103, 103)
-                                                .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(29, 29, 29)
-                                                .addComponent(DeviceConnection)
-                                                .addGap(40, 40, 40)
-                                                .addComponent(deviceCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(ServerConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(serverCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(27, 27, 27))))
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(285, 285, 285)
                                 .addComponent(startTest, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -490,17 +502,18 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                     .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(wifiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(wifiResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(deviceCompromisedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(compromisedResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(wipeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(wipeResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(reset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sendReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(41, 41, 41))
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(reset)
+                    .addComponent(failedLogs)
+                    .addComponent(sendReport))
+                .addGap(98, 98, 98))
         );
 
         pack();
@@ -604,6 +617,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         if(areAllTrue(results)){
             startProgressBar.setString("Verification Completed");
         }else{
+            failedLogs.setEnabled(true);
             if(!results[0]){
                 startProgressBar.setString("Enrollment Failed");
             }else{
@@ -649,6 +663,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startProgressBar.setEnabled(false);
         startTest.setEnabled(false);
         sendReport.setEnabled(false);
+        failedLogs.setEnabled(false);
     }//GEN-LAST:event_resetActionPerformed
 
     private void sendReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendReportActionPerformed
@@ -667,16 +682,24 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_sendReportActionPerformed
+
+    private void failedLogsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_failedLogsActionPerformed
+        try {
+            Desktop.getDesktop().open(new File(Path+"\\Logs\\"));
+        } catch (IOException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_failedLogsActionPerformed
     
-    private void clearlog(){
+    private void clearAndroidLog(){
         ProcessBuilder pb = new ProcessBuilder("adb","shell", "logcat","-c");
         result.runcommand(pb);
     }
     
-    private void getlog(String logName){
+    private void getAndroidLog(String logName){
         PrintWriter logs = null;
         try {
-            String logFileName = Path+"\\Logs\\"+logName+".txt";           
+            String logFileName = Path+"\\Logs\\"+logName+"_device_log"+".txt";           
             ProcessBuilder pb = new ProcessBuilder("adb","shell", "logcat","-d");
             result = result.runcommand(pb);
             logs = new PrintWriter(logFileName);
@@ -685,9 +708,42 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             logs.close();
-        }
-        
+        }  
     }
+    
+    private void getAndroidLog(String profileLog, String logName){
+        PrintWriter logs = null;
+        try {
+            String logFileName = Path+"\\Logs\\"+logName+"_device_log"+".txt";           
+            logs = new PrintWriter(logFileName);
+            logs.println(profileLog);            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            logs.close();
+        }  
+    }
+    
+    private void getAutomatorLog(String logName, String automatorLogs){
+        PrintWriter logs = null;
+        try {
+            String logFileName = Path+"\\Logs\\"+logName+"_script_log"+".txt";           
+            logs = new PrintWriter(logFileName);
+            logs.println(automatorLogs);            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            logs.close();
+        }  
+    }
+    
+    private String getProfileLog(){              
+            ProcessBuilder pb = new ProcessBuilder("adb","shell", "logcat","-d");
+            result = result.runcommand(pb);
+            return result.output.toString();               
+    }
+    
+    
     /* This Method is used for checking device details */
     private String details(String command){
         ProcessBuilder pb = new ProcessBuilder("adb", "shell", "getprop", command);
@@ -735,7 +791,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     private String enroll(){
-        clearlog();
+        clearAndroidLog();
         installApp(Path+"\\ApkFiles\\01enrollment.apk");
         installApp(Path+"\\ApkFiles\\01enrollmentTest.apk");
         status = result.runCommand("com.vmware.uiauto.ExampleInstrumentedTest", "com.vmware.uiauto.test/android.support.test.runner.AndroidJUnitRunner");      
@@ -743,13 +799,17 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.vmware.uiauto.test");
         results[0] = (status.equals("Pass"));
         if (!results[0]){
-            getlog("enrollmentLog");
+            getAndroidLog("enrollment");
+            getAutomatorLog("enrollment",status);
+            return "Fail";
+        } else{
+            ProfileLog = getProfileLog();
         }
         return status;
     }
     
     private String awcmStatus(){
-        clearlog();
+        clearAndroidLog();
         int count =0;
          installApp(Path+"\\ApkFiles\\02awcm.apk");
          installApp(Path+"\\ApkFiles\\02awcmTest.apk");
@@ -760,13 +820,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
          uninstallApp("com.vmware.awcm.test");
          results[1] = (status.equals("Pass"));
          if (!results[1]){
-            getlog("awcmLog");
+            getAndroidLog("awcm");
+            getAutomatorLog("awcm",status);
+            return "Fail";
         }
          return status;
     }
     
     private String pushNotification() throws IOException{
-        clearlog();
+        clearAndroidLog();
         int count =0;
          String input = "{\"MessageBody\": \"GoodDay\",\"Application\": \"AirWatch\" ,\"MessageType\": \"Apns\"}";
          URLConnection(URL,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
@@ -779,14 +841,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
          uninstallApp("com.vmware.push_notification.test");
          results[2] = (status.equals("Pass"));
          if (!results[2]){
-            getlog("pushNotificationLog");
+            getAndroidLog("pushNotification");
+            getAutomatorLog("pushNotification",status);
+            return "Fail";
         }
          return status;
     }
     
     private String cameraRestriction(){
         int count =0;
-        clearlog();
         installApp(Path+"\\ApkFiles\\04camera.apk");
         installApp(Path+"\\ApkFiles\\04cameraTest.apk");
         installApp(Path+"\\ApkFiles\\04cameraapp.apk");
@@ -798,13 +861,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.vmware.cameraautomation.test");
         results[3] = (status.equals("Pass"));
         if (!results[3]){
-            getlog("cameraRestrictionLog");
+            getAndroidLog(ProfileLog,"cameraRestriction");
+            getAutomatorLog("cameraRestriction",status);
+            return "Fail";
         }
         return status;           
     }
     private String deviceCompromised(){
         int count =0;
-        clearlog();
+        clearAndroidLog();
         installApp(Path+"\\ApkFiles\\05devicecompromised.apk");
         installApp(Path+"\\ApkFiles\\05devicecompromisedTest.apk");
         do{
@@ -814,14 +879,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.vmware.devicecompromised.test");
         results[4] = (status.equals("Pass"));
         if (!results[4]){
-            getlog("deviceCompromisedLog");
+            getAndroidLog("deviceCompromised");
+            getAutomatorLog("deviceCompromised",status);
+            return "Fail";
         }
         return status;
     }
     
     private String createFolder(){
         int count =0;
-        clearlog();
         boolean folderResult =true;
         do{
             try {
@@ -834,14 +900,14 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         status = folderResult ?"Fail":"Pass";
         results[5] = (status.equals("Pass"));
         if (!results[5]){
-            getlog("createFolderLog");
+            getAndroidLog(ProfileLog,"createFolder");
         }
         return status;
     }
     
     private String compliance(){
         int count =0;
-        clearlog();
+        clearAndroidLog();
         installApp(Path+"\\ApkFiles\\07compliance.apk");
         installApp(Path+"\\ApkFiles\\07complianceTest.apk");
         do{
@@ -851,14 +917,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.vmware.comp.test");
         results[6] = (status.equals("Pass"));
         if (!results[6]){
-            getlog("complianceLog");
+            getAndroidLog("compliance");
+            getAutomatorLog("compliance",status);
+            return "Fail";
         }
         return status;
     }
     
     private String vpnProfile() throws IOException{
         int count =0;
-        clearlog();
         URLConnection(URL,"api/mdm/profiles/1868/","activate","");
         installApp(Path+"\\ApkFiles\\08vpn.apk");
         installApp(Path+"\\ApkFiles\\08vpnTest.apk");
@@ -872,14 +939,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         URLConnection(URL,"api/mdm/profiles/1868/","deactivate","");
         results[7] = (status.equals("Pass"));
         if (!results[7]){
-            getlog("vpnLog");
+            getAndroidLog(ProfileLog,"vpn");
+            getAutomatorLog("vpn",status);
+            return "Fail";
         }
         return status;
     }
     
     private String wifiProfile(){
         int count =0;
-        clearlog();
         boolean wifiresult;
         do{
             wifiresult = checkWiFi("DVTWiFi");
@@ -887,14 +955,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         status = wifiresult ?"Pass":"Fail";
         results[8] = (status.equals("Pass"));
         if (!results[8]){
-            getlog("wifiLog");
+            getAndroidLog(ProfileLog,"wifi");
+            return "Fail";
         }
         return status;
     }
     
     private String enterpriseWipe() throws IOException{
         int count =0;
-        clearlog();
+        clearAndroidLog();
         URLConnection(URL,"api/mdm/devices/commands?command=EnterpriseWipe&searchby=Serialnumber&id=",serialno,"");
         installApp(Path+"\\ApkFiles\\10wipe.apk");
         installApp(Path+"\\ApkFiles\\10wipeTest.apk");
@@ -905,7 +974,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.vmware.enterprise_wipe.test");
         results[9] = (status.equals("Pass"));
         if (!results[9]){
-            getlog("enterpriseWipeLog");
+            getAndroidLog("enterpriseWipe");
+            getAutomatorLog("enterpriseWipe",status);
         }
         return status;
     }
@@ -1019,7 +1089,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     String URL ="https://auto06.airwatchqa.com/";
-    String status, serialno;
+    String status, serialno,ProfileLog;
     boolean results[] = new boolean[10];
     public static final Color DARK_GREEN= new Color(0,102,0);
     public static final Color LIGHT_GREEN= new Color(0,204,0);
@@ -1054,6 +1124,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private javax.swing.JTextField deviceCheck;
     private javax.swing.JLabel deviceCompromisedLabel;
     private javax.swing.JTextField enrollResult;
+    private javax.swing.JButton failedLogs;
     private javax.swing.JTextField folderResult;
     private javax.swing.JTextField manufacturerName;
     private javax.swing.JTextField modelName;
