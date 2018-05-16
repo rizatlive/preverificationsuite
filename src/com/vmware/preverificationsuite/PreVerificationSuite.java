@@ -974,6 +974,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         if (!results[9]){
             getAndroidLog("enterpriseWipe");
             getAutomatorLog("enterpriseWipe",status);
+            return "Fail";
         }
         return status;
     }
