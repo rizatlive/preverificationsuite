@@ -87,7 +87,11 @@ public String runCommand(String classname, String apkname){
 
 // Waits for the command to finish.
             pc0.waitFor();
-            return (((output.toString()).contains("FAILURES")||(output.toString()).contains("INSTRUMENTATION_FAILED")||(output.toString()).contains("Unable to find instrumentation"))?"Fail":"Pass");
+            if(((output.toString()).contains("FAILURES")||(output.toString()).contains("INSTRUMENTATION_FAILED")||(output.toString()).contains("Unable to find instrumentation"))){
+                return (output.toString());
+            }else{
+            return ("Pass");
+            }
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
         }
