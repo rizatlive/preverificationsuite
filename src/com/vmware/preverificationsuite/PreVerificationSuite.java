@@ -926,7 +926,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     private String vpnProfile() throws IOException{
         int count =0;
-        URLConnection(URL,"api/mdm/profiles/1868/","activate","");
         installApp(Path+"\\ApkFiles\\08vpn.apk");
         installApp(Path+"\\ApkFiles\\08vpnTest.apk");
         installApp(Path+"\\ApkFiles\\08CiscoVPN.apk");
@@ -936,7 +935,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         uninstallApp("com.vmware.vpn");
         uninstallApp("com.vmware.vpn.test");
         uninstallApp("com.cisco.anyconnect.vpn.android.avf");
-        URLConnection(URL,"api/mdm/profiles/1868/","deactivate","");
         results[7] = (status.equals("Pass"));
         if (!results[7]){
             getAndroidLog(ProfileLog,"vpn");
