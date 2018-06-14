@@ -273,7 +273,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         compromisedResult.setEnabled(false);
 
         deviceCompromisedLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        deviceCompromisedLabel.setText("Device Compromised");
+        deviceCompromisedLabel.setText("CompromiseDetection");
 
         reset.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         reset.setText("Clear");
@@ -376,14 +376,16 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                 .addGap(295, 295, 295)
                                 .addComponent(preVerificationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(161, 161, 161)
+                                .addGap(178, 178, 178)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addComponent(sendReport, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(54, 54, 54)
+                                        .addComponent(failedLogs)
+                                        .addGap(59, 59, 59)
+                                        .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(restrictCameraLabel)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                                 .addComponent(EnrollmentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -396,7 +398,11 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                                     .addComponent(pushLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(pushResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                    .addComponent(pushResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(restrictCameraLabel)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(34, 34, 34)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -415,21 +421,16 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(wifiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(wifiResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(deviceCompromisedLabel)
-                                        .addGap(21, 21, 21)
-                                        .addComponent(compromisedResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(34, 34, 34)
-                                        .addComponent(wipeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(wipeResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(sendReport, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(54, 54, 54)
-                                        .addComponent(failedLogs)
-                                        .addGap(59, 59, 59)
-                                        .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                .addComponent(wifiResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(176, 176, 176)
+                                .addComponent(deviceCompromisedLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(compromisedResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(34, 34, 34)
+                                .addComponent(wipeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(wipeResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(63, 63, 63))
             .addGroup(layout.createSequentialGroup()
@@ -516,7 +517,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                     .addComponent(awcmResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(pushLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(pushLabel)
                                     .addComponent(pushResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1033,7 +1034,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     private boolean URLConnection(String URL, String API, String status, String body) throws IOException{
-        String authString = "adminfolder:adminfolder";       
+        String authString = "administrator:awvmware331!";       
         byte[] authEncBytes = Base64.getEncoder().encode(authString.getBytes());
 	String authStringEnc = new String(authEncBytes);
 		      
@@ -1050,7 +1051,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             connection.setRequestProperty("Content-Length", "" + Integer.toString(requestBody.getBytes().length));
             connection.setRequestProperty("Authorization", "Basic " +authStringEnc);
             connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("aw-tenant-code", "Mdn3XFFG7+5SpgomE22r0sO0RjfbN4HZsQn1T3M6R6Q=");
+            connection.setRequestProperty("aw-tenant-code", "FijTPtU56NCWL7zVk9QRhe72oQrgxThnbSfKCIYs0oE=");
             connection.setDoOutput(true);
             connection.setDoInput(true);
             OutputStream os = connection.getOutputStream();
@@ -1123,7 +1124,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         });
     }
     
-    String URL ="https://auto06.airwatchqa.com/";
+    String URL ="https://dvt02.ssdevrd.com/";
     String status, serialno,ProfileLog,timeStamp;
     boolean results[] = new boolean[10];
     public static final Color DARK_GREEN= new Color(0,102,0);
