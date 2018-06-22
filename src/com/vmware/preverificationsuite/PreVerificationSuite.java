@@ -553,8 +553,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         Executor executor = java.util.concurrent.Executors.newSingleThreadExecutor();
         executor.execute(new Runnable(){
         @Override
-        public void run(){
-            
+        public void run(){ 
+        connectButton.setEnabled(false);
         connectProgressBar.setEnabled(true);
         connectProgressBar.setIndeterminate(true);
         connectProgressBar.setStringPainted(true);
@@ -617,6 +617,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private void startTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startTestActionPerformed
         timeStamp= new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
         Executor executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+        reset.setEnabled(false);
         executor.execute(new Runnable(){
         @Override
         public void run(){
@@ -659,6 +660,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         }
         startProgressBar.setIndeterminate(false);
         startTest.setEnabled(false);
+        reset.setEnabled(true);
         }
     });  
     }//GEN-LAST:event_startTestActionPerformed
@@ -671,8 +673,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         setresult(serialNumber,"",false);
         setresult(buildDisplay,"",false);
         setresult(agentVersion,"",false);
-        serverCheck.setBackground(Color.white);
-        deviceCheck.setBackground(Color.white);
+        serverCheck.setBackground(null);
+        deviceCheck.setBackground(null);
         setresult(deviceCheck,false);
         setresult(serverCheck,false);
         setresult(enrollResult,"",false);
@@ -696,6 +698,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startTest.setEnabled(false);
         sendReport.setEnabled(false);
         failedLogs.setEnabled(false);
+        connectButton.setEnabled(true);
+        reset.setEnabled(false);
     }//GEN-LAST:event_resetActionPerformed
 
     private void sendReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendReportActionPerformed
@@ -804,6 +808,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         }else{
             textfield.setBackground(Color.white);
         }
+        if(!status){
+           textfield.setBackground( null ); 
+        }        
     }
     
     private void setresult(javax.swing.JTextField textfield,boolean status){
