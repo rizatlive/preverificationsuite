@@ -8,10 +8,12 @@ package com.vmware.preverificationsuite;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
@@ -209,7 +211,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         awcmResult.setEnabled(false);
 
         AWCMLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        AWCMLabel.setText("AWCM Status");
+        AWCMLabel.setText("Connectivity");
 
         pushResult.setEditable(false);
         pushResult.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -560,11 +562,17 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         connectProgressBar.setStringPainted(true);
         connectProgressBar.setString("In Progress"); 
         boolean agent =false,device = false,server=false;
-        setresult(manufacturerName,details("ro.product.manufacturer"),true);
+        manufacturer = details("ro.product.manufacturer");
+        setresult(manufacturerName,manufacturer,true);
         setresult(brandName,details("ro.product.brand"),true);
         setresult(modelName,details("ro.product.model"),true);
-        setresult(androidVersionDisplay,details("ro.build.version.release"),true);
-        serialno = details("ro.serialno");
+        androidVersion = details("ro.build.version.release");
+        setresult(androidVersionDisplay,androidVersion,true);
+        if(manufacturer.equalsIgnoreCase("samsung")){
+            serialno = details("ril.serialnumber");
+        }else{
+            serialno = details("ro.serialno");
+        }
         setresult(serialNumber,serialno,true);
         setresult(buildDisplay,details("ro.build.display.id"),true);
         setresult(agentVersion,true);
@@ -588,7 +596,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         }
              
         try {
-             
              if(URLConnection(URL,"","","")){
              server = true;
              serverCheck.setBackground(Color.green);
@@ -626,7 +633,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startProgressBar.setEnabled(true);
         startProgressBar.setIndeterminate(true);
         startProgressBar.setStringPainted(true);
-        startProgressBar.setString("Verification In Progress"); 
+        startProgressBar.setString("Verification In Progress");
+        grantpermission("android.permission.WRITE_EXTERNAL_STORAGE");
         String enrollmentStatus = enroll();        
         setresult(enrollResult,enrollmentStatus,true);
         if(enrollmentStatus.equalsIgnoreCase("Pass")){
@@ -735,7 +743,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private void getAndroidLog(String logName){
         PrintWriter logs = null;
         try {
-            String logFileName = Path+"\\Logs\\"+logName+"_device_log_"+timeStamp+".txt";           
+            String logFileName = Path+"\\Logs\\"+details("ro.product.manufacturer")+"_"+details("ro.product.model")+logName+"_device_log_"+timeStamp+".txt";           
             ProcessBuilder pb = new ProcessBuilder("adb","shell", "logcat","-d");
             result = result.runcommand(pb);
             logs = new PrintWriter(logFileName);
@@ -750,7 +758,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private void getAndroidLog(String profileLog, String logName){
         PrintWriter logs = null;
         try {
-            String logFileName = Path+"\\Logs\\"+logName+"_device_log_"+timeStamp+".txt";           
+            String logFileName = Path+"\\Logs\\"+details("ro.product.manufacturer")+"_"+details("ro.product.model")+logName+"_device_log_"+timeStamp+".txt";           
             logs = new PrintWriter(logFileName);
             logs.println(profileLog);            
         } catch (FileNotFoundException ex) {
@@ -763,7 +771,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private void getAutomatorLog(String logName, String automatorLogs){
         PrintWriter logs = null;
         try {
-            String logFileName = Path+"\\Logs\\"+logName+"_script_log_"+timeStamp+".txt";           
+            String logFileName = Path+"\\Logs\\"+details("ro.product.manufacturer")+"_"+details("ro.product.model")+logName+"_script_log_"+timeStamp+".txt";           
             logs = new PrintWriter(logFileName);
             logs.println(automatorLogs);            
         } catch (FileNotFoundException ex) {
@@ -774,9 +782,17 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     private String getProfileLog(){              
-            ProcessBuilder pb = new ProcessBuilder("adb","shell", "logcat","-d");
-            result = result.runcommand(pb);
-            return result.output.toString();               
+        ProcessBuilder pb = new ProcessBuilder("adb","shell", "logcat","-d");
+        result = result.runcommand(pb);
+        return result.output.toString();               
+    }
+    
+    private void grantpermission(String permission){
+        String[] androidVersionPart = androidVersion.split("\\."); 
+        if(Integer.parseInt(androidVersionPart[0]) > 5){
+            ProcessBuilder pb = new ProcessBuilder("adb","shell", "pm","grant","com.airwatch.androidagent",permission);
+            result = result.runcommand(pb);  
+        }
     }
     
     
@@ -831,8 +847,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     private String enroll(){
         clearAndroidLog();
-        installApp(Path+"\\ApkFiles\\01enrollment.apk");
-        installApp(Path+"\\ApkFiles\\01enrollmentTest.apk");
+        installApp(Path+"\\ApkFiles\\01enrollment.apk","/sdcard/com.vmware.enrollment");
+        installApp(Path+"\\ApkFiles\\01enrollmentTest.apk","/sdcard/com.vmware.enrollment.test");
         status = result.runCommand("com.vmware.enrollment.ExampleInstrumentedTest", "com.vmware.enrollment.test/android.support.test.runner.AndroidJUnitRunner");      
         uninstallApp("com.vmware.enrollment");
         uninstallApp("com.vmware.enrollment.test");
@@ -850,8 +866,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private String awcmStatus(){
         clearAndroidLog();
         int count =0;
-         installApp(Path+"\\ApkFiles\\02awcm.apk");
-         installApp(Path+"\\ApkFiles\\02awcmTest.apk");
+         installApp(Path+"\\ApkFiles\\02awcm.apk", "/sdcard/com.vmware.awcm");
+         installApp(Path+"\\ApkFiles\\02awcmTest.apk","/sdcard/com.vmware.awcm.test");
          do{
          status = result.runCommand("com.vmware.awcm.ExampleInstrumentedTest", "com.vmware.awcm.test/android.support.test.runner.AndroidJUnitRunner");
           }while(status.equals("Fail")&& count++<1);
@@ -871,8 +887,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         int count =0;
          String input = "{\"MessageBody\": \"GoodDay\",\"Application\": \"AirWatch\" ,\"MessageType\": \"Apns\"}";
          URLConnection(URL,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
-         installApp(Path+"\\ApkFiles\\03pushNotification.apk");
-         installApp(Path+"\\ApkFiles\\03pushNotificationTest.apk");
+         installApp(Path+"\\ApkFiles\\03pushNotification.apk","/sdcard/com.vmware.push_notification");
+         installApp(Path+"\\ApkFiles\\03pushNotificationTest.apk","/sdcard/com.vmware.push_notification.test");
          do{
          status = result.runCommand("com.vmware.push_notification.ExampleInstrumentedTest", "com.vmware.push_notification.test/android.support.test.runner.AndroidJUnitRunner");
           }while(status.equals("Fail")&& count++<5);
@@ -909,8 +925,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private String deviceCompromised(){
         int count =0;
         clearAndroidLog();
-        installApp(Path+"\\ApkFiles\\05devicecompromised.apk");
-        installApp(Path+"\\ApkFiles\\05devicecompromisedTest.apk");
+        installApp(Path+"\\ApkFiles\\05devicecompromised.apk","/sdcard/com.vmware.devicecompromised");
+        installApp(Path+"\\ApkFiles\\05devicecompromisedTest.apk","/sdcard/com.vmware.devicecompromised.test");
         do{
         status = result.runCommand("com.vmware.devicecompromised.ExampleInstrumentedTest", "com.vmware.devicecompromised.test/android.support.test.runner.AndroidJUnitRunner");
          }while(status.equals("Fail")&& count++<5);
@@ -947,8 +963,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private String compliance(){
         int count =0;
         clearAndroidLog();
-        installApp(Path+"\\ApkFiles\\07compliance.apk");
-        installApp(Path+"\\ApkFiles\\07complianceTest.apk");
+        installApp(Path+"\\ApkFiles\\07compliance.apk","/sdcard/com.vmware.comp");
+        installApp(Path+"\\ApkFiles\\07complianceTest.apk","/sdcard/com.vmware.comp.test");
         do{
         status =result.runCommand("com.vmware.comp.ExampleInstrumentedTest", "com.vmware.comp.test/android.support.test.runner.AndroidJUnitRunner");
         }while(status.equals("Fail")&& count++<5);
@@ -965,9 +981,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     private String vpnProfile() throws IOException{
         int count =0;
-        installApp(Path+"\\ApkFiles\\08vpn.apk");
-        installApp(Path+"\\ApkFiles\\08vpnTest.apk");
-        installApp(Path+"\\ApkFiles\\08CiscoVPN.apk");
+        installApp(Path+"\\ApkFiles\\08vpn.apk","/sdcard/com.vmware.vpn");
+        installApp(Path+"\\ApkFiles\\08vpnTest.apk","/sdcard/com.vmware.vpn.test");
+        installApp(Path+"\\ApkFiles\\08CiscoVPN.apk","/sdcard/com.cisco.anyconnect.vpn.android.avf");
         do{
         status = result.runCommand("com.vmware.vpn.ExampleInstrumentedTest", "com.vmware.vpn.test/android.support.test.runner.AndroidJUnitRunner");
         }while(status.equals("Fail")&& count++<5);
@@ -987,7 +1003,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         int count =0;
         boolean wifiresult;
         do{
-            wifiresult = checkWiFi("DVTWiFi");
+            wifiresult = checkWiFi("network99");
         }while(!wifiresult && count++<5);
         status = wifiresult ?"Pass":"Fail";
         results[8] = (status.equals("Pass"));
@@ -1007,8 +1023,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         } catch (InterruptedException ex) {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
         }
-        installApp(Path+"\\ApkFiles\\10wipe.apk");
-        installApp(Path+"\\ApkFiles\\10wipeTest.apk");
+        installApp(Path+"\\ApkFiles\\10wipe.apk","/sdcard/com.vmware.enterprise_wipe");
+        installApp(Path+"\\ApkFiles\\10wipeTest.apk","/sdcard/com.vmware.enterprise_wipe.test");
         do{
         status = result.runCommand("com.vmware.enterprise_wipe.ExampleInstrumentedTest", "com.vmware.enterprise_wipe.test/android.support.test.runner.AndroidJUnitRunner");
         }while(status.equals("Fail")&& count++<5);
@@ -1072,12 +1088,39 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                 Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
             }
             int responseCode = connection.getResponseCode();            
-            return ((responseCode == 200)? true :false);
+            return ((responseCode == 200));
         }
     
     private void installApp(String appName){
-        ProcessBuilder pb = new ProcessBuilder("adb", "install","-t", "-r",appName);
+        ProcessBuilder pb = new ProcessBuilder("adb", "install","-r",appName);
         Process pc;
+        try {
+            pc = pb.start();
+            pc.waitFor();
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+     private void installApp(String appName, String path){
+        ProcessBuilder pb = new ProcessBuilder("adb", "push",appName,path);
+        Process pc;
+        try {
+            pc = pb.start();
+            pc.waitFor();
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        pb = new ProcessBuilder("adb", "shell","pm","install","-r",path);
+        try {
+            pc = pb.start();
+            pc.waitFor();
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        pb = new ProcessBuilder("adb", "shell","rm","-f",path);
         try {
             pc = pb.start();
             pc.waitFor();
@@ -1132,7 +1175,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     String URL ="https://dvt02.ssdevrd.com/";
-    String status, serialno,ProfileLog,timeStamp;
+    String status, serialno,ProfileLog,timeStamp,manufacturer,androidVersion;
     boolean results[] = new boolean[10];
     public static final Color DARK_GREEN= new Color(0,102,0);
     public static final Color LIGHT_GREEN= new Color(0,204,0);
