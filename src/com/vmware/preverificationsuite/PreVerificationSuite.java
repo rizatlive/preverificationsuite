@@ -635,6 +635,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startProgressBar.setStringPainted(true);
         startProgressBar.setString("Verification In Progress");
         grantpermission("android.permission.WRITE_EXTERNAL_STORAGE");
+        grantpermission("android.permission.READ_EXTERNAL_STORAGE");
         String enrollmentStatus = enroll();        
         setresult(enrollResult,enrollmentStatus,true);
         if(enrollmentStatus.equalsIgnoreCase("Pass")){
@@ -795,7 +796,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         }
     }
     
-    
     /* This Method is used for checking device details */
     private String details(String command){
         ProcessBuilder pb = new ProcessBuilder("adb", "shell", "getprop", command);
@@ -870,7 +870,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
          installApp(Path+"\\ApkFiles\\02awcmTest.apk","/sdcard/com.vmware.awcm.test");
          do{
          status = result.runCommand("com.vmware.awcm.ExampleInstrumentedTest", "com.vmware.awcm.test/android.support.test.runner.AndroidJUnitRunner");
-          }while(status.equals("Fail")&& count++<1);
+          }while((!status.equals("Pass"))&& count++<5);
          uninstallApp("com.vmware.awcm");
          uninstallApp("com.vmware.awcm.test");
          results[1] = (status.equals("Pass"));
@@ -891,7 +891,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
          installApp(Path+"\\ApkFiles\\03pushNotificationTest.apk","/sdcard/com.vmware.push_notification.test");
          do{
          status = result.runCommand("com.vmware.push_notification.ExampleInstrumentedTest", "com.vmware.push_notification.test/android.support.test.runner.AndroidJUnitRunner");
-          }while(status.equals("Fail")&& count++<5);
+          }while((!status.equals("Pass"))&& count++<5);
          uninstallApp("com.vmware.push_notification");
          uninstallApp("com.vmware.push_notification.test");
          results[2] = (status.equals("Pass"));
@@ -905,15 +905,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     private String cameraRestriction(){
         int count =0;
-        installApp(Path+"\\ApkFiles\\04camera.apk");
-        installApp(Path+"\\ApkFiles\\04cameraTest.apk");
+        installApp(Path+"\\ApkFiles\\04camera.apk","/sdcard/com.vmware.camera");
+        installApp(Path+"\\ApkFiles\\04cameraTest.apk","/sdcard/com.vmware.camera.test");
         installApp(Path+"\\ApkFiles\\04cameraapp.apk");
         do{
-        status=  result.runCommand("com.vmware.cameraautomation.ExampleInstrumentedTest", "com.vmware.cameraautomation.test/android.support.test.runner.AndroidJUnitRunner");      
-         }while(status.equals("Fail")&& count++<5);
+        status=  result.runCommand("com.vmware.camera.ExampleInstrumentedTest", "com.vmware.camera.test/android.support.test.runner.AndroidJUnitRunner");      
+         }while((!status.equals("Pass"))&& count++<5);
         uninstallApp("com.flavionet.android.camera.lite");
-        uninstallApp("com.vmware.cameraautomation");
-        uninstallApp("com.vmware.cameraautomation.test");
+        uninstallApp("com.vmware.camera");
+        uninstallApp("com.vmware.camera.test");
         results[3] = (status.equals("Pass"));
         if (!results[3]){
             getAndroidLog(ProfileLog,"cameraRestriction");
@@ -929,7 +929,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         installApp(Path+"\\ApkFiles\\05devicecompromisedTest.apk","/sdcard/com.vmware.devicecompromised.test");
         do{
         status = result.runCommand("com.vmware.devicecompromised.ExampleInstrumentedTest", "com.vmware.devicecompromised.test/android.support.test.runner.AndroidJUnitRunner");
-         }while(status.equals("Fail")&& count++<5);
+         }while((!status.equals("Pass"))&& count++<5);
         uninstallApp("com.vmware.devicecompromised");
         uninstallApp("com.vmware.devicecompromised.test");
         results[4] = (status.equals("Pass"));
@@ -967,7 +967,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         installApp(Path+"\\ApkFiles\\07complianceTest.apk","/sdcard/com.vmware.comp.test");
         do{
         status =result.runCommand("com.vmware.comp.ExampleInstrumentedTest", "com.vmware.comp.test/android.support.test.runner.AndroidJUnitRunner");
-        }while(status.equals("Fail")&& count++<5);
+        }while((!status.equals("Pass"))&& count++<5);
         uninstallApp("com.vmware.comp");
         uninstallApp("com.vmware.comp.test");
         results[6] = (status.equals("Pass"));
@@ -986,7 +986,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         installApp(Path+"\\ApkFiles\\08CiscoVPN.apk","/sdcard/com.cisco.anyconnect.vpn.android.avf");
         do{
         status = result.runCommand("com.vmware.vpn.ExampleInstrumentedTest", "com.vmware.vpn.test/android.support.test.runner.AndroidJUnitRunner");
-        }while(status.equals("Fail")&& count++<5);
+        }while((!status.equals("Pass"))&& count++<5);
         uninstallApp("com.vmware.vpn");
         uninstallApp("com.vmware.vpn.test");
         uninstallApp("com.cisco.anyconnect.vpn.android.avf");
@@ -1027,7 +1027,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         installApp(Path+"\\ApkFiles\\10wipeTest.apk","/sdcard/com.vmware.enterprise_wipe.test");
         do{
         status = result.runCommand("com.vmware.enterprise_wipe.ExampleInstrumentedTest", "com.vmware.enterprise_wipe.test/android.support.test.runner.AndroidJUnitRunner");
-        }while(status.equals("Fail")&& count++<5);
+        }while((!status.equals("Pass"))&& count++<5);
         uninstallApp("com.vmware.enterprise_wipe");
         uninstallApp("com.vmware.enterprise_wipe.test");
         results[9] = (status.equals("Pass"));
@@ -1093,40 +1093,18 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     private void installApp(String appName){
         ProcessBuilder pb = new ProcessBuilder("adb", "install","-r",appName);
-        Process pc;
-        try {
-            pc = pb.start();
-            pc.waitFor();
-        } catch (IOException | InterruptedException ex) {
-            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        result.runcommand(pb);
     }
     
      private void installApp(String appName, String path){
         ProcessBuilder pb = new ProcessBuilder("adb", "push",appName,path);
-        Process pc;
-        try {
-            pc = pb.start();
-            pc.waitFor();
-        } catch (IOException | InterruptedException ex) {
-            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        result.runcommand(pb);
         
         pb = new ProcessBuilder("adb", "shell","pm","install","-r",path);
-        try {
-            pc = pb.start();
-            pc.waitFor();
-        } catch (IOException | InterruptedException ex) {
-            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        result.runcommand(pb);
         
         pb = new ProcessBuilder("adb", "shell","rm","-f",path);
-        try {
-            pc = pb.start();
-            pc.waitFor();
-        } catch (IOException | InterruptedException ex) {
-            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        result.runcommand(pb);
     }
     
     private void uninstallApp(String appName){
