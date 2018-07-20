@@ -582,7 +582,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         if (details("ro.product.manufacturer")!= "No device"){         
            if(checkPackage("com.airwatch.androidagent")){
                agent = true;
-               setresult(agentVersion,checkVersion("com.airwatch.androidagent"),true);
+               agentversion= checkVersion("com.airwatch.androidagent");
+               setresult(agentVersion,agentversion,true);
            }           
            else agentVersion.setText("Not Installed");
            if(pingConnectivity("www.google.com")){
@@ -633,6 +634,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startProgressBar.setEnabled(true);
         startProgressBar.setIndeterminate(true);
         startProgressBar.setStringPainted(true);
+        checkHub(agentversion);
         startProgressBar.setString("Verification In Progress");
         grantpermission("android.permission.WRITE_EXTERNAL_STORAGE");
         grantpermission("android.permission.READ_EXTERNAL_STORAGE");
@@ -796,6 +798,13 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         }
     }
     
+    private void checkHub(String version){
+         String[] agentVersionPart = version.split("\\."); 
+        if(Integer.parseInt(agentVersionPart[0]) >=9)
+            hub = "_hub.apk";
+        else hub = ".apk";  
+    }
+    
     /* This Method is used for checking device details */
     private String details(String command){
         ProcessBuilder pb = new ProcessBuilder("adb", "shell", "getprop", command);
@@ -847,8 +856,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     private String enroll(){
         clearAndroidLog();
-        installApp(Path+"\\ApkFiles\\01enrollment.apk","/sdcard/com.vmware.enrollment");
-        installApp(Path+"\\ApkFiles\\01enrollmentTest.apk","/sdcard/com.vmware.enrollment.test");
+        installApp(Path+"\\ApkFiles\\01enrollment"+hub,"/sdcard/com.vmware.enrollment");
+        installApp(Path+"\\ApkFiles\\01enrollmentTest"+hub,"/sdcard/com.vmware.enrollment.test");
         status = result.runCommand("com.vmware.enrollment.ExampleInstrumentedTest", "com.vmware.enrollment.test/android.support.test.runner.AndroidJUnitRunner");      
         uninstallApp("com.vmware.enrollment");
         uninstallApp("com.vmware.enrollment.test");
@@ -866,8 +875,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private String awcmStatus(){
         clearAndroidLog();
         int count =0;
-         installApp(Path+"\\ApkFiles\\02awcm.apk", "/sdcard/com.vmware.awcm");
-         installApp(Path+"\\ApkFiles\\02awcmTest.apk","/sdcard/com.vmware.awcm.test");
+         installApp(Path+"\\ApkFiles\\02awcm"+hub, "/sdcard/com.vmware.awcm");
+         installApp(Path+"\\ApkFiles\\02awcmTest"+hub,"/sdcard/com.vmware.awcm.test");
          do{
          status = result.runCommand("com.vmware.awcm.ExampleInstrumentedTest", "com.vmware.awcm.test/android.support.test.runner.AndroidJUnitRunner");
           }while((!status.equals("Pass"))&& count++<5);
@@ -887,8 +896,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         int count =0;
          String input = "{\"MessageBody\": \"GoodDay\",\"Application\": \"AirWatch\" ,\"MessageType\": \"Apns\"}";
          URLConnection(URL,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
-         installApp(Path+"\\ApkFiles\\03pushNotification.apk","/sdcard/com.vmware.push_notification");
-         installApp(Path+"\\ApkFiles\\03pushNotificationTest.apk","/sdcard/com.vmware.push_notification.test");
+         installApp(Path+"\\ApkFiles\\03pushNotification"+hub,"/sdcard/com.vmware.push_notification");
+         installApp(Path+"\\ApkFiles\\03pushNotificationTest"+hub,"/sdcard/com.vmware.push_notification.test");
          do{
          status = result.runCommand("com.vmware.push_notification.ExampleInstrumentedTest", "com.vmware.push_notification.test/android.support.test.runner.AndroidJUnitRunner");
           }while((!status.equals("Pass"))&& count++<5);
@@ -905,8 +914,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     private String cameraRestriction(){
         int count =0;
-        installApp(Path+"\\ApkFiles\\04camera.apk","/sdcard/com.vmware.camera");
-        installApp(Path+"\\ApkFiles\\04cameraTest.apk","/sdcard/com.vmware.camera.test");
+        installApp(Path+"\\ApkFiles\\04camera"+hub,"/sdcard/com.vmware.camera");
+        installApp(Path+"\\ApkFiles\\04cameraTest"+hub,"/sdcard/com.vmware.camera.test");
         installApp(Path+"\\ApkFiles\\04cameraapp.apk");
         do{
         status=  result.runCommand("com.vmware.camera.ExampleInstrumentedTest", "com.vmware.camera.test/android.support.test.runner.AndroidJUnitRunner");      
@@ -925,8 +934,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private String deviceCompromised(){
         int count =0;
         clearAndroidLog();
-        installApp(Path+"\\ApkFiles\\05devicecompromised.apk","/sdcard/com.vmware.devicecompromised");
-        installApp(Path+"\\ApkFiles\\05devicecompromisedTest.apk","/sdcard/com.vmware.devicecompromised.test");
+        installApp(Path+"\\ApkFiles\\05devicecompromised"+hub,"/sdcard/com.vmware.devicecompromised");
+        installApp(Path+"\\ApkFiles\\05devicecompromisedTest"+hub,"/sdcard/com.vmware.devicecompromised.test");
         do{
         status = result.runCommand("com.vmware.devicecompromised.ExampleInstrumentedTest", "com.vmware.devicecompromised.test/android.support.test.runner.AndroidJUnitRunner");
          }while((!status.equals("Pass"))&& count++<5);
@@ -963,8 +972,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private String compliance(){
         int count =0;
         clearAndroidLog();
-        installApp(Path+"\\ApkFiles\\07compliance.apk","/sdcard/com.vmware.comp");
-        installApp(Path+"\\ApkFiles\\07complianceTest.apk","/sdcard/com.vmware.comp.test");
+        installApp(Path+"\\ApkFiles\\07compliance"+hub,"/sdcard/com.vmware.comp");
+        installApp(Path+"\\ApkFiles\\07complianceTest"+hub,"/sdcard/com.vmware.comp.test");
         do{
         status =result.runCommand("com.vmware.comp.ExampleInstrumentedTest", "com.vmware.comp.test/android.support.test.runner.AndroidJUnitRunner");
         }while((!status.equals("Pass"))&& count++<5);
@@ -981,8 +990,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     private String vpnProfile() throws IOException{
         int count =0;
-        installApp(Path+"\\ApkFiles\\08vpn.apk","/sdcard/com.vmware.vpn");
-        installApp(Path+"\\ApkFiles\\08vpnTest.apk","/sdcard/com.vmware.vpn.test");
+        installApp(Path+"\\ApkFiles\\08vpn"+hub,"/sdcard/com.vmware.vpn");
+        installApp(Path+"\\ApkFiles\\08vpnTest"+hub,"/sdcard/com.vmware.vpn.test");
         installApp(Path+"\\ApkFiles\\08CiscoVPN.apk","/sdcard/com.cisco.anyconnect.vpn.android.avf");
         do{
         status = result.runCommand("com.vmware.vpn.ExampleInstrumentedTest", "com.vmware.vpn.test/android.support.test.runner.AndroidJUnitRunner");
@@ -1023,8 +1032,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         } catch (InterruptedException ex) {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
         }
-        installApp(Path+"\\ApkFiles\\10wipe.apk","/sdcard/com.vmware.enterprise_wipe");
-        installApp(Path+"\\ApkFiles\\10wipeTest.apk","/sdcard/com.vmware.enterprise_wipe.test");
+        installApp(Path+"\\ApkFiles\\10wipe"+hub,"/sdcard/com.vmware.enterprise_wipe");
+        installApp(Path+"\\ApkFiles\\10wipeTest"+hub,"/sdcard/com.vmware.enterprise_wipe.test");
         do{
         status = result.runCommand("com.vmware.enterprise_wipe.ExampleInstrumentedTest", "com.vmware.enterprise_wipe.test/android.support.test.runner.AndroidJUnitRunner");
         }while((!status.equals("Pass"))&& count++<5);
@@ -1153,7 +1162,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     String URL ="https://dvt02.ssdevrd.com/";
-    String status, serialno,ProfileLog,timeStamp,manufacturer,androidVersion;
+    String status, serialno,ProfileLog,timeStamp,manufacturer,androidVersion, agentversion,hub=".apk";
     boolean results[] = new boolean[10];
     public static final Color DARK_GREEN= new Color(0,102,0);
     public static final Color LIGHT_GREEN= new Color(0,204,0);
