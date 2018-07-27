@@ -8,12 +8,10 @@ package com.vmware.preverificationsuite;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
@@ -70,10 +68,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         AndroidVersion = new javax.swing.JLabel();
         enrollResult = new javax.swing.JTextField();
         EnrollmentLabel = new javax.swing.JLabel();
-        startTest = new javax.swing.JButton();
         ServerConnection = new javax.swing.JLabel();
         DeviceConnection = new javax.swing.JLabel();
-        connectProgressBar = new javax.swing.JProgressBar();
         serverCheck = new javax.swing.JTextField();
         deviceCheck = new javax.swing.JTextField();
         startProgressBar = new javax.swing.JProgressBar();
@@ -111,7 +107,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         preVerificationLabel.setText("Pre Verification Suite");
 
         connectButton.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
-        connectButton.setText("Connect Device");
+        connectButton.setText("Start Test");
         connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 connectButtonActionPerformed(evt);
@@ -176,24 +172,11 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         EnrollmentLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         EnrollmentLabel.setText("Enrollment");
 
-        startTest.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
-        startTest.setText("Start Test");
-        startTest.setEnabled(false);
-        startTest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startTestActionPerformed(evt);
-            }
-        });
-
         ServerConnection.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         ServerConnection.setText("Server Connection");
 
         DeviceConnection.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         DeviceConnection.setText("Device Connection");
-
-        connectProgressBar.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
-        connectProgressBar.setForeground(new java.awt.Color(0, 204, 0));
-        connectProgressBar.setEnabled(false);
 
         serverCheck.setEditable(false);
         serverCheck.setEnabled(false);
@@ -310,7 +293,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         jLabel2.setText("Copyright © 2018");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("V1.1806");
+        jLabel4.setText("V1.1808");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -318,18 +301,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(342, 342, 342)
-                        .addComponent(connectButton)
-                        .addGap(83, 83, 83)
-                        .addComponent(connectProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(349, 349, 349)
-                        .addComponent(startTest, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(73, 73, 73)
-                        .addComponent(startProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
+                        .addContainerGap(64, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(Agent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -373,75 +346,80 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                             .addComponent(brandName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(androidVersionDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(295, 295, 295)
-                                .addComponent(preVerificationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(178, 178, 178)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(sendReport, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(54, 54, 54)
-                                        .addComponent(failedLogs)
-                                        .addGap(59, 59, 59)
-                                        .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(EnrollmentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(enrollResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(AWCMLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(awcmResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                    .addComponent(pushLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(pushResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(restrictCameraLabel)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(34, 34, 34)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(createFolderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(folderResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                    .addComponent(complianceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(complianceResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                    .addComponent(vpnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(vpnResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(wifiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(wifiResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(176, 176, 176)
-                                .addComponent(deviceCompromisedLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(compromisedResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(34, 34, 34)
-                                .addComponent(wipeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(wipeResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(295, 295, 295)
+                        .addComponent(preVerificationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(startProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(63, 63, 63))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(157, 157, 157)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(sendReport, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(54, 54, 54)
+                                .addComponent(failedLogs)
+                                .addGap(59, 59, 59)
+                                .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(EnrollmentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(enrollResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(AWCMLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(awcmResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(pushLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(pushResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(restrictCameraLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(34, 34, 34)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(createFolderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(folderResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(complianceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(complianceResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(vpnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(vpnResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(wifiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(wifiResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(deviceCompromisedLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(compromisedResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(wipeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(wipeResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -450,9 +428,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addComponent(preVerificationLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(connectProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(connectButton)
+                    .addComponent(startProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -487,65 +465,59 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                     .addComponent(DeviceConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(serverCheck, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deviceCheck, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(startProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(startTest))
-                        .addGap(45, 45, 45)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(createFolderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(folderResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(complianceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(complianceResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(vpnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(vpnResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(createFolderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(folderResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(complianceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(complianceResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(vpnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(vpnResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(EnrollmentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(enrollResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(AWCMLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(awcmResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(pushLabel)
-                                    .addComponent(pushResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(restrictCameraLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(wifiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(wifiResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(deviceCompromisedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(compromisedResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(wipeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(wipeResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(50, 50, 50)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(reset)
-                            .addComponent(failedLogs)
-                            .addComponent(sendReport))
-                        .addGap(38, 38, 38)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(EnrollmentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(enrollResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(AWCMLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(awcmResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(pushLabel)
+                            .addComponent(pushResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(restrictCameraLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cameraResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(wifiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(wifiResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(deviceCompromisedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(compromisedResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(wipeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(wipeResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(reset)
+                    .addComponent(failedLogs)
+                    .addComponent(sendReport))
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2)))
-                .addContainerGap())
+                .addGap(8, 8, 8))
         );
 
         pack();
@@ -557,10 +529,10 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         @Override
         public void run(){ 
         connectButton.setEnabled(false);
-        connectProgressBar.setEnabled(true);
-        connectProgressBar.setIndeterminate(true);
-        connectProgressBar.setStringPainted(true);
-        connectProgressBar.setString("In Progress"); 
+        startProgressBar.setEnabled(true);
+        startProgressBar.setIndeterminate(true);
+        startProgressBar.setStringPainted(true);
+        startProgressBar.setString("Checking Device Details"); 
         boolean agent =false,device = false,server=false;
         manufacturer = details("ro.product.manufacturer");
         setresult(manufacturerName,manufacturer,true);
@@ -604,77 +576,57 @@ public class PreVerificationSuite extends javax.swing.JFrame {
           } catch (IOException ex) {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
             serverCheck.setBackground(Color.red);
-           }
+        }
                
-           if(agent && device && server){
-               startTest.setEnabled(true);
-               connectProgressBar.setString("Device is Ready");
-               connectProgressBar.setValue(100);              
-            }else{
-               connectProgressBar.setString("Device Not Ready");
-               connectProgressBar.setForeground(LIGHT_RED);
-               connectProgressBar.setValue(100);
-           }            
-            connectProgressBar.setIndeterminate(false);
-            reset.setEnabled(true);
-       }
- }); 
-    
-    }//GEN-LAST:event_connectButtonActionPerformed
-
-    private void startTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startTestActionPerformed
-        timeStamp= new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
-        Executor executor = java.util.concurrent.Executors.newSingleThreadExecutor();
-        reset.setEnabled(false);
-        executor.execute(new Runnable(){
-        @Override
-        public void run(){
-        startTest.setEnabled(false);
-        reset.setEnabled(false);
-        startProgressBar.setEnabled(true);
-        startProgressBar.setIndeterminate(true);
-        startProgressBar.setStringPainted(true);
-        checkHub(agentversion);
-        startProgressBar.setString("Verification In Progress");
-        grantpermission("android.permission.WRITE_EXTERNAL_STORAGE");
-        grantpermission("android.permission.READ_EXTERNAL_STORAGE");
-        String enrollmentStatus = enroll();        
-        setresult(enrollResult,enrollmentStatus,true);
-        if(enrollmentStatus.equalsIgnoreCase("Pass")){
-            try {
-                setresult(awcmResult,awcmStatus(),true);
-                setresult(pushResult,pushNotification(),true);
-                setresult(cameraResult,cameraRestriction(),true);
-                setresult(compromisedResult,deviceCompromised(),true);
-                setresult(folderResult,createFolder(),true);
-                setresult(complianceResult,compliance(),true);
-                setresult(vpnResult,vpnProfile(),true);
-                setresult(wifiResult,wifiProfile(),true);   
-                setresult(wipeResult,enterpriseWipe(),true);
-            } catch (IOException ex) {
-                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        reset.setEnabled(true);
-        sendReport.setEnabled(true);
-        startProgressBar.setValue(100);
-        if(areAllTrue(results)){
-            startProgressBar.setString("Verification Completed");
-        }else{
-            failedLogs.setEnabled(true);
-            if(!results[0]){
-                startProgressBar.setString("Enrollment Failed");
-            }else{
-                startProgressBar.setString("Verification Completed with Issues");
-            }
+        if(!(agent && device && server)){
+            startProgressBar.setString("Device Not Ready");
             startProgressBar.setForeground(LIGHT_RED);
+            startProgressBar.setValue(100);                           
+        }else{                      
+            timeStamp= new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+            checkHub(agentversion);
+            startProgressBar.setString("Starting Verification");
+            grantpermission("android.permission.WRITE_EXTERNAL_STORAGE");
+            grantpermission("android.permission.READ_EXTERNAL_STORAGE");
+            String enrollmentStatus = enroll();        
+            setresult(enrollResult,enrollmentStatus,true);
+            if(enrollmentStatus.equalsIgnoreCase("Pass")){
+                try {
+                    installScriptApk();
+                    setresult(awcmResult,awcmStatus(),true);
+                    setresult(pushResult,pushNotification(),true);
+                    setresult(cameraResult,cameraRestriction(),true);
+                    setresult(compromisedResult,deviceCompromised(),true);
+                    setresult(folderResult,createFolder(),true);
+                    setresult(complianceResult,compliance(),true);
+                    setresult(vpnResult,vpnProfile(),true);
+                    setresult(wifiResult,wifiProfile(),true);   
+                    setresult(wipeResult,enterpriseWipe(),true);
+                    uninstallScriptApk();
+                } catch (IOException ex) {
+                    Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            reset.setEnabled(true);
+            sendReport.setEnabled(true);
+            startProgressBar.setValue(100);
+            if(areAllTrue(results)){
+                startProgressBar.setString("Verification Completed");
+            }else{
+                failedLogs.setEnabled(true);
+                if(!results[0]){
+                startProgressBar.setString("Enrollment Failed");
+                }else{
+                startProgressBar.setString("Verification Completed with Issues");
+                }
+                startProgressBar.setForeground(LIGHT_RED);
+            }
         }
-        startProgressBar.setIndeterminate(false);
-        startTest.setEnabled(false);
-        reset.setEnabled(true);
+            startProgressBar.setIndeterminate(false);
+            reset.setEnabled(true);
         }
-    });  
-    }//GEN-LAST:event_startTestActionPerformed
+    });    
+    }//GEN-LAST:event_connectButtonActionPerformed
 
     private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
         setresult(manufacturerName,"",false);
@@ -698,15 +650,10 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         setresult(vpnResult,"",false);
         setresult(wifiResult,"",false);   
         setresult(wipeResult,"",false);
-        connectProgressBar.setValue(0);
-        connectProgressBar.setString("");
-        connectProgressBar.setEnabled(false);
-        connectProgressBar.setForeground(LIGHT_GREEN);
         startProgressBar.setForeground(LIGHT_GREEN);
         startProgressBar.setValue(0);
         startProgressBar.setString("");
         startProgressBar.setEnabled(false);
-        startTest.setEnabled(false);
         sendReport.setEnabled(false);
         failedLogs.setEnabled(false);
         connectButton.setEnabled(true);
@@ -854,11 +801,56 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         return !((result.output.toString()).contains("unknown host")||(result.error.toString()).contains("unknown host"));
     }
     
+    private void installScriptApk(){
+        startProgressBar.setString("Installing APK files");
+        installApp(Path+"\\ApkFiles\\02awcm"+hub, "/sdcard/com.vmware.awcm");
+        installApp(Path+"\\ApkFiles\\02awcmTest"+hub,"/sdcard/com.vmware.awcm.test");
+        installApp(Path+"\\ApkFiles\\02awcm"+hub, "/sdcard/com.vmware.awcm");
+        installApp(Path+"\\ApkFiles\\02awcmTest"+hub,"/sdcard/com.vmware.awcm.test");
+        installApp(Path+"\\ApkFiles\\03pushNotification"+hub,"/sdcard/com.vmware.push_notification");
+        installApp(Path+"\\ApkFiles\\03pushNotificationTest"+hub,"/sdcard/com.vmware.push_notification.test");
+        installApp(Path+"\\ApkFiles\\04camera"+hub,"/sdcard/com.vmware.camera");
+        installApp(Path+"\\ApkFiles\\04cameraTest"+hub,"/sdcard/com.vmware.camera.test");
+        installApp(Path+"\\ApkFiles\\04cameraapp.apk");
+        installApp(Path+"\\ApkFiles\\05devicecompromised"+hub,"/sdcard/com.vmware.devicecompromised");
+        installApp(Path+"\\ApkFiles\\05devicecompromisedTest"+hub,"/sdcard/com.vmware.devicecompromised.test");
+        installApp(Path+"\\ApkFiles\\07compliance"+hub,"/sdcard/com.vmware.comp");
+        installApp(Path+"\\ApkFiles\\07complianceTest"+hub,"/sdcard/com.vmware.comp.test");
+        installApp(Path+"\\ApkFiles\\08vpn"+hub,"/sdcard/com.vmware.vpn");
+        installApp(Path+"\\ApkFiles\\08vpnTest"+hub,"/sdcard/com.vmware.vpn.test");
+        installApp(Path+"\\ApkFiles\\08CiscoVPN.apk","/sdcard/com.cisco.anyconnect.vpn.android.avf");
+        installApp(Path+"\\ApkFiles\\10wipe"+hub,"/sdcard/com.vmware.enterprise_wipe");
+        installApp(Path+"\\ApkFiles\\10wipeTest"+hub,"/sdcard/com.vmware.enterprise_wipe.test");
+    }
+    
+    private void uninstallScriptApk(){
+        startProgressBar.setString("Uninstalling APK files");
+        uninstallApp("com.vmware.awcm");
+        uninstallApp("com.vmware.awcm.test");
+        uninstallApp("com.vmware.push_notification");
+        uninstallApp("com.vmware.push_notification.test");
+        uninstallApp("com.flavionet.android.camera.lite");
+        uninstallApp("com.vmware.camera");
+        uninstallApp("com.vmware.camera.test");
+        uninstallApp("com.vmware.devicecompromised");
+        uninstallApp("com.vmware.devicecompromised.test");
+        uninstallApp("com.vmware.comp");
+        uninstallApp("com.vmware.comp.test");
+        uninstallApp("com.vmware.vpn");
+        uninstallApp("com.vmware.vpn.test");
+        uninstallApp("com.cisco.anyconnect.vpn.android.avf");
+        uninstallApp("com.vmware.enterprise_wipe");
+        uninstallApp("com.vmware.enterprise_wipe.test");
+    }
+    
     private String enroll(){
         clearAndroidLog();
+        startProgressBar.setString("Installing Enrollment apk");
         installApp(Path+"\\ApkFiles\\01enrollment"+hub,"/sdcard/com.vmware.enrollment");
         installApp(Path+"\\ApkFiles\\01enrollmentTest"+hub,"/sdcard/com.vmware.enrollment.test");
+        startProgressBar.setString("Enrollment in Progress");
         status = result.runCommand("com.vmware.enrollment.ExampleInstrumentedTest", "com.vmware.enrollment.test/android.support.test.runner.AndroidJUnitRunner");      
+        startProgressBar.setString("Enrollment Completed");
         uninstallApp("com.vmware.enrollment");
         uninstallApp("com.vmware.enrollment.test");
         results[0] = (status.equals("Pass"));
@@ -875,15 +867,16 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private String awcmStatus(){
         clearAndroidLog();
         int count =0;
-         installApp(Path+"\\ApkFiles\\02awcm"+hub, "/sdcard/com.vmware.awcm");
-         installApp(Path+"\\ApkFiles\\02awcmTest"+hub,"/sdcard/com.vmware.awcm.test");
-         do{
-         status = result.runCommand("com.vmware.awcm.ExampleInstrumentedTest", "com.vmware.awcm.test/android.support.test.runner.AndroidJUnitRunner");
-          }while((!status.equals("Pass"))&& count++<5);
-         uninstallApp("com.vmware.awcm");
-         uninstallApp("com.vmware.awcm.test");
-         results[1] = (status.equals("Pass"));
-         if (!results[1]){
+        startProgressBar.setString("Connectivity check in Progress");
+        do{
+            if (count >0){
+               startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
+            }
+           status = result.runCommand("com.vmware.awcm.ExampleInstrumentedTest", "com.vmware.awcm.test/android.support.test.runner.AndroidJUnitRunner");
+        }while((!status.equals("Pass"))&& ++count<RECHECK_COUNT);
+        startProgressBar.setString("Connectivity check completed");
+        results[1] = (status.equals("Pass"));
+        if (!results[1]){
             getAndroidLog("awcm");
             getAutomatorLog("awcm",status);
             return "Fail";
@@ -894,15 +887,25 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private String pushNotification() throws IOException{
         clearAndroidLog();
         int count =0;
-         String input = "{\"MessageBody\": \"GoodDay\",\"Application\": \"AirWatch\" ,\"MessageType\": \"Apns\"}";
-         URLConnection(URL,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
-         installApp(Path+"\\ApkFiles\\03pushNotification"+hub,"/sdcard/com.vmware.push_notification");
-         installApp(Path+"\\ApkFiles\\03pushNotificationTest"+hub,"/sdcard/com.vmware.push_notification.test");
-         do{
+        startProgressBar.setString("Sending PUSH message from console");
+        String input = "{\"MessageBody\": \"GoodDay\",\"Application\": \"AirWatch\" ,\"MessageType\": \"Apns\"}";         
+        try {
+            URLConnection(URL,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
+            TimeUnit.SECONDS.sleep(10);
+            URLConnection(URL,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
+            TimeUnit.SECONDS.sleep(10);
+            URLConnection(URL,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        startProgressBar.setString("Checking for Push Notification");
+        do{
+            if (count >0){
+               startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
+            }
          status = result.runCommand("com.vmware.push_notification.ExampleInstrumentedTest", "com.vmware.push_notification.test/android.support.test.runner.AndroidJUnitRunner");
-          }while((!status.equals("Pass"))&& count++<5);
-         uninstallApp("com.vmware.push_notification");
-         uninstallApp("com.vmware.push_notification.test");
+         }while((!status.equals("Pass"))&& ++count<RECHECK_COUNT);
+         startProgressBar.setString("Completed Push Notification Check");
          results[2] = (status.equals("Pass"));
          if (!results[2]){
             getAndroidLog("pushNotification");
@@ -914,15 +917,14 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     private String cameraRestriction(){
         int count =0;
-        installApp(Path+"\\ApkFiles\\04camera"+hub,"/sdcard/com.vmware.camera");
-        installApp(Path+"\\ApkFiles\\04cameraTest"+hub,"/sdcard/com.vmware.camera.test");
-        installApp(Path+"\\ApkFiles\\04cameraapp.apk");
+        startProgressBar.setString("Checking Camera restriction");
         do{
+            if (count >0){
+                startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
+             }
         status=  result.runCommand("com.vmware.camera.ExampleInstrumentedTest", "com.vmware.camera.test/android.support.test.runner.AndroidJUnitRunner");      
-         }while((!status.equals("Pass"))&& count++<5);
-        uninstallApp("com.flavionet.android.camera.lite");
-        uninstallApp("com.vmware.camera");
-        uninstallApp("com.vmware.camera.test");
+         }while((!status.equals("Pass"))&& ++count<RECHECK_COUNT);
+        startProgressBar.setString("Camera restriction check completed");
         results[3] = (status.equals("Pass"));
         if (!results[3]){
             getAndroidLog(ProfileLog,"cameraRestriction");
@@ -934,13 +936,14 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private String deviceCompromised(){
         int count =0;
         clearAndroidLog();
-        installApp(Path+"\\ApkFiles\\05devicecompromised"+hub,"/sdcard/com.vmware.devicecompromised");
-        installApp(Path+"\\ApkFiles\\05devicecompromisedTest"+hub,"/sdcard/com.vmware.devicecompromised.test");
+        startProgressBar.setString("Compromise Detection in progress");
         do{
+            if (count >0){
+                startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
+             }
         status = result.runCommand("com.vmware.devicecompromised.ExampleInstrumentedTest", "com.vmware.devicecompromised.test/android.support.test.runner.AndroidJUnitRunner");
-         }while((!status.equals("Pass"))&& count++<5);
-        uninstallApp("com.vmware.devicecompromised");
-        uninstallApp("com.vmware.devicecompromised.test");
+         }while((!status.equals("Pass"))&& ++count<RECHECK_COUNT);
+        startProgressBar.setString("Compromise Detection completed");
         results[4] = (status.equals("Pass"));
         if (!results[4]){
             getAndroidLog("deviceCompromised");
@@ -952,15 +955,20 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     private String createFolder(){
         int count =0;
+        startProgressBar.setString("Folder check in progress");
         boolean folderResult =true;
         do{
+            if (count >0){
+                startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
+             }
             try {
                 folderResult = checkFolder("//sdcard//folder1");
-                TimeUnit.SECONDS.sleep(2);
+                TimeUnit.SECONDS.sleep(10);
             } catch (InterruptedException ex) {
                 Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
             }
-         }while(folderResult && count++<5);
+         }while(folderResult && ++count<RECHECK_COUNT);
+        startProgressBar.setString("Folder check completed");
         status = folderResult ?"Fail":"Pass";
         results[5] = (status.equals("Pass"));
         if (!results[5]){
@@ -972,13 +980,14 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private String compliance(){
         int count =0;
         clearAndroidLog();
-        installApp(Path+"\\ApkFiles\\07compliance"+hub,"/sdcard/com.vmware.comp");
-        installApp(Path+"\\ApkFiles\\07complianceTest"+hub,"/sdcard/com.vmware.comp.test");
+        startProgressBar.setString("Compliance Check in progress");
         do{
+            if (count >0){
+                startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
+             }
         status =result.runCommand("com.vmware.comp.ExampleInstrumentedTest", "com.vmware.comp.test/android.support.test.runner.AndroidJUnitRunner");
-        }while((!status.equals("Pass"))&& count++<5);
-        uninstallApp("com.vmware.comp");
-        uninstallApp("com.vmware.comp.test");
+        }while((!status.equals("Pass"))&& ++count<RECHECK_COUNT);
+        startProgressBar.setString("Compliance Check completed");
         results[6] = (status.equals("Pass"));
         if (!results[6]){
             getAndroidLog("compliance");
@@ -990,15 +999,14 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     private String vpnProfile() throws IOException{
         int count =0;
-        installApp(Path+"\\ApkFiles\\08vpn"+hub,"/sdcard/com.vmware.vpn");
-        installApp(Path+"\\ApkFiles\\08vpnTest"+hub,"/sdcard/com.vmware.vpn.test");
-        installApp(Path+"\\ApkFiles\\08CiscoVPN.apk","/sdcard/com.cisco.anyconnect.vpn.android.avf");
+        startProgressBar.setString("VPN Profile check in progress");
         do{
+            if (count >0){
+                startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
+             }
         status = result.runCommand("com.vmware.vpn.ExampleInstrumentedTest", "com.vmware.vpn.test/android.support.test.runner.AndroidJUnitRunner");
-        }while((!status.equals("Pass"))&& count++<5);
-        uninstallApp("com.vmware.vpn");
-        uninstallApp("com.vmware.vpn.test");
-        uninstallApp("com.cisco.anyconnect.vpn.android.avf");
+        }while((!status.equals("Pass"))&& ++count<RECHECK_COUNT);
+        startProgressBar.setString("VPN Profile check completed");
         results[7] = (status.equals("Pass"));
         if (!results[7]){
             getAndroidLog(ProfileLog,"vpn");
@@ -1010,35 +1018,47 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     private String wifiProfile(){
         int count =0;
-        boolean wifiresult;
+        startProgressBar.setString("WiFi check in progress");
+        boolean wifiresult = false;
         do{
-            wifiresult = checkWiFi("network99");
-        }while(!wifiresult && count++<5);
+            if (count >0){
+                startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
+             }
+            try {
+                wifiresult = checkWiFi("network99");
+                TimeUnit.SECONDS.sleep(10);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }while(!wifiresult && ++count<RECHECK_COUNT);
         status = wifiresult ?"Pass":"Fail";
         results[8] = (status.equals("Pass"));
         if (!results[8]){
             getAndroidLog(ProfileLog,"wifi");
             return "Fail";
         }
+        startProgressBar.setString("WiFi check Completed");
         return status;
     }
     
     private String enterpriseWipe() throws IOException{
         int count =0;
         clearAndroidLog();
+        startProgressBar.setString("Sending Enterprise Wipe Command");
         URLConnection(URL,"api/mdm/devices/commands?command=EnterpriseWipe&searchby=Serialnumber&id=",serialno,"");
         try {
             TimeUnit.SECONDS.sleep(15);
         } catch (InterruptedException ex) {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
         }
-        installApp(Path+"\\ApkFiles\\10wipe"+hub,"/sdcard/com.vmware.enterprise_wipe");
-        installApp(Path+"\\ApkFiles\\10wipeTest"+hub,"/sdcard/com.vmware.enterprise_wipe.test");
+        startProgressBar.setString("Enterprise Wipe Check in Progress");
         do{
+            if (count >0){
+                startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
+             }
         status = result.runCommand("com.vmware.enterprise_wipe.ExampleInstrumentedTest", "com.vmware.enterprise_wipe.test/android.support.test.runner.AndroidJUnitRunner");
-        }while((!status.equals("Pass"))&& count++<5);
-        uninstallApp("com.vmware.enterprise_wipe");
-        uninstallApp("com.vmware.enterprise_wipe.test");
+        }while((!status.equals("Pass"))&& ++count<RECHECK_COUNT);
+        startProgressBar.setString("Enterprise Wipe Check completed");
         results[9] = (status.equals("Pass"));
         if (!results[9]){
             getAndroidLog("enterpriseWipe");
@@ -1163,6 +1183,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     String URL ="https://dvt02.ssdevrd.com/";
     String status, serialno,ProfileLog,timeStamp,manufacturer,androidVersion, agentversion,hub=".apk";
+    int RECHECK_COUNT =2;
     boolean results[] = new boolean[10];
     public static final Color DARK_GREEN= new Color(0,102,0);
     public static final Color LIGHT_GREEN= new Color(0,204,0);
@@ -1192,7 +1213,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private javax.swing.JTextField complianceResult;
     private javax.swing.JTextField compromisedResult;
     private javax.swing.JButton connectButton;
-    private javax.swing.JProgressBar connectProgressBar;
     private javax.swing.JLabel createFolderLabel;
     private javax.swing.JTextField deviceCheck;
     private javax.swing.JLabel deviceCompromisedLabel;
@@ -1213,7 +1233,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private javax.swing.JTextField serialNumber;
     private javax.swing.JTextField serverCheck;
     private javax.swing.JProgressBar startProgressBar;
-    private javax.swing.JButton startTest;
     private javax.swing.JLabel vpnLabel;
     private javax.swing.JTextField vpnResult;
     private javax.swing.JLabel wifiLabel;
