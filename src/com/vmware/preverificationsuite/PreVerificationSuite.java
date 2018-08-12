@@ -11,19 +11,25 @@ import java.awt.image.BufferedImage;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Properties;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
 import javax.swing.UIManager;
 
@@ -104,7 +110,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
 
         preVerificationLabel.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
         preVerificationLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        preVerificationLabel.setText("Pre Verification Suite");
+        preVerificationLabel.setText("Android Device Pre Verification Suite");
 
         connectButton.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         connectButton.setText("Start Test");
@@ -185,7 +191,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         deviceCheck.setEnabled(false);
 
         startProgressBar.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
-        startProgressBar.setForeground(new java.awt.Color(0, 204, 0));
+        startProgressBar.setForeground(new java.awt.Color(255, 153, 102));
         startProgressBar.setEnabled(false);
 
         awcmResult.setEditable(false);
@@ -301,62 +307,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(64, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(Agent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(DeviceConnection)
-                                .addGap(18, 18, 18)
-                                .addComponent(deviceCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(ServerConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(serverCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(SerialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(serialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(Manufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(Model, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(15, 15, 15)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(manufacturerName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(modelName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(BuildNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(buildDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(Brand, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(AndroidVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(15, 15, 15)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(brandName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(androidVersionDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(295, 295, 295)
-                        .addComponent(preVerificationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
-                        .addComponent(startProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(63, 63, 63))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1)
@@ -421,6 +371,59 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(wipeResult, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(64, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(Agent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(DeviceConnection)
+                                .addGap(18, 18, 18)
+                                .addComponent(deviceCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(ServerConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(serverCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(SerialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(serialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(Manufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(Model, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(15, 15, 15)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(manufacturerName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(modelName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(BuildNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(buildDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(Brand, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(AndroidVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(15, 15, 15)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(brandName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(androidVersionDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(preVerificationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 896, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(startProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(63, 63, 63))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -528,102 +531,127 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         executor.execute(new Runnable(){
         @Override
         public void run(){ 
-        connectButton.setEnabled(false);
-        startProgressBar.setEnabled(true);
-        startProgressBar.setIndeterminate(true);
-        startProgressBar.setStringPainted(true);
-        startProgressBar.setString("Checking Device Details"); 
-        boolean agent =false,device = false,server=false;
-        manufacturer = details("ro.product.manufacturer");
-        setresult(manufacturerName,manufacturer,true);
-        setresult(brandName,details("ro.product.brand"),true);
-        setresult(modelName,details("ro.product.model"),true);
-        androidVersion = details("ro.build.version.release");
-        setresult(androidVersionDisplay,androidVersion,true);
-        if(manufacturer.equalsIgnoreCase("samsung")){
-            serialno = details("ril.serialnumber");
-        }else{
-            serialno = details("ro.serialno");
-        }
-        setresult(serialNumber,serialno,true);
-        setresult(buildDisplay,details("ro.build.display.id"),true);
-        setresult(agentVersion,true);
-        setresult(deviceCheck,true);
-        setresult(serverCheck,true);
-        System.out.println("");
-        if (details("ro.product.manufacturer")!= "No device"){         
-           if(checkPackage("com.airwatch.androidagent")){
-               agent = true;
-               agentversion= checkVersion("com.airwatch.androidagent");
-               setresult(agentVersion,agentversion,true);
-           }           
-           else agentVersion.setText("Not Installed");
-           if(pingConnectivity("www.google.com")){
-               deviceCheck.setBackground(Color.green);
-               device = true;    
-           }else{
-               deviceCheck.setBackground(Color.red);
-           }
-        }else {agentVersion.setText("No device");
-        deviceCheck.setBackground(Color.red);
-        }
-             
-        try {
-             if(URLConnection(URL,"","","")){
-             server = true;
-             serverCheck.setBackground(Color.green);
+            connectButton.setEnabled(false);
+            startProgressBar.setEnabled(true);
+            startProgressBar.setIndeterminate(true);
+            startProgressBar.setStringPainted(true);
+            startProgressBar.setString("Checking Device Details"); 
+            checkSystemOS();
+            try {
+                readFromConfigFile();
+            } catch (IOException ex) {
+                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
             }
-          } catch (IOException ex) {
-            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-            serverCheck.setBackground(Color.red);
-        }
-               
-        if(!(agent && device && server)){
-            startProgressBar.setString("Device Not Ready");
-            startProgressBar.setForeground(LIGHT_RED);
-            startProgressBar.setValue(100);                           
-        }else{                      
-            timeStamp= new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
-            checkHub(agentversion);
-            startProgressBar.setString("Starting Verification");
-            grantpermission("android.permission.WRITE_EXTERNAL_STORAGE");
-            grantpermission("android.permission.READ_EXTERNAL_STORAGE");
-            String enrollmentStatus = enroll();        
-            setresult(enrollResult,enrollmentStatus,true);
-            if(enrollmentStatus.equalsIgnoreCase("Pass")){
-                try {
-                    installScriptApk();
-                    setresult(awcmResult,awcmStatus(),true);
-                    setresult(pushResult,pushNotification(),true);
-                    setresult(cameraResult,cameraRestriction(),true);
-                    setresult(compromisedResult,deviceCompromised(),true);
-                    setresult(folderResult,createFolder(),true);
-                    setresult(complianceResult,compliance(),true);
-                    setresult(vpnResult,vpnProfile(),true);
-                    setresult(wifiResult,wifiProfile(),true);   
-                    setresult(wipeResult,enterpriseWipe(),true);
-                    uninstallScriptApk();
-                } catch (IOException ex) {
-                    Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            reset.setEnabled(true);
-            sendReport.setEnabled(true);
-            startProgressBar.setValue(100);
-            if(areAllTrue(results)){
-                startProgressBar.setString("Verification Completed");
-            }else{
-                failedLogs.setEnabled(true);
-                if(!results[0]){
-                startProgressBar.setString("Enrollment Failed");
-                }else{
-                startProgressBar.setString("Verification Completed with Issues");
-                }
+            if(!isFilefound){
+                startProgressBar.setString("Config File Not Found"); 
                 startProgressBar.setForeground(LIGHT_RED);
+            }else{
+                boolean agent =false,device = false,server=false;
+                manufacturer = details("ro.product.manufacturer");
+                setresult(manufacturerName,manufacturer,true);
+                setresult(brandName,details("ro.product.brand"),true);
+                setresult(modelName,details("ro.product.model"),true);
+                androidVersion = details("ro.build.version.release");
+                setresult(androidVersionDisplay,androidVersion,true);
+                if(manufacturer.equalsIgnoreCase("samsung")){
+                    serialno = details("ril.serialnumber");
+                }else{
+                    serialno = details("ro.serialno");
+                }
+                setresult(serialNumber,serialno,true);
+                setresult(buildDisplay,details("ro.build.display.id"),true);
+                setresult(agentVersion,true);
+                setresult(deviceCheck,true);
+                setresult(serverCheck,true);
+                if (!"No device".equals(details("ro.product.manufacturer"))){         
+                   if(checkPackage("com.airwatch.androidagent")){
+                       agent = true;
+                       try {
+                           agentversion= checkVersion("com.airwatch.androidagent");
+                       } catch (IOException ex) {
+                           Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+                       }
+                       setresult(agentVersion,agentversion,true);
+                   }           
+                   else setresult(agentVersion,"Not Installed",true);
+                   if(pingConnectivity("www.google.com")){
+                       deviceCheck.setBackground(Color.green);
+                       device = true;    
+                   }else{
+                       deviceCheck.setBackground(Color.red);
+                   }
+                }else { 
+                    setresult(agentVersion,"No device",true);
+                    deviceCheck.setBackground(Color.red);
+                }
+
+                try {
+                     if(URLConnection(server_url,"","","")){
+                     server = true;
+                     serverCheck.setBackground(Color.green);
+                    }
+                  } catch (IOException ex) {
+                    Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+                    serverCheck.setBackground(Color.red);
+                }
+
+                if(!(agent && device && server)){
+                    if("No device".equals(details("ro.product.manufacturer"))){
+                       startProgressBar.setString("Connect Device/Enable USB debugging");
+                    }else if(!agent){
+                       startProgressBar.setString("Install AirWatch Agent");                    
+                    }else if(!device){
+                       startProgressBar.setString("Connect WiFi or Enable Mobile Data");
+                    }else if(!server){
+                       startProgressBar.setString("Console Server Down"); 
+                    }
+                    startProgressBar.setForeground(LIGHT_RED);  
+                }else{                      
+                    timeStamp= new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+                    checkHub(agentversion);
+                    startProgressBar.setString("Starting Verification");
+                    grantpermission("android.permission.WRITE_EXTERNAL_STORAGE");
+                    grantpermission("android.permission.READ_EXTERNAL_STORAGE");        
+                    String enrollmentStatus = enroll();        
+                    setresult(enrollResult,enrollmentStatus,true);
+                    if(enrollmentStatus.equalsIgnoreCase("Pass")){
+                        try {
+                            installScriptApk();
+                            setresult(awcmResult,awcmStatus(),true);
+                            setresult(pushResult,pushNotification(),true);
+                            setresult(cameraResult,cameraRestriction(),true);
+                            setresult(compromisedResult,deviceCompromised(),true);
+                            setresult(folderResult,createFolder(),true);
+                            setresult(complianceResult,compliance(),true);
+                            setresult(vpnResult,vpnProfile(),true);
+                            setresult(wifiResult,wifiProfile(),true);   
+                            setresult(wipeResult,enterpriseWipe(),true);
+                            uninstallScriptApk();
+                        } catch (IOException ex) {
+                            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    reset.setEnabled(true);
+                    sendReport.setEnabled(true);
+                    if(areAllTrue(results)){
+                        startProgressBar.setString("Verification Completed");
+                        startProgressBar.setForeground(LIGHT_GREEN);
+                    }else{
+                        failedLogs.setEnabled(true);
+                        if(!results[0]){
+                        startProgressBar.setString("Enrollment Failed");
+                        }else{
+                        startProgressBar.setString("Verification Completed with Issues");
+                        }
+                        startProgressBar.setForeground(LIGHT_RED);
+                    }
+                }                          
             }
-        }
+            startProgressBar.setValue(100);
             startProgressBar.setIndeterminate(false);
-            reset.setEnabled(true);
+            reset.setEnabled(true);    
         }
     });    
     }//GEN-LAST:event_connectButtonActionPerformed
@@ -650,7 +678,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         setresult(vpnResult,"",false);
         setresult(wifiResult,"",false);   
         setresult(wipeResult,"",false);
-        startProgressBar.setForeground(LIGHT_GREEN);
+        startProgressBar.setForeground(LIGHT_ORANGE);
         startProgressBar.setValue(0);
         startProgressBar.setString("");
         startProgressBar.setEnabled(false);
@@ -663,7 +691,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private void sendReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendReportActionPerformed
         BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
         this.paint(img.getGraphics());
-        String fileName = Path+"\\Report\\"+details("ro.product.manufacturer")+"_"+details("ro.product.model")+"_report_"+timeStamp+".png";
+        String fileName = Path+"/Report/"+details("ro.product.manufacturer")+"_"+details("ro.product.model")+"_report_"+timeStamp+".png";
         File outputfile = new File(fileName);
         try {
             ImageIO.write(img, "png", outputfile);
@@ -671,7 +699,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            Desktop.getDesktop().open(new File(Path+"\\Report\\"));
+            Desktop.getDesktop().open(new File(fileName));
         } catch (IOException ex) {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -679,22 +707,22 @@ public class PreVerificationSuite extends javax.swing.JFrame {
 
     private void failedLogsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_failedLogsActionPerformed
         try {
-            Desktop.getDesktop().open(new File(Path+"\\Logs\\"));
+            Desktop.getDesktop().open(new File(Path+"/Logs/"));
         } catch (IOException ex) {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_failedLogsActionPerformed
     
     private void clearAndroidLog(){
-        ProcessBuilder pb = new ProcessBuilder("adb","shell", "logcat","-c");
+        ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell logcat -c");
         result.runcommand(pb);
     }
     
     private void getAndroidLog(String logName){
         PrintWriter logs = null;
         try {
-            String logFileName = Path+"\\Logs\\"+details("ro.product.manufacturer")+"_"+details("ro.product.model")+logName+"_device_log_"+timeStamp+".txt";           
-            ProcessBuilder pb = new ProcessBuilder("adb","shell", "logcat","-d");
+            String logFileName = Path+"/Logs/"+details("ro.product.manufacturer")+"_"+details("ro.product.model")+logName+"_device_log_"+timeStamp+".txt";           
+            ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell logcat -d");
             result = result.runcommand(pb);
             logs = new PrintWriter(logFileName);
             logs.println(result.output.toString());            
@@ -708,7 +736,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private void getAndroidLog(String profileLog, String logName){
         PrintWriter logs = null;
         try {
-            String logFileName = Path+"\\Logs\\"+details("ro.product.manufacturer")+"_"+details("ro.product.model")+logName+"_device_log_"+timeStamp+".txt";           
+            String logFileName = Path+"/Logs/"+details("ro.product.manufacturer")+"_"+details("ro.product.model")+logName+"_device_log_"+timeStamp+".txt";           
             logs = new PrintWriter(logFileName);
             logs.println(profileLog);            
         } catch (FileNotFoundException ex) {
@@ -721,7 +749,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private void getAutomatorLog(String logName, String automatorLogs){
         PrintWriter logs = null;
         try {
-            String logFileName = Path+"\\Logs\\"+details("ro.product.manufacturer")+"_"+details("ro.product.model")+logName+"_script_log_"+timeStamp+".txt";           
+            String logFileName = Path+"/Logs/"+details("ro.product.manufacturer")+"_"+details("ro.product.model")+logName+"_script_log_"+timeStamp+".txt";           
             logs = new PrintWriter(logFileName);
             logs.println(automatorLogs);            
         } catch (FileNotFoundException ex) {
@@ -732,7 +760,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     private String getProfileLog(){              
-        ProcessBuilder pb = new ProcessBuilder("adb","shell", "logcat","-d");
+        ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell logcat -d");
         result = result.runcommand(pb);
         return result.output.toString();               
     }
@@ -740,7 +768,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private void grantpermission(String permission){
         String[] androidVersionPart = androidVersion.split("\\."); 
         if(Integer.parseInt(androidVersionPart[0]) > 5){
-            ProcessBuilder pb = new ProcessBuilder("adb","shell", "pm","grant","com.airwatch.androidagent",permission);
+            ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell pm grant com.airwatch.androidagent "+permission);
             result = result.runcommand(pb);  
         }
     }
@@ -754,7 +782,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     /* This Method is used for checking device details */
     private String details(String command){
-        ProcessBuilder pb = new ProcessBuilder("adb", "shell", "getprop", command);
+        ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell getprop "+command);
         result = result.runcommand(pb);
         if((result.error.toString()).contains("error")){
             return "No device";
@@ -765,7 +793,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     /* This Method is used for checking existing App */
     private boolean checkPackage(String packageName){
-        ProcessBuilder pb = new ProcessBuilder("adb", "shell", "pm","list", "packages",packageName);
+        ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell pm list packages "+packageName);
         result = result.runcommand(pb);
         return (result.output.toString()).contains(packageName);
     }
@@ -789,38 +817,160 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         textfield.setEnabled(status);
     }
     
-    private String checkVersion(String packageName){
-        ProcessBuilder pb = new ProcessBuilder("adb", "shell", "dumpsys","package",packageName ,"|","grep","-m1","versionName");
+    private String checkVersion(String packageName) throws IOException{
+        ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell dumpsys package "+packageName);
         result = result.runcommand(pb);
-        return result.output.toString().replaceAll("\\s+","").replaceAll("versionName=","");
-        
+        String dumpsys =result.output.toString();
+        Properties props = new Properties();
+        props.load(new StringReader(dumpsys));
+        return props.getProperty("versionName");        
     }
+    
     private boolean pingConnectivity(String url){
-        ProcessBuilder pb= new ProcessBuilder("adb", "shell","ping", "-c2",url);
+        ProcessBuilder pb= new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell ping -c2 "+url);
         result = result.runcommand(pb);
         return !((result.output.toString()).contains("unknown host")||(result.error.toString()).contains("unknown host"));
     }
     
+    private void readFromConfigFile() throws IOException, Exception{
+        try {
+            Properties props = new Properties();
+            props.load(new FileReader(Path+"/Config/credentials.cfg"));
+            server_url =props.getProperty("server_url");
+            tenant_code = props.getProperty("tenant_code");
+            console_user =props.getProperty("console_user");
+            console_password = decrypt(props.getProperty("console_password"));
+            ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb push "+Path+"/Config/credentials.cfg /data/local/tmp/");
+            result.runcommand(pb);
+        } catch (FileNotFoundException ex) {
+            isFilefound = false;
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private String decrypt(String encryptedText) throws Exception {
+        byte[] decodedKey = Base64.getDecoder().decode(ENCRYPTION_KEY);
+        SecretKey secretKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
+        cipher = Cipher.getInstance("AES");
+        Base64.Decoder decoder = Base64.getDecoder();
+        byte[] encryptedTextByte = decoder.decode(encryptedText);
+        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+        byte[] decryptedByte = cipher.doFinal(encryptedTextByte);
+        String decryptedText = new String(decryptedByte);
+        return decryptedText;
+    }
+    
+    private void checkSystemOS(){
+        String osName = System.getProperty("os.name");
+        if(osName.toLowerCase().contains("window")){
+           processPath[0] ="cmd.exe";
+           processPath[1] ="/c";
+        }else{
+           processPath[0] ="/bin/bash";
+           processPath[1] ="-c";           
+        }
+    }
+    
+    private boolean checkWiFi(String SSID){
+        ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell dumpsys wifi ");
+        result = result.runcommand(pb);
+        String dumpsys =result.output.toString();
+        return (dumpsys.contains(SSID));
+    }
+    
+    private boolean checkFolder(String path){
+        ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell ls "+path);
+        result = result.runcommand(pb);
+        return ((result.error.toString()).contains("No such file or directory"));
+    }
+    
+    public static boolean areAllTrue(boolean[] array){
+        for(boolean b : array) if(!b) return false;
+        return true;
+    }
+    
+    private boolean URLConnection(String URL, String API, String status, String body) throws IOException{
+        String authString = console_user+":"+console_password; 
+        byte[] authEncBytes = Base64.getEncoder().encode(authString.getBytes());
+	String authStringEnc = new String(authEncBytes);
+		      
+        URL requestURL = new URL(URL+API+status);
+        StringBuilder requestBodyBuilder = new StringBuilder();
+        String requestBody = requestBodyBuilder.toString();
+        HttpURLConnection connection = (HttpURLConnection) requestURL.openConnection();
+
+            try {
+                connection.setRequestMethod("POST");
+            } catch (ProtocolException ex) {
+                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            connection.setRequestProperty("Content-Length", "" + Integer.toString(requestBody.getBytes().length));
+            connection.setRequestProperty("Authorization", "Basic " +authStringEnc);
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("aw-tenant-code", tenant_code);
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            OutputStream os = connection.getOutputStream();
+            os.write(body.getBytes());
+            os.flush();
+
+            try (DataOutputStream sendData = new DataOutputStream(connection.getOutputStream())) {
+               sendData.writeBytes(requestBody);
+                sendData.flush();
+              } catch (IOException ex) {
+                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            int responseCode = connection.getResponseCode();            
+            return ((responseCode == 200));
+        }
+    
+    private void installApp(String appName){
+        ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb install -r "+appName);
+        result.runcommand(pb);
+    }
+    
+     private void installApp(String appName, String path){
+        ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb push "+appName+" "+path);
+        result.runcommand(pb);
+        
+        pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell pm install -r "+path);
+        result.runcommand(pb);
+        
+        pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell rm -f "+path);
+        result.runcommand(pb);
+    }
+    
+    private void uninstallApp(String appName){
+        ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb uninstall "+appName);
+        Process pc;
+        try {
+            pc = pb.start();
+            pc.waitFor();
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+            
     private void installScriptApk(){
         startProgressBar.setString("Installing APK files");
-        installApp(Path+"\\ApkFiles\\02awcm"+hub, "/sdcard/com.vmware.awcm");
-        installApp(Path+"\\ApkFiles\\02awcmTest"+hub,"/sdcard/com.vmware.awcm.test");
-        installApp(Path+"\\ApkFiles\\02awcm"+hub, "/sdcard/com.vmware.awcm");
-        installApp(Path+"\\ApkFiles\\02awcmTest"+hub,"/sdcard/com.vmware.awcm.test");
-        installApp(Path+"\\ApkFiles\\03pushNotification"+hub,"/sdcard/com.vmware.push_notification");
-        installApp(Path+"\\ApkFiles\\03pushNotificationTest"+hub,"/sdcard/com.vmware.push_notification.test");
-        installApp(Path+"\\ApkFiles\\04camera"+hub,"/sdcard/com.vmware.camera");
-        installApp(Path+"\\ApkFiles\\04cameraTest"+hub,"/sdcard/com.vmware.camera.test");
-        installApp(Path+"\\ApkFiles\\04cameraapp.apk");
-        installApp(Path+"\\ApkFiles\\05devicecompromised"+hub,"/sdcard/com.vmware.devicecompromised");
-        installApp(Path+"\\ApkFiles\\05devicecompromisedTest"+hub,"/sdcard/com.vmware.devicecompromised.test");
-        installApp(Path+"\\ApkFiles\\07compliance"+hub,"/sdcard/com.vmware.comp");
-        installApp(Path+"\\ApkFiles\\07complianceTest"+hub,"/sdcard/com.vmware.comp.test");
-        installApp(Path+"\\ApkFiles\\08vpn"+hub,"/sdcard/com.vmware.vpn");
-        installApp(Path+"\\ApkFiles\\08vpnTest"+hub,"/sdcard/com.vmware.vpn.test");
-        installApp(Path+"\\ApkFiles\\08CiscoVPN.apk","/sdcard/com.cisco.anyconnect.vpn.android.avf");
-        installApp(Path+"\\ApkFiles\\10wipe"+hub,"/sdcard/com.vmware.enterprise_wipe");
-        installApp(Path+"\\ApkFiles\\10wipeTest"+hub,"/sdcard/com.vmware.enterprise_wipe.test");
+        installApp(Path+"/ApkFiles/02awcm"+hub, "/sdcard/com.vmware.awcm");
+        installApp(Path+"/ApkFiles/02awcmTest"+hub,"/sdcard/com.vmware.awcm.test");
+        installApp(Path+"/ApkFiles/02awcm"+hub, "/sdcard/com.vmware.awcm");
+        installApp(Path+"/ApkFiles/02awcmTest"+hub,"/sdcard/com.vmware.awcm.test");
+        installApp(Path+"/ApkFiles/03pushNotification"+hub,"/sdcard/com.vmware.push_notification");
+        installApp(Path+"/ApkFiles/03pushNotificationTest"+hub,"/sdcard/com.vmware.push_notification.test");
+        installApp(Path+"/ApkFiles/04camera"+hub,"/sdcard/com.vmware.camera");
+        installApp(Path+"/ApkFiles/04cameraTest"+hub,"/sdcard/com.vmware.camera.test");
+        installApp(Path+"/ApkFiles/04cameraapp.apk");
+        installApp(Path+"/ApkFiles/05devicecompromised"+hub,"/sdcard/com.vmware.devicecompromised");
+        installApp(Path+"/ApkFiles/05devicecompromisedTest"+hub,"/sdcard/com.vmware.devicecompromised.test");
+        installApp(Path+"/ApkFiles/07compliance"+hub,"/sdcard/com.vmware.comp");
+        installApp(Path+"/ApkFiles/07complianceTest"+hub,"/sdcard/com.vmware.comp.test");
+        installApp(Path+"/ApkFiles/08vpn"+hub,"/sdcard/com.vmware.vpn");
+        installApp(Path+"/ApkFiles/08vpnTest"+hub,"/sdcard/com.vmware.vpn.test");
+        installApp(Path+"/ApkFiles/08CiscoVPN.apk","/sdcard/com.cisco.anyconnect.vpn.android.avf");
+        installApp(Path+"/ApkFiles/10wipe"+hub,"/sdcard/com.vmware.enterprise_wipe");
+        installApp(Path+"/ApkFiles/10wipeTest"+hub,"/sdcard/com.vmware.enterprise_wipe.test");
     }
     
     private void uninstallScriptApk(){
@@ -846,10 +996,10 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     private String enroll(){
         clearAndroidLog();
         startProgressBar.setString("Installing Enrollment apk");
-        installApp(Path+"\\ApkFiles\\01enrollment"+hub,"/sdcard/com.vmware.enrollment");
-        installApp(Path+"\\ApkFiles\\01enrollmentTest"+hub,"/sdcard/com.vmware.enrollment.test");
+        installApp(Path+"/ApkFiles/01enrollment"+hub,"/sdcard/com.vmware.enrollment");
+        installApp(Path+"/ApkFiles/01enrollmentTest"+hub,"/sdcard/com.vmware.enrollment.test");
         startProgressBar.setString("Enrollment in Progress");
-        status = result.runCommand("com.vmware.enrollment.ExampleInstrumentedTest", "com.vmware.enrollment.test/android.support.test.runner.AndroidJUnitRunner");      
+        status = result.runCommand(processPath,Path,"com.vmware.enrollment.ExampleInstrumentedTest", "com.vmware.enrollment.test/android.support.test.runner.AndroidJUnitRunner");      
         startProgressBar.setString("Enrollment Completed");
         uninstallApp("com.vmware.enrollment");
         uninstallApp("com.vmware.enrollment.test");
@@ -870,9 +1020,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startProgressBar.setString("Connectivity check in Progress");
         do{
             if (count >0){
-               startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
+               startProgressBar.setString("Rechecking Failed scenario: "+ (count+1));
             }
-           status = result.runCommand("com.vmware.awcm.ExampleInstrumentedTest", "com.vmware.awcm.test/android.support.test.runner.AndroidJUnitRunner");
+           status = result.runCommand(processPath,Path,"com.vmware.awcm.ExampleInstrumentedTest", "com.vmware.awcm.test/android.support.test.runner.AndroidJUnitRunner");
         }while((!status.equals("Pass"))&& ++count<RECHECK_COUNT);
         startProgressBar.setString("Connectivity check completed");
         results[1] = (status.equals("Pass"));
@@ -890,11 +1040,12 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startProgressBar.setString("Sending PUSH message from console");
         String input = "{\"MessageBody\": \"GoodDay\",\"Application\": \"AirWatch\" ,\"MessageType\": \"Apns\"}";         
         try {
-            URLConnection(URL,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
+            System.out.println("PUSH Code Inside "+server_url);
+            URLConnection(server_url,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
             TimeUnit.SECONDS.sleep(10);
-            URLConnection(URL,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
+            URLConnection(server_url,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
             TimeUnit.SECONDS.sleep(10);
-            URLConnection(URL,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
+            URLConnection(server_url,"/api/mdm/devices/messages/push?searchby=Serialnumber&id=",serialno,input);
         } catch (InterruptedException ex) {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -903,7 +1054,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             if (count >0){
                startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
             }
-         status = result.runCommand("com.vmware.push_notification.ExampleInstrumentedTest", "com.vmware.push_notification.test/android.support.test.runner.AndroidJUnitRunner");
+         status = result.runCommand(processPath,Path,"com.vmware.push_notification.ExampleInstrumentedTest", "com.vmware.push_notification.test/android.support.test.runner.AndroidJUnitRunner");
          }while((!status.equals("Pass"))&& ++count<RECHECK_COUNT);
          startProgressBar.setString("Completed Push Notification Check");
          results[2] = (status.equals("Pass"));
@@ -922,7 +1073,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             if (count >0){
                 startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
              }
-        status=  result.runCommand("com.vmware.camera.ExampleInstrumentedTest", "com.vmware.camera.test/android.support.test.runner.AndroidJUnitRunner");      
+        status=  result.runCommand(processPath,Path,"com.vmware.camera.ExampleInstrumentedTest", "com.vmware.camera.test/android.support.test.runner.AndroidJUnitRunner");      
          }while((!status.equals("Pass"))&& ++count<RECHECK_COUNT);
         startProgressBar.setString("Camera restriction check completed");
         results[3] = (status.equals("Pass"));
@@ -941,7 +1092,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             if (count >0){
                 startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
              }
-        status = result.runCommand("com.vmware.devicecompromised.ExampleInstrumentedTest", "com.vmware.devicecompromised.test/android.support.test.runner.AndroidJUnitRunner");
+        status = result.runCommand(processPath,Path,"com.vmware.devicecompromised.ExampleInstrumentedTest", "com.vmware.devicecompromised.test/android.support.test.runner.AndroidJUnitRunner");
          }while((!status.equals("Pass"))&& ++count<RECHECK_COUNT);
         startProgressBar.setString("Compromise Detection completed");
         results[4] = (status.equals("Pass"));
@@ -985,7 +1136,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             if (count >0){
                 startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
              }
-        status =result.runCommand("com.vmware.comp.ExampleInstrumentedTest", "com.vmware.comp.test/android.support.test.runner.AndroidJUnitRunner");
+        status =result.runCommand(processPath,Path,"com.vmware.comp.ExampleInstrumentedTest", "com.vmware.comp.test/android.support.test.runner.AndroidJUnitRunner");
         }while((!status.equals("Pass"))&& ++count<RECHECK_COUNT);
         startProgressBar.setString("Compliance Check completed");
         results[6] = (status.equals("Pass"));
@@ -1004,7 +1155,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             if (count >0){
                 startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
              }
-        status = result.runCommand("com.vmware.vpn.ExampleInstrumentedTest", "com.vmware.vpn.test/android.support.test.runner.AndroidJUnitRunner");
+        status = result.runCommand(processPath,Path,"com.vmware.vpn.ExampleInstrumentedTest", "com.vmware.vpn.test/android.support.test.runner.AndroidJUnitRunner");
         }while((!status.equals("Pass"))&& ++count<RECHECK_COUNT);
         startProgressBar.setString("VPN Profile check completed");
         results[7] = (status.equals("Pass"));
@@ -1045,7 +1196,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         int count =0;
         clearAndroidLog();
         startProgressBar.setString("Sending Enterprise Wipe Command");
-        URLConnection(URL,"api/mdm/devices/commands?command=EnterpriseWipe&searchby=Serialnumber&id=",serialno,"");
+        URLConnection(server_url,"api/mdm/devices/commands?command=EnterpriseWipe&searchby=Serialnumber&id=",serialno,"");
         try {
             TimeUnit.SECONDS.sleep(15);
         } catch (InterruptedException ex) {
@@ -1056,7 +1207,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             if (count >0){
                 startProgressBar.setString("Rechecking Failed scenario: "+ (count+1)); 
              }
-        status = result.runCommand("com.vmware.enterprise_wipe.ExampleInstrumentedTest", "com.vmware.enterprise_wipe.test/android.support.test.runner.AndroidJUnitRunner");
+        status = result.runCommand(processPath,Path,"com.vmware.enterprise_wipe.ExampleInstrumentedTest", "com.vmware.enterprise_wipe.test/android.support.test.runner.AndroidJUnitRunner");
         }while((!status.equals("Pass"))&& ++count<RECHECK_COUNT);
         startProgressBar.setString("Enterprise Wipe Check completed");
         results[9] = (status.equals("Pass"));
@@ -1066,85 +1217,6 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             return "Fail";
         }
         return status;
-    }
-    
-    private boolean checkWiFi(String SSID){
-        ProcessBuilder pb = new ProcessBuilder("adb", "shell", "dumpsys","wifi","|","grep","-m1",SSID);
-        result = result.runcommand(pb);
-        return ((result.output.toString()).contains(SSID));
-    }
-    
-    private boolean checkFolder(String path){
-        ProcessBuilder pb = new ProcessBuilder("adb", "shell", "ls",path);
-        result = result.runcommand(pb);
-        return ((result.error.toString()).contains("No such file or directory"));
-    }
-    
-    public static boolean areAllTrue(boolean[] array){
-        for(boolean b : array) if(!b) return false;
-        return true;
-    }
-    
-    private boolean URLConnection(String URL, String API, String status, String body) throws IOException{
-        String authString = "administrator:awvmware331!";       
-        byte[] authEncBytes = Base64.getEncoder().encode(authString.getBytes());
-	String authStringEnc = new String(authEncBytes);
-		      
-        URL requestURL = new URL(URL+API+status);
-        StringBuilder requestBodyBuilder = new StringBuilder();
-        String requestBody = requestBodyBuilder.toString();
-        HttpURLConnection connection = (HttpURLConnection) requestURL.openConnection();
-
-            try {
-                connection.setRequestMethod("POST");
-            } catch (ProtocolException ex) {
-                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            connection.setRequestProperty("Content-Length", "" + Integer.toString(requestBody.getBytes().length));
-            connection.setRequestProperty("Authorization", "Basic " +authStringEnc);
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("aw-tenant-code", "FijTPtU56NCWL7zVk9QRhe72oQrgxThnbSfKCIYs0oE=");
-            connection.setDoOutput(true);
-            connection.setDoInput(true);
-            OutputStream os = connection.getOutputStream();
-            os.write(body.getBytes());
-            os.flush();
-
-            try (DataOutputStream sendData = new DataOutputStream(connection.getOutputStream())) {
-               sendData.writeBytes(requestBody);
-                sendData.flush();
-              } catch (IOException ex) {
-                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            int responseCode = connection.getResponseCode();            
-            return ((responseCode == 200));
-        }
-    
-    private void installApp(String appName){
-        ProcessBuilder pb = new ProcessBuilder("adb", "install","-r",appName);
-        result.runcommand(pb);
-    }
-    
-     private void installApp(String appName, String path){
-        ProcessBuilder pb = new ProcessBuilder("adb", "push",appName,path);
-        result.runcommand(pb);
-        
-        pb = new ProcessBuilder("adb", "shell","pm","install","-r",path);
-        result.runcommand(pb);
-        
-        pb = new ProcessBuilder("adb", "shell","rm","-f",path);
-        result.runcommand(pb);
-    }
-    
-    private void uninstallApp(String appName){
-        ProcessBuilder pb = new ProcessBuilder("adb", "uninstall",appName);
-        Process pc;
-        try {
-            pc = pb.start();
-            pc.waitFor();
-        } catch (IOException | InterruptedException ex) {
-            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     /**
      * @param args the command line arguments
@@ -1181,16 +1253,21 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         });
     }
     
-    String URL ="https://dvt02.ssdevrd.com/";
+    String server_url,tenant_code,console_user,console_password;
     String status, serialno,ProfileLog,timeStamp,manufacturer,androidVersion, agentversion,hub=".apk";
+    String processPath[] = new String[2];
+    String Path = System.getProperty("user.dir");
+    String ENCRYPTION_KEY= "uEuXGgVtqhwKTW4Z/ECVFg==";
+    static Cipher cipher; 
     int RECHECK_COUNT =2;
     boolean results[] = new boolean[10];
+    boolean isFilefound=true;
     public static final Color DARK_GREEN= new Color(0,102,0);
     public static final Color LIGHT_GREEN= new Color(0,204,0);
     public static final Color LIGHT_RED= new Color(255,102,102);
+    public static final Color LIGHT_ORANGE= new Color(255,153,102);
     
     adbCommand result= new adbCommand();
-    String Path = System.getProperty("user.dir");
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AWCMLabel;
     private javax.swing.JLabel Agent;
