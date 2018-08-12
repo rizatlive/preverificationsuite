@@ -59,10 +59,11 @@ public adbCommand runcommand(ProcessBuilder pb){
         return null;
 }
 
-public String runCommand(String classname, String apkname){
+public String runCommand(String[] processPath,String Path, String classname, String apkname){
+        
         try {
             //adb shell am instrument -w -r   -e debug false -e class
-            ProcessBuilder pb0 = new ProcessBuilder("adb", "shell", "am", "instrument", "-w", "-r" , "-e" ,"debug", "false", "-e", "class", classname,apkname);
+            ProcessBuilder pb0 = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell am instrument -w -r -e debug false -e class "+classname+" "+apkname);
             Process pc0;
         
             pc0 = pb0.start();
