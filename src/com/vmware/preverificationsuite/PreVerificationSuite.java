@@ -105,12 +105,12 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Pre Verification Suite");
+        setTitle("Pre-Verification Suite");
         setResizable(false);
 
-        preVerificationLabel.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
+        preVerificationLabel.setFont(new java.awt.Font("Rockwell", 1, 36)); // NOI18N
         preVerificationLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        preVerificationLabel.setText("Android Device Pre Verification Suite");
+        preVerificationLabel.setText("Android Device Pre-Verification Suite");
 
         connectButton.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         connectButton.setText("Start Test");
@@ -134,7 +134,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         SerialNumber.setText("Serial Number");
 
         Agent.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        Agent.setText("AirWatch Agent");
+        Agent.setText("WS1 Hub");
 
         serialNumber.setEditable(false);
         serialNumber.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -428,9 +428,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addContainerGap()
                 .addComponent(preVerificationLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(connectButton)
                     .addComponent(startProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -647,7 +647,15 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                         }
                         startProgressBar.setForeground(LIGHT_RED);
                     }
-                }                          
+                    startProgressBar.setValue(100);
+                    startProgressBar.setIndeterminate(false);
+                     try {
+                        TimeUnit.SECONDS.sleep(5);
+                     } catch (InterruptedException ex) {
+                        Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    create_report();
+                }  
             }
             startProgressBar.setValue(100);
             startProgressBar.setIndeterminate(false);
@@ -689,17 +697,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }//GEN-LAST:event_resetActionPerformed
 
     private void sendReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendReportActionPerformed
-        BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
-        this.paint(img.getGraphics());
-        String fileName = Path+"/Report/"+details("ro.product.manufacturer")+"_"+details("ro.product.model")+"_report_"+timeStamp+".png";
-        File outputfile = new File(fileName);
         try {
-            ImageIO.write(img, "png", outputfile);
-        } catch (IOException ex) {
-            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            Desktop.getDesktop().open(new File(fileName));
+            Desktop.getDesktop().open(new File(reportFileName));
         } catch (IOException ex) {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -712,6 +711,18 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_failedLogsActionPerformed
+    
+    private void create_report(){
+        BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+        this.paint(img.getGraphics());
+        reportFileName = Path+"/Report/"+details("ro.product.manufacturer")+"_"+details("ro.product.model")+"_report_"+timeStamp+".png";
+        File outputfile = new File(reportFileName);
+        try {
+            ImageIO.write(img, "png", outputfile);
+        } catch (IOException ex) {
+            Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     private void clearAndroidLog(){
         ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell logcat -c");
@@ -952,7 +963,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
             
     private void installScriptApk(){
-        startProgressBar.setString("Installing APK files");
+        startProgressBar.setString("Configuring Device");
         installApp(Path+"/ApkFiles/02awcm"+hub, "/sdcard/com.vmware.awcm");
         installApp(Path+"/ApkFiles/02awcmTest"+hub,"/sdcard/com.vmware.awcm.test");
         installApp(Path+"/ApkFiles/02awcm"+hub, "/sdcard/com.vmware.awcm");
@@ -974,7 +985,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     private void uninstallScriptApk(){
-        startProgressBar.setString("Uninstalling APK files");
+        startProgressBar.setString("Finishing Verification");
         uninstallApp("com.vmware.awcm");
         uninstallApp("com.vmware.awcm.test");
         uninstallApp("com.vmware.push_notification");
@@ -995,7 +1006,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     
     private String enroll(){
         clearAndroidLog();
-        startProgressBar.setString("Installing Enrollment apk");
+        startProgressBar.setString("Enrollment Setup in Progress");
         installApp(Path+"/ApkFiles/01enrollment"+hub,"/sdcard/com.vmware.enrollment");
         installApp(Path+"/ApkFiles/01enrollmentTest"+hub,"/sdcard/com.vmware.enrollment.test");
         startProgressBar.setString("Enrollment in Progress");
@@ -1254,7 +1265,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     String server_url,tenant_code,console_user,console_password;
-    String status, serialno,ProfileLog,timeStamp,manufacturer,androidVersion, agentversion,hub=".apk";
+    String status, serialno,ProfileLog,timeStamp,manufacturer,androidVersion, reportFileName,agentversion,hub=".apk";
     String processPath[] = new String[2];
     String Path = System.getProperty("user.dir");
     String ENCRYPTION_KEY= "uEuXGgVtqhwKTW4Z/ECVFg==";
