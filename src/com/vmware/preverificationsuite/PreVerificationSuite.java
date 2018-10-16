@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -20,6 +21,7 @@ import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Properties;
@@ -31,6 +33,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 
@@ -45,6 +48,19 @@ public class PreVerificationSuite extends javax.swing.JFrame {
      */
     public PreVerificationSuite() {
         initComponents();
+        passDialog = new loginForm();
+        passDialog.setVisible(true);
+    }
+    
+    public PreVerificationSuite(ArrayList<String> details) {
+        initComponents();
+        setLocationRelativeTo(null) ;
+        server_url =details.get(0);
+        tenant_code = details.get(4);
+        username =details.get(2);
+        password = details.get(3);
+        groupID = details.get(1);
+        new InactivityListener();
     }
 
     /**
@@ -299,7 +315,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         jLabel2.setText("Copyright © 2018");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("V1.1808");
+        jLabel4.setText("V1.1810");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -374,7 +390,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(64, Short.MAX_VALUE)
+                        .addContainerGap(61, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(Agent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -389,13 +405,9 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(serverCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(SerialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(serialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(Manufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(Model, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -403,13 +415,18 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(manufacturerName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(modelName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(3, 3, 3)
+                                        .addComponent(SerialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(serialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(BuildNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(buildDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(buildDisplay))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(Brand, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -443,11 +460,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Model, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(modelName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(SerialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(serialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(modelName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Brand, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -456,11 +469,13 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(AndroidVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(androidVersionDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(BuildNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buildDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
+                            .addComponent(buildDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(serialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(SerialNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Agent, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(agentVersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -537,18 +552,12 @@ public class PreVerificationSuite extends javax.swing.JFrame {
             startProgressBar.setStringPainted(true);
             startProgressBar.setString("Checking Device Details"); 
             checkSystemOS();
-            try {
-                readFromConfigFile();
-            } catch (IOException ex) {
-                Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+            try {            
+                writeToConfigFile();
             } catch (Exception ex) {
                 Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if(!isFilefound){
-                startProgressBar.setString("Config File Not Found"); 
-                startProgressBar.setForeground(LIGHT_RED);
-            }else{
-                boolean agent =false,device = false,server=false;
+            boolean agent =false,device = false,server=false;
                 manufacturer = details("ro.product.manufacturer");
                 setresult(manufacturerName,manufacturer,true);
                 setresult(brandName,details("ro.product.brand"),true);
@@ -655,8 +664,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
                         Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     create_report();
-                }  
-            }
+                }      
+            
             startProgressBar.setValue(100);
             startProgressBar.setIndeterminate(false);
             reset.setEnabled(true);    
@@ -843,33 +852,47 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         return !((result.output.toString()).contains("unknown host")||(result.error.toString()).contains("unknown host"));
     }
     
-    private void readFromConfigFile() throws IOException, Exception{
-        try {
-            Properties props = new Properties();
-            props.load(new FileReader(Path+"/Config/credentials.cfg"));
-            server_url =props.getProperty("server_url");
-            tenant_code = props.getProperty("tenant_code");
-            console_user =props.getProperty("console_user");
-            console_password = decrypt(props.getProperty("console_password"));
-            ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb push "+Path+"/Config/credentials.cfg /data/local/tmp/");
-            result.runcommand(pb);
+    private void writeToConfigFile() throws IOException, Exception{
+        OutputStream output = null;
+        try {          
+            //Writing Service package name in service.cfg file
+            Properties props_write = new Properties();
+            output = new FileOutputStream(Path+"/Config/credentials.cfg");
+            props_write.setProperty("server_url", server_url.substring(8));
+            props_write.setProperty("group_id", groupID);
+            props_write.setProperty("username", username);
+            props_write.setProperty("password", password);
+            props_write.store(output, null);
+            if(!"No device".equals(details("ro.product.manufacturer"))){
+                ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb push "+Path+"/Config/credentials.cfg /data/local/tmp/");
+                result.runcommand(pb);
+            }
         } catch (FileNotFoundException ex) {
-            isFilefound = false;
             Logger.getLogger(PreVerificationSuite.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            if (output != null) {
+                try {
+                    output.close();
+                    File file = new File(Path+"/Config/credentials.cfg");
+                    file.delete();
+                } catch (IOException e) {
+                 e.printStackTrace();
+                }
+            }
         }
     }
     
-    private String decrypt(String encryptedText) throws Exception {
-        byte[] decodedKey = Base64.getDecoder().decode(ENCRYPTION_KEY);
-        SecretKey secretKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
-        cipher = Cipher.getInstance("AES");
-        Base64.Decoder decoder = Base64.getDecoder();
-        byte[] encryptedTextByte = decoder.decode(encryptedText);
-        cipher.init(Cipher.DECRYPT_MODE, secretKey);
-        byte[] decryptedByte = cipher.doFinal(encryptedTextByte);
-        String decryptedText = new String(decryptedByte);
-        return decryptedText;
-    }
+//    private String decrypt(String encryptedText) throws Exception {
+//        byte[] decodedKey = Base64.getDecoder().decode(ENCRYPTION_KEY);
+//        SecretKey secretKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
+//        cipher = Cipher.getInstance("AES");
+//        Base64.Decoder decoder = Base64.getDecoder();
+//        byte[] encryptedTextByte = decoder.decode(encryptedText);
+//        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+//        byte[] decryptedByte = cipher.doFinal(encryptedTextByte);
+//        String decryptedText = new String(decryptedByte);
+//        return decryptedText;
+//    }
     
     private void checkSystemOS(){
         String osName = System.getProperty("os.name");
@@ -901,7 +924,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
     }
     
     private boolean URLConnection(String URL, String API, String status, String body) throws IOException{
-        String authString = console_user+":"+console_password; 
+        String authString = username+":"+password; 
         byte[] authEncBytes = Base64.getEncoder().encode(authString.getBytes());
 	String authStringEnc = new String(authEncBytes);
 		      
@@ -1012,6 +1035,8 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         startProgressBar.setString("Enrollment in Progress");
         status = result.runCommand(processPath,Path,"com.vmware.enrollment.ExampleInstrumentedTest", "com.vmware.enrollment.test/android.support.test.runner.AndroidJUnitRunner");      
         startProgressBar.setString("Enrollment Completed");
+        ProcessBuilder pb = new ProcessBuilder(processPath[0],processPath[1],Path+"/AdbFiles/adb shell rm /data/local/tmp/credentials.cfg");
+        result.runcommand(pb);
         uninstallApp("com.vmware.enrollment");
         uninstallApp("com.vmware.enrollment.test");
         results[0] = (status.equals("Pass"));
@@ -1207,7 +1232,7 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         int count =0;
         clearAndroidLog();
         startProgressBar.setString("Sending Enterprise Wipe Command");
-        URLConnection(server_url,"api/mdm/devices/commands?command=EnterpriseWipe&searchby=Serialnumber&id=",serialno,"");
+        URLConnection(server_url,"/api/mdm/devices/commands?command=EnterpriseWipe&searchby=Serialnumber&id=",serialno,"");
         try {
             TimeUnit.SECONDS.sleep(15);
         } catch (InterruptedException ex) {
@@ -1259,24 +1284,27 @@ public class PreVerificationSuite extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PreVerificationSuite().setVisible(true);
+                JFrame login = new PreVerificationSuite();
+                login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                login.setLocationRelativeTo(null);
             }
         });
     }
     
-    String server_url,tenant_code,console_user,console_password;
+    String server_url,tenant_code,username,password,groupID;
     String status, serialno,ProfileLog,timeStamp,manufacturer,androidVersion, reportFileName,agentversion,hub=".apk";
     String processPath[] = new String[2];
     String Path = System.getProperty("user.dir");
-    String ENCRYPTION_KEY= "uEuXGgVtqhwKTW4Z/ECVFg==";
+//    String ENCRYPTION_KEY= "uEuXGgVtqhwKTW4Z/ECVFg==";
     static Cipher cipher; 
     int RECHECK_COUNT =2;
     boolean results[] = new boolean[10];
-    boolean isFilefound=true;
+    ArrayList<String> logindetails = new ArrayList<String>();
     public static final Color DARK_GREEN= new Color(0,102,0);
     public static final Color LIGHT_GREEN= new Color(0,204,0);
     public static final Color LIGHT_RED= new Color(255,102,102);
     public static final Color LIGHT_ORANGE= new Color(255,153,102);
+    private loginForm passDialog;
     
     adbCommand result= new adbCommand();
     // Variables declaration - do not modify//GEN-BEGIN:variables
